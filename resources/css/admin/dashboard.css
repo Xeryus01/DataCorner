@@ -1,0 +1,38 @@
+/* Dashboard specific styles: minimal, responsive, respects reduced motion */
+:root { --card-radius: 1.25rem; }
+
+#dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  width: 100%;
+}
+
+#dashboard-cards > a, #dashboard-cards > div {
+  border-radius: var(--card-radius);
+}
+
+.counter { transition: transform 0.18s ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+/* subtle card shadow */
+.bg-white { box-shadow: 0 16px 30px rgba(15,23,42,0.06); }
+.bg-white:hover { transform: translateY(-4px); box-shadow: 0 24px 48px rgba(15,23,42,0.08); }
+
+/* responsive adjustments */
+@media (max-width: 640px) {
+  #dashboard-cards { grid-template-columns: 1fr; gap: 0.75rem; }
+}
+
+/* Focus styles for keyboard users */
+a:focus, button:focus, .group:focus {
+  outline: none;
+}
+
+:is(a, button, input, select, textarea):focus-visible {
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.3);
+  border-radius: 0.5rem;
+}

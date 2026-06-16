@@ -1,0 +1,1375 @@
+/* =========================================================
+   USER PAGE DESIGN SYSTEM 
+========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --up-font: 'Manrope', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+    /* Core palette */
+    --up-navy: #082f57;
+    --up-navy-2: #123a5f;
+    --up-blue: #2f6fb7;
+    --up-blue-2: #4d8edb;
+    --up-blue-3: #bfd9f4;
+    --up-blue-soft: #eef6ff;
+    --up-bg: #f7fafe;
+    --up-white: #ffffff;
+    --up-surface: #fbfdff;
+    --up-border: #e5eef8;
+    --up-border-strong: #cbdcec;
+    --up-text: #172033;
+    --up-muted: #66758a;
+    --up-muted-2: #8a98aa;
+    --up-warm: #e8c77c;
+    --up-success: #2f9f87;
+
+    /* Radius & shadow */
+    --up-r-sm: .85rem;
+    --up-r-md: 1.15rem;
+    --up-r-lg: 1.35rem;
+    --up-r-xl: 1.75rem;
+    --up-r-2xl: 2rem;
+    --up-r-3xl: 2.5rem;
+    --up-shadow-sm: 0 10px 28px rgba(8, 47, 87, .06);
+    --up-shadow-md: 0 22px 55px rgba(8, 47, 87, .10);
+    --up-shadow-lg: 0 34px 80px rgba(8, 47, 87, .14);
+    --up-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+    margin: 0;
+    font-family: var(--up-font);
+    background: var(--up-bg);
+    color: var(--up-text);
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { width: 9px; }
+::-webkit-scrollbar-track { background: #edf4fc; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--up-blue-2), var(--up-navy-2));
+    border-radius: 999px;
+    border: 2px solid #edf4fc;
+}
+
+.user-page {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 10% 8%, rgba(191,217,244,.34), transparent 28rem),
+        radial-gradient(circle at 92% 24%, rgba(238,246,255,.85), transparent 30rem),
+        var(--up-bg);
+    font-family: var(--up-font);
+}
+
+.user-page *,
+.user-page *::before,
+.user-page *::after { box-sizing: border-box; }
+
+.user-page a { text-decoration: none; }
+.user-page img { max-width: 100%; }
+.user-page p { color: var(--up-muted); }
+
+/* =========================================================
+   COMPATIBILITY LAYER
+========================================================= */
+.user-page .text-blue-950,
+.user-page .text-blue-900,
+.user-page .text-\[\#002B6A\] { color: var(--up-navy) !important; }
+
+.user-page .text-blue-800,
+.user-page .text-blue-700 { color: var(--up-navy-2) !important; }
+
+.user-page .text-blue-600,
+.user-page .text-blue-500 { color: var(--up-blue) !important; }
+
+.user-page .bg-blue-900,
+.user-page .bg-\[\#002B6A\] { background-color: var(--up-navy) !important; }
+
+.user-page .bg-blue-600,
+.user-page .bg-blue-500 { background-color: var(--up-blue-2) !important; }
+
+.user-page .bg-blue-50,
+.user-page .bg-\[\#F8FAFF\],
+.user-page .bg-\[\#F8FAFC\] { background-color: var(--up-blue-soft) !important; }
+
+.user-page .border-blue-100,
+.user-page .border-blue-200 { border-color: var(--up-border) !important; }
+
+.user-page .hover\:bg-blue-600:hover,
+.user-page .hover\:bg-blue-500:hover { background-color: var(--up-blue) !important; }
+
+.user-page .hover\:text-blue-600:hover,
+.user-page .hover\:text-blue-500:hover,
+.user-page .hover\:text-blue-700:hover { color: var(--up-blue) !important; }
+
+.user-page .hover\:border-blue-500:hover,
+.user-page .hover\:border-blue-600:hover,
+.user-page .hover\:border-blue-200:hover { border-color: var(--up-blue-3) !important; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+.user-page .h-1.w-12,
+.user-page .w-8.h-\[2px\],
+.title-accent {
+    background: linear-gradient(90deg, var(--up-blue-2), var(--up-blue-3)) !important;
+}
+
+.user-page .shadow-blue-50 { box-shadow: 0 16px 34px rgba(77,142,219,.14) !important; }
+
+/* =========================================================
+   GLOBAL SECTION SYSTEM
+========================================================= */
+.user-page .up-section,
+.user-page section {
+    position: relative;
+}
+
+.user-page .up-section-soft,
+.user-page #layanan,
+.user-page .up-service24-section {
+    background:
+        radial-gradient(circle at 0% 0%, rgba(221,235,250,.72), transparent 26rem),
+        var(--up-blue-soft) !important;
+}
+
+.user-page .up-section-white,
+.user-page .up-staff-section,
+.user-page .up-faq-section,
+.user-page .up-survey-section,
+.user-page section.bg-white,
+.user-page section.bg-\[\#FDFDFD\] {
+    background: var(--up-white) !important;
+}
+
+.user-page .container,
+.user-page .max-w-7xl,
+.user-page .max-w-6xl,
+.user-page .max-w-5xl { position: relative; }
+
+/* Header section color only. Typography diatur di blok USER PAGE TYPOGRAPHY SYSTEM. */
+.user-page #layanan > .max-w-7xl > div:first-child h3,
+.user-page #konsultasi h3,
+.user-page .up-service24-section h2,
+.user-page .up-faq-section h2,
+.user-page .up-staff-section h2 {
+    color: var(--up-navy) !important;
+}
+
+.user-page #layanan > .max-w-7xl > div:first-child h3 span,
+.user-page #konsultasi h3 span,
+.user-page .up-service24-section h2 span,
+.user-page .up-faq-section h2 span,
+.user-page .up-staff-section h2 span {
+    color: var(--up-blue) !important;
+}
+
+/* =========================================================
+   SCROLL ANIMATION
+========================================================= */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 4px;
+    z-index: 99999;
+    background: linear-gradient(90deg, var(--up-navy), var(--up-blue-2), var(--up-blue-3));
+    box-shadow: 0 0 18px rgba(77,142,219,.38);
+    transition: width .08s linear;
+}
+
+.scroll-section {
+    position: relative;
+    isolation: isolate;
+    opacity: .98;
+    transform: translateY(28px) scale(.988);
+    transition: opacity 900ms var(--up-ease), transform 900ms var(--up-ease), filter 900ms var(--up-ease);
+    filter: saturate(.97);
+}
+.scroll-section.section-visible { opacity: 1; transform: translateY(0) scale(1); filter: saturate(1); }
+.scroll-section.section-active::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 0%, rgba(111,169,232,.12), transparent 42%);
+    animation: sectionGlow 1200ms var(--up-ease) both;
+}
+.scroll-animate {
+    opacity: 0;
+    transform: translate3d(0,34px,0) scale(.985);
+    transition: opacity 760ms var(--up-ease), transform 760ms var(--up-ease), filter 760ms var(--up-ease);
+    transition-delay: var(--scroll-delay, 0ms);
+    will-change: opacity, transform;
+    filter: blur(2px);
+}
+.scroll-animate.fade-left { transform: translate3d(42px,0,0) scale(.985); }
+.scroll-animate.fade-right { transform: translate3d(-42px,0,0) scale(.985); }
+.scroll-animate.zoom-in { transform: scale(.9); }
+.scroll-animate.is-visible { opacity: 1; transform: translate3d(0,0,0) scale(1); filter: blur(0); }
+
+@keyframes sectionGlow { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes floatSoft { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+.animate-fade-in-down { animation: fadeInDown .8s var(--up-ease) forwards; }
+.animate-fade-in-up { animation: fadeInUp .8s var(--up-ease) .2s forwards; opacity: 0; }
+.user-page .animate-float { animation: float 4s ease-in-out infinite; }
+
+/* =========================================================
+   STATISTIK LAYANAN 
+========================================================= */
+.user-page .up-stat-section {
+    isolation: isolate;
+    overflow: visible;
+}
+
+.user-page .up-stat-panel {
+    position: relative;
+    background: rgba(255,255,255,.97);
+    border: 1px solid var(--up-border);
+    border-radius: var(--up-r-2xl);
+    box-shadow: 0 22px 55px rgba(8,47,87,.09);
+}
+
+.user-page .up-stat-title {
+    margin: 0;
+    color: var(--up-navy);
+}
+
+.user-page .up-stat-year { color: var(--up-blue); }
+
+.user-page .up-stat-title-line {
+    width: 3rem;
+    height: 4px;
+    margin-top: 1.25rem;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--up-blue-2), var(--up-blue-3));
+}
+
+.user-page .up-stat-item { position: relative; }
+
+.user-page .up-stat-card {
+    position: relative;
+    min-height: 8.75rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 1.35rem .9rem;
+    overflow: hidden;
+    text-align: center;
+    background: var(--up-white);
+    border: 1px solid var(--up-border);
+    border-radius: var(--up-r-lg);
+    box-shadow: 0 10px 26px rgba(8,47,87,.055);
+    transition: transform 320ms ease, box-shadow 320ms ease, border-color 320ms ease, background 320ms ease;
+}
+
+.user-page .up-stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--up-blue-2), var(--up-blue-3));
+    opacity: .9;
+}
+
+.user-page .up-stat-item:hover .up-stat-card {
+    transform: translateY(-5px);
+    border-color: var(--up-blue-3);
+    box-shadow: 0 18px 42px rgba(8,47,87,.11);
+    background: linear-gradient(180deg, var(--up-white), var(--up-surface));
+}
+
+.user-page .up-stat-number {
+    position: relative;
+    z-index: 2;
+    margin-bottom: .55rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--up-navy);
+    -webkit-text-fill-color: var(--up-navy);
+    transition: transform 320ms ease, color 320ms ease;
+}
+
+.user-page .up-stat-item:hover .up-stat-number {
+    transform: scale(1.04);
+    color: var(--up-blue);
+    -webkit-text-fill-color: var(--up-blue);
+}
+
+.user-page .up-stat-label {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    max-width: 100%;
+    color: var(--up-muted);
+    transition: color 320ms ease;
+}
+
+.user-page .up-stat-item:hover .up-stat-label { color: var(--up-navy); }
+
+.user-page .up-stat-line {
+    position: relative;
+    z-index: 2;
+    width: 1.4rem;
+    height: 3px;
+    margin-top: .85rem;
+    border-radius: 999px;
+    background: var(--up-blue-3);
+    transition: width 320ms ease, background 320ms ease;
+}
+
+.user-page .up-stat-item:hover .up-stat-line {
+    width: 2.25rem;
+    background: linear-gradient(90deg, var(--up-blue-2), var(--up-blue-3));
+}
+
+/* =========================================================
+   LAYANAN UTAMA
+========================================================= */
+.service-card {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 2.5rem 2rem;
+    background: linear-gradient(180deg, var(--up-white), var(--up-surface));
+    border: 1px solid var(--up-border);
+    border-radius: var(--up-r-3xl);
+    box-shadow: var(--up-shadow-sm);
+    transition: transform 520ms var(--up-ease), box-shadow 520ms var(--up-ease), border-color 520ms var(--up-ease);
+}
+
+.service-card::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    top: -90px;
+    right: -90px;
+    background: radial-gradient(circle, rgba(191,217,244,.55), transparent 70%);
+    opacity: .65;
+    transition: transform 520ms var(--up-ease), opacity 520ms var(--up-ease);
+}
+
+.service-card:hover {
+    transform: translateY(-9px);
+    border-color: var(--up-blue-3);
+    box-shadow: var(--up-shadow-md);
+}
+.service-card:hover::before { transform: scale(1.18); opacity: .95; }
+
+.status-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: .6rem 1.35rem;
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--up-blue-2), var(--up-navy-2)) !important;
+    border-bottom-left-radius: 1.35rem;
+    font-size: .62rem;
+    font-weight: 800;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+}
+
+.icon-box,
+.layanan-icon-circle,
+.konsultasi-card-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    border-radius: 1.25rem;
+    background: var(--up-blue-soft) !important;
+    color: var(--up-blue) !important;
+    box-shadow: 0 14px 32px rgba(77,142,219,.12);
+    transition: transform 520ms var(--up-ease), color 520ms var(--up-ease), background 520ms var(--up-ease);
+}
+
+.service-card:hover .icon-box,
+.user-page .group:hover .icon-box,
+.user-page .group:hover .layanan-icon-circle,
+.konsultasi-card:hover .konsultasi-card-icon {
+    background: linear-gradient(135deg, var(--up-blue-2), var(--up-navy-2)) !important;
+    color: #fff !important;
+    transform: scale(1.08) rotate(6deg);
+}
+
+.action-btn,
+.konsultasi-btn,
+.user-page a[class*="bg-blue-500"],
+.user-page button[class*="bg-blue-500"] {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    background: var(--up-blue-soft) !important;
+    border: 1px solid var(--up-border) !important;
+    border-radius: 1.25rem;
+    color: var(--up-navy) !important;
+    box-shadow: none !important;
+    transition: transform 320ms ease, box-shadow 320ms ease, color 320ms ease, background 320ms ease, border-color 320ms ease;
+}
+
+.theme-blue:hover .action-btn,
+.konsultasi-btn:hover,
+.user-page a[class*="bg-blue-500"]:hover,
+.user-page button[class*="bg-blue-500"]:hover {
+    transform: translateY(-2px);
+    color: #fff !important;
+    background: linear-gradient(135deg, var(--up-blue-2), var(--up-navy-2)) !important;
+    border-color: transparent !important;
+    box-shadow: 0 16px 34px rgba(77,142,219,.25) !important;
+}
+
+.service-card:hover .action-btn svg,
+.user-page .group:hover .action-btn svg { transform: translateX(5px); }
+
+/* =========================================================
+   KONSULTASI / PETUGAS / LAYANAN 24 JAM
+========================================================= */
+.up-consult-card,
+.user-page .bg-white.border-2.border-slate-100,
+.user-page .up-staff-card,
+.user-page .up-service24-card,
+.user-page .group.flex.flex-col.bg-white {
+    background: linear-gradient(180deg, var(--up-white), var(--up-surface)) !important;
+    border-color: var(--up-border) !important;
+    box-shadow: var(--up-shadow-sm);
+}
+
+.up-consult-card:hover,
+.user-page .bg-white.border-2.border-slate-100:hover,
+.user-page .up-staff-card:hover,
+.user-page .up-service24-card:hover,
+.user-page .group.flex.flex-col.bg-white:hover {
+    border-color: var(--up-blue-3) !important;
+    box-shadow: var(--up-shadow-md) !important;
+}
+
+#konsultasi h4,
+.user-page h4 { color: var(--up-navy) !important; }
+#konsultasi p { color: var(--up-muted) !important; }
+
+/* Dark banner override: ensure high contrast for headings/paragraphs inside .bg-blue-950 */
+.user-page .bg-blue-950 h4,
+.user-page .bg-blue-950 p,
+.user-page .bg-blue-950 .text-blue-100,
+.user-page .bg-blue-950 .text-white { color: var(--up-white) !important; }
+
+.user-page [x-data*="selectedBidang"] button:hover { background: var(--up-blue-soft) !important; }
+.user-page [x-data*="selectedBidang"] button[class*="bg-blue-50"],
+.user-page [x-data*="selectedBidang"] button.bg-blue-50 {
+    background: var(--up-blue-soft) !important;
+    color: var(--up-navy) !important;
+    border-color: var(--up-border) !important;
+}
+
+.user-page img.rounded-xl,
+.user-page img.rounded-2xl { box-shadow: 0 10px 24px rgba(8,47,87,.08); }
+
+.service-24-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 2rem;
+    background: #fff;
+    transition: all .5s ease;
+}
+.service-24-card::after {
+    content: "24/7";
+    position: absolute;
+    top: 10px;
+    right: -20px;
+    padding: 5px 25px;
+    background: var(--up-warm);
+    color: var(--up-navy);
+    font-size: 10px;
+    font-weight: 900;
+    transform: rotate(45deg);
+}
+
+/* =========================================================
+   PETUGAS BERPRESTASI
+========================================================= */
+
+.user-page .up-achievement-panel {
+    width: 100%;
+    max-width: 56rem;
+    padding: 1rem;
+    background: rgba(248, 250, 252, 0.5);
+    border: 1px solid #f1f5f9;
+    border-radius: 2rem;
+}
+
+.user-page .up-achievement-header {
+    margin-bottom: 0.75rem;
+    text-align: center;
+}
+
+.user-page .up-achievement-title-wrap {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0 1rem 0.25rem;
+    border-bottom: 2px solid #ffffff;
+}
+
+.user-page .up-achievement-star {
+    color: #eab308;
+    font-size: 15px;
+}
+
+.user-page .up-achievement-title {
+    color: #002B6A;
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    line-height: 1.2;
+}
+
+.user-page .up-achievement-title span {
+    color: var(--up-blue);
+}
+
+.user-page .up-achievement-separator {
+    margin: 0 0.25rem;
+    color: #cbd5e1;
+    font-size: 10px;
+}
+
+.user-page .up-achievement-period {
+    color: #94a3b8;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+}
+
+.user-page .up-achievement-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.user-page .up-achievement-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem 2rem 0.75rem 0.75rem;
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 1rem;
+    transition: border-color 300ms ease, box-shadow 300ms ease, transform 300ms ease;
+}
+
+.user-page .up-achievement-card:hover {
+    border-color: var(--up-blue-2);
+    box-shadow: 0 20px 40px -15px rgba(0, 43, 106, 0.1);
+}
+
+@media (min-width: 640px) {
+    .user-page .up-achievement-card {
+        width: 350px;
+    }
+}
+
+.user-page .up-achievement-photo-wrap {
+    position: relative;
+    flex-shrink: 0;
+    margin-left: 0.25rem;
+}
+
+.user-page .up-achievement-photo-frame {
+    position: relative;
+    width: 4rem;
+    height: 4rem;
+    overflow: hidden;
+    border: 2px solid #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+    outline: 1px solid #f1f5f9;
+    transition: outline-color 300ms ease;
+}
+
+.user-page .up-achievement-card:hover .up-achievement-photo-frame {
+    outline-color: #dbeafe;
+}
+
+.user-page .up-achievement-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 500ms ease;
+}
+
+.user-page .up-achievement-card:hover .up-achievement-photo {
+    transform: scale(1.1);
+}
+
+.user-page .up-achievement-photo-empty {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eff6ff;
+    color: #002B6A;
+    font-size: 1.25rem;
+    font-weight: 900;
+}
+
+.user-page .up-achievement-info {
+    flex: 1;
+    min-width: 0;
+    padding-left: 1.25rem;
+}
+
+.user-page .up-achievement-label {
+    margin-bottom: 0.25rem;
+    color: var(--up-blue);
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    line-height: 1;
+}
+
+.user-page .up-achievement-name {
+    max-width: 11rem;
+    overflow: hidden;
+    color: #002B6A;
+    font-size: 14px;
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: color 300ms ease;
+}
+
+.user-page .up-achievement-card:hover .up-achievement-name {
+    color: var(--up-blue);
+}
+
+.user-page .up-achievement-position {
+    max-width: 11rem;
+    margin-top: 0.125rem;
+    overflow: hidden;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.user-page .up-achievement-certificate-wrap {
+    margin-top: 0.75rem;
+}
+
+.user-page .up-achievement-certificate {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    color: #002B6A;
+    font-size: 9px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    transition: color 300ms ease;
+}
+
+.user-page .up-achievement-certificate span {
+    padding-bottom: 0.125rem;
+    border-bottom: 2px solid #eff6ff;
+    transition: border-color 300ms ease;
+}
+
+.user-page .up-achievement-certificate:hover {
+    color: var(--up-blue);
+}
+
+.user-page .up-achievement-certificate:hover span {
+    border-color: var(--up-blue);
+}
+
+.user-page .up-achievement-certificate-icon {
+    width: 0.625rem;
+    height: 0.625rem;
+    transition: transform 300ms ease;
+}
+
+.user-page .up-achievement-certificate:hover .up-achievement-certificate-icon {
+    transform: translateX(0.25rem);
+}
+
+.user-page .up-achievement-medal {
+    position: absolute;
+    top: 0;
+    right: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 500ms ease;
+}
+
+.user-page .up-achievement-card:hover .up-achievement-medal {
+    transform: translateY(-0.25rem);
+}
+
+.user-page .up-achievement-medal-shape {
+    position: relative;
+}
+
+.user-page .up-achievement-ribbon {
+    width: 2.5rem;
+    height: 2.5rem;
+    filter: drop-shadow(0 1px 1px rgba(15, 23, 42, 0.12));
+}
+
+.user-page .up-achievement-medal-circle-wrap {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.user-page .up-achievement-medal-circle {
+    position: relative;
+    width: 1.75rem;
+    height: 1.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fde68a;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #fde047, #eab308, #ca8a04);
+    box-shadow: 0 6px 12px rgba(15, 23, 42, 0.16);
+}
+
+.user-page .up-achievement-medal-inner {
+    position: absolute;
+    inset: 0.125rem;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    opacity: 0.5;
+}
+
+.user-page .up-achievement-medal-star {
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 700;
+    text-shadow: 0 1px 2px rgba(15, 23, 42, 0.25);
+    transition: transform 300ms ease;
+}
+
+.user-page .up-achievement-card:hover .up-achievement-medal-star {
+    transform: scale(1.25);
+}
+
+.user-page .up-achievement-medal-period {
+    margin-top: 1rem;
+    color: #94a3b8;
+    font-size: 7px;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1;
+}
+
+.user-page .up-achievement-empty {
+    padding: 1.5rem 0;
+    color: #cbd5e1;
+    font-size: 10px;
+    font-weight: 900;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-style: italic;
+}
+
+/* =========================================================
+   LAYANAN 24 JAM
+========================================================= */
+
+.user-page .service24-slider-wrap {
+    position: relative;
+}
+
+/* Track utama */
+.user-page .service24-slider {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - 2rem) / 3);
+    gap: 1rem;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+
+    padding: 0.5rem 0.2rem 1.5rem;
+
+    scrollbar-width: none;
+}
+
+.user-page .service24-slider::-webkit-scrollbar {
+    display: none;
+}
+
+/* Slide */
+.user-page .service24-slide {
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+/* Card */
+.user-page .service24-card {
+    height: 100%;
+    min-height: 21rem;
+
+    display: flex;
+    flex-direction: column;
+
+    background: linear-gradient(180deg, var(--up-white), var(--up-surface)) !important;
+    border: 1px solid var(--up-border) !important;
+    border-radius: 1.8rem;
+    overflow: hidden;
+
+    box-shadow: var(--up-shadow-sm);
+    transition:
+        transform 360ms var(--up-ease),
+        box-shadow 360ms var(--up-ease),
+        border-color 360ms var(--up-ease);
+}
+
+.user-page .service24-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--up-blue-3) !important;
+    box-shadow: var(--up-shadow-md) !important;
+}
+
+/* Area gambar */
+.user-page .service24-card-image {
+    position: relative;
+    height: 8.5rem;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1.25rem;
+    overflow: hidden;
+
+    background:
+        radial-gradient(circle at top, rgba(77, 142, 219, 0.14), transparent 13rem),
+        var(--up-surface);
+
+    border-bottom: 1px solid var(--up-border);
+}
+
+.user-page .service24-card-image::before {
+    content: "";
+    position: absolute;
+    width: 11rem;
+    height: 11rem;
+    border-radius: 999px;
+    background: rgba(191, 217, 244, 0.26);
+    filter: blur(28px);
+}
+
+.user-page .service24-card-img {
+    position: relative;
+    z-index: 2;
+    max-height: 100%;
+    max-width: 90%;
+    object-fit: contain;
+    transition: transform 700ms var(--up-ease);
+}
+
+.user-page .service24-card:hover .service24-card-img {
+    transform: scale(1.08);
+}
+
+/* Body card */
+.user-page .service24-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.45rem 1.45rem 1.35rem;
+    text-align: center;
+}
+
+.user-page .service24-card-title {
+    margin-bottom: 0.5rem;
+    color: var(--up-navy) !important;
+    transition: color 300ms ease;
+}
+
+.user-page .service24-card:hover .service24-card-title {
+    color: var(--up-blue) !important;
+}
+
+.user-page .service24-card-desc {
+    margin-bottom: 1.45rem;
+    color: rgba(8, 47, 87, 0.62) !important;
+}
+
+/* Tombol akses layanan */
+.user-page .service24-card-btn {
+    margin-top: auto;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+
+    width: 100%;
+    padding: 0.82rem 1rem;
+
+    border-radius: 0.95rem;
+    border: 1px solid var(--up-border);
+
+    background: var(--up-blue-soft) !important;
+    color: var(--up-navy) !important;
+
+    transition:
+        transform 280ms ease,
+        background 280ms ease,
+        color 280ms ease,
+        border-color 280ms ease,
+        box-shadow 280ms ease;
+}
+
+.user-page .service24-card-btn:hover {
+    transform: translateY(-1px);
+    color: #ffffff !important;
+    background: linear-gradient(135deg, var(--up-blue-2), var(--up-navy-2)) !important;
+    border-color: transparent !important;
+    box-shadow: 0 16px 34px rgba(77, 142, 219, 0.24);
+}
+
+/* Tombol panah */
+.user-page .service24-slider-btn {
+    position: absolute;
+    top: 50%;
+    z-index: 20;
+
+    width: 2.85rem;
+    height: 2.85rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.96), rgba(238,246,255,0.90));
+
+    color: var(--up-navy);
+    box-shadow: 0 16px 36px rgba(8, 47, 87, 0.14);
+
+    transform: translateY(-50%);
+    transition:
+        transform 260ms ease,
+        background 260ms ease,
+        color 260ms ease,
+        box-shadow 260ms ease;
+}
+
+
+.user-page .service24-slider-btn:hover {
+    background: linear-gradient(135deg, var(--up-blue-2), var(--up-navy-2));
+    color: #ffffff;
+    box-shadow: 0 18px 40px rgba(8, 47, 87, 0.22);
+}
+
+.user-page .service24-slider-prev {
+    left: -1.2rem;
+}
+
+.user-page .service24-slider-next {
+    right: -1.2rem;
+}
+
+/* Tablet: 2 card */
+@media (max-width: 1024px) {
+    .user-page .service24-slider {
+        grid-auto-columns: calc((100% - 1rem) / 2);
+    }
+
+    .user-page .service24-slider-prev {
+        left: -0.45rem;
+    }
+
+    .user-page .service24-slider-next {
+        right: -0.45rem;
+    }
+}
+
+/* Mobile: 1 card */
+@media (max-width: 640px) {
+    .user-page .service24-slider {
+        grid-auto-columns: 100%;
+        gap: 0.85rem;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .user-page .service24-card {
+        min-height: 20rem;
+    }
+
+    .user-page .service24-slider-btn {
+        width: 2.45rem;
+        height: 2.45rem;
+    }
+
+    .user-page .service24-slider-prev {
+        left: 0.25rem;
+    }
+
+    .user-page .service24-slider-next {
+        right: 0.25rem;
+    }
+}
+
+/* =========================================================
+   FAQ
+========================================================= */
+.user-page .prose,
+.user-page .prose * { color: var(--up-muted) !important; }
+
+.user-page .up-faq-item > .group,
+.user-page [x-data="{ open: false }"] > .group {
+    background: linear-gradient(135deg, var(--up-blue-3), #fff, var(--up-blue-soft)) !important;
+}
+.user-page .up-faq-item > .group:hover,
+.user-page [x-data="{ open: false }"] > .group:hover {
+    background: linear-gradient(135deg, var(--up-blue-3), #fff, var(--up-blue-3)) !important;
+}
+.user-page .up-faq-item .bg-gradient-to-br,
+.user-page [x-data="{ open: false }"] .bg-gradient-to-br {
+    background-image: linear-gradient(135deg, var(--up-blue-2), var(--up-blue)) !important;
+}
+
+/* =========================================================
+   CHATBOT & SURVEY
+========================================================= */
+#chatbot-toggle {
+    background: linear-gradient(135deg, var(--up-warm), #f8d98e) !important;
+    box-shadow: 0 18px 40px rgba(8,47,87,.22) !important;
+}
+#chatbot-container { z-index: 999999 !important; }
+iframe { transition: opacity .3s ease; }
+
+.user-page .up-survey-section .bg-gradient-to-br,
+.user-page .container .bg-gradient-to-br.from-\[\#bfd9f4\] {
+    background-image:
+        radial-gradient(circle at 85% 0%, rgba(191,217,244,.22), transparent 26rem),
+        linear-gradient(135deg, var(--up-navy-2), var(--up-blue)) !important;
+}
+.user-page .up-survey-section h2,
+.user-page .up-survey-section p { color: #fff !important; }
+.user-page .up-survey-section h2 span { color: var(--up-blue-3) !important; }
+.user-page .up-survey-section button {
+    color: var(--up-navy) !important;
+    background: #fff !important;
+    box-shadow: 0 18px 40px rgba(0,0,0,.16) !important;
+}
+
+/* =========================================================
+   LEGACY SUPPORT
+========================================================= */
+.stat-counter-card,
+.layanan-utama-card,
+.konsultasi-card-inner {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid var(--up-border);
+    background: #fff;
+    box-shadow: var(--up-shadow-sm);
+    transition: transform 500ms var(--up-ease), box-shadow 500ms var(--up-ease), border-color 500ms var(--up-ease);
+}
+.stat-counter-card { border-radius: var(--up-r-md); padding: 1.5rem; text-align: center; }
+.layanan-utama-card,
+.konsultasi-card-inner { border-radius: 1.25rem; padding: 2rem; }
+.stat-counter-card:hover,
+.layanan-utama-card:hover,
+.konsultasi-card:hover .konsultasi-card-inner {
+    transform: translateY(-6px);
+    border-color: var(--up-blue-3);
+    box-shadow: var(--up-shadow-md);
+}
+.stat-icon-wrapper { width: 3.5rem; height: 3.5rem; border-radius: .875rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+.stat-label-text { color: var(--up-muted); font-size: .875rem; font-weight: 700; }
+.stat-bar { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; opacity: .75; transform: scaleX(0); transform-origin: left; transition: transform 1300ms var(--up-ease); background: var(--up-blue-2); }
+.stat-counter-card.counted .stat-bar,
+.stat-counter-card:hover .stat-bar { transform: scaleX(1); }
+.layanan-ribbon { position: absolute; top: 0; right: 0; border-radius: 0 1.25rem 0 1rem; color: #fff; font-size: 10px; font-weight: 900; letter-spacing: .08em; padding: .45rem .8rem; text-transform: uppercase; background: var(--up-blue-2); }
+.layanan-link { display: inline-flex; align-items: center; color: var(--up-blue); font-weight: 800; font-size: .875rem; transition: color 260ms ease; }
+.layanan-link:hover { color: var(--up-navy); }
+.konsultasi-card-img { flex: 1; display: flex; align-items: center; justify-content: center; }
+.konsultasi-card-img img { animation: floatSoft 5s ease-in-out infinite; }
+.petugas-nav-btn { border-radius: .875rem; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.12); color: #fff; padding: .75rem; backdrop-filter: blur(10px); transition: transform 280ms ease, background 280ms ease, border-color 280ms ease; }
+.petugas-nav-btn:hover { transform: scale(1.06); background: rgba(255,255,255,.20); border-color: rgba(255,255,255,.30); }
+.carousel-nav-btn,
+.carousel-nav-btn-dark { position: absolute; z-index: 10; top: 50%; transform: translateY(-50%); width: 2.5rem; height: 2.5rem; border-radius: 999px; display: flex; align-items: center; justify-content: center; transition: transform 280ms ease, background 280ms ease, color 280ms ease; }
+.carousel-nav-btn { background: rgba(255,255,255,.14); color: #fff; border: 1px solid rgba(255,255,255,.20); backdrop-filter: blur(10px); }
+.carousel-nav-btn:hover { background: rgba(255,255,255,.24); transform: translateY(-50%) scale(1.06); }
+.carousel-nav-btn-dark { background: var(--up-navy); color: #fff; border: 1px solid var(--up-navy); box-shadow: 0 14px 30px rgba(8,47,87,.18); }
+.carousel-nav-btn-dark:hover { background: var(--up-navy-2); transform: translateY(-50%) scale(1.06); }
+
+/* =========================================================
+   RESPONSIVE & ACCESSIBILITY
+========================================================= */
+@media (max-width: 768px) {
+    .scroll-section { transform: translateY(20px) scale(.99); }
+    .scroll-animate,
+    .scroll-animate.fade-left,
+    .scroll-animate.fade-right { transform: translate3d(0,28px,0) scale(.99); }
+    .scroll-animate.is-visible { transform: translate3d(0,0,0) scale(1); }
+
+    .user-page .up-stat-panel { border-radius: var(--up-r-xl); padding: 1.25rem; }
+    .user-page .up-stat-card { min-height: 8rem; border-radius: var(--up-r-md); padding: 1.15rem .75rem; }
+    .service-card { border-radius: var(--up-r-xl); padding: 2rem 1.5rem; }
+}
+
+@media (max-width: 640px) {
+    .user-page .up-stat-title { font-size: 2rem; }
+    .user-page .up-stat-number { font-size: 1.65rem; }
+    .user-page .up-stat-label { font-size: .53rem; letter-spacing: .09em; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+    }
+    .scroll-section,
+    .scroll-animate { opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+
+
+/* =========================================================
+   USER PAGE TYPOGRAPHY SYSTEM
+   Satu pusat pengaturan font untuk user.blade.php.
+   Tidak mengubah warna, layout, card, shadow, radius, atau logic.
+========================================================= */
+
+.user-page {
+    --up-type-section-title: clamp(2rem, 4vw, 3.35rem);
+    --up-type-section-subtitle: 0.68rem;
+
+    --up-type-card-title: 1.08rem;
+    --up-type-card-title-small: 0.95rem;
+    --up-type-card-label: 0.64rem;
+    --up-type-card-desc: 0.82rem;
+    --up-type-card-button: 0.66rem;
+
+    --up-type-stat-number: clamp(1.85rem, 2.4vw, 2.45rem);
+    --up-type-stat-label: 0.6rem;
+}
+
+/* Font global halaman user */
+.user-page,
+.user-page * {
+    font-family: var(--up-font) !important;
+}
+
+/* Section title */
+.user-page .up-stat-title,
+.user-page #layanan > .max-w-7xl > div:first-child h3,
+.user-page #konsultasi h3,
+.user-page .up-service24-section h2,
+.user-page .up-faq-section h2,
+.user-page .up-staff-section h2 {
+    font-size: var(--up-type-section-title) !important;
+    font-weight: 800 !important;
+    line-height: 1.12 !important;
+    letter-spacing: -0.055em !important;
+    font-style: normal !important;
+}
+
+/* Section label */
+.user-page #layanan .tracking-\[0\.3em\],
+.user-page .up-service24-section .tracking-\[0\.3em\],
+.user-page .up-faq-section .tracking-widest,
+.user-page .up-staff-section .tracking-widest {
+    font-size: var(--up-type-section-subtitle) !important;
+    font-weight: 800 !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.16em !important;
+    text-transform: uppercase !important;
+    font-style: normal !important;
+}
+
+/* Statistik */
+.user-page .up-stat-number,
+.user-page .stat-number {
+    font-size: var(--up-type-stat-number) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: -0.04em !important;
+    font-style: normal !important;
+    font-variant-numeric: tabular-nums;
+}
+
+.user-page .up-stat-label {
+    font-size: var(--up-type-stat-label) !important;
+    font-weight: 800 !important;
+    line-height: 1.35 !important;
+    letter-spacing: 0.11em !important;
+    text-transform: uppercase !important;
+    font-style: normal !important;
+}
+
+/* Judul card */
+.user-page .service-card h3,
+.user-page .up-consult-card h4,
+.user-page .service24-card-title,
+.user-page .up-staff-card h4,
+.user-page .up-faq-item span.font-semibold {
+    font-size: var(--up-type-card-title) !important;
+    font-weight: 800 !important;
+    line-height: 1.22 !important;
+    letter-spacing: -0.035em !important;
+    font-style: normal !important;
+}
+
+/* Judul kecil khusus petugas */
+.user-page .up-staff-card h4 {
+    font-size: var(--up-type-card-title-small) !important;
+    line-height: 1.25 !important;
+}
+
+/* Label/kategori dalam card */
+.user-page .service-card > p:first-of-type,
+.user-page .status-badge,
+.user-page .up-consult-card span,
+.user-page .up-staff-card span,
+.user-page .service24-card-btn span {
+    font-size: var(--up-type-card-label) !important;
+    font-weight: 800 !important;
+    line-height: 1.2 !important;
+    letter-spacing: 0.13em !important;
+    text-transform: uppercase !important;
+    font-style: normal !important;
+}
+
+/* Deskripsi card */
+.user-page .service-card > p:last-of-type,
+.user-page .up-consult-card > p,
+.user-page .service24-card-desc,
+.user-page .up-staff-card p,
+.user-page .up-faq-item .prose,
+.user-page .up-faq-item .prose * {
+    font-size: var(--up-type-card-desc) !important;
+    font-weight: 500 !important;
+    line-height: 1.65 !important;
+    letter-spacing: 0 !important;
+    font-style: normal !important;
+}
+
+/* Tombol */
+.user-page .action-btn,
+.user-page .action-btn span,
+.user-page .service24-card-btn,
+.user-page .service24-card-btn span,
+.user-page .up-consult-card button,
+.user-page .up-consult-card button span,
+.user-page .up-consult-card a,
+.user-page .up-consult-card a span {
+    font-size: var(--up-type-card-button) !important;
+    font-weight: 800 !important;
+    line-height: 1 !important;
+    letter-spacing: 0.11em !important;
+    text-transform: uppercase !important;
+    font-style: normal !important;
+}
+
+/* Hilangkan italic yang membuat konsultasi tidak seragam */
+.user-page .up-consult-card h4,
+.user-page .up-consult-card p,
+.user-page .up-consult-card span,
+.user-page .up-consult-card button,
+.user-page .up-consult-card a {
+    font-style: normal !important;
+}
+
+/* FAQ */
+.user-page .up-faq-item span.font-semibold {
+    font-size: 0.95rem !important;
+    line-height: 1.45 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.user-page .up-faq-item .prose,
+.user-page .up-faq-item .prose p,
+.user-page .up-faq-item .prose li {
+    font-size: 0.85rem !important;
+    line-height: 1.7 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .user-page {
+        --up-type-section-title: 2rem;
+        --up-type-card-title: 1rem;
+        --up-type-card-title-small: 0.9rem;
+        --up-type-card-desc: 0.78rem;
+        --up-type-card-button: 0.62rem;
+    }
+
+    .user-page .up-stat-title,
+    .user-page #layanan > .max-w-7xl > div:first-child h3,
+    .user-page #konsultasi h3,
+    .user-page .up-service24-section h2,
+    .user-page .up-faq-section h2,
+    .user-page .up-staff-section h2 {
+        letter-spacing: -0.045em !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-page {
+        --up-type-section-title: 1.75rem;
+        --up-type-card-title: 0.96rem;
+        --up-type-card-desc: 0.76rem;
+        --up-type-card-button: 0.6rem;
+        --up-type-stat-label: 0.56rem;
+    }
+}
