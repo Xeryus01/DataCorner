@@ -1,136 +1,100 @@
 @extends('admin.layout')
-
 @section('content')
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="page-header-row">
+    <div>
+        <div class="page-title">Periode Tantangan</div>
+        <div class="page-sub">Kelola periode kuis tantangan dan leaderboard</div>
+    </div>
+</div>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Input Periode</h3>
-          </div>
-          <!-- /.card-header -->
-          <!-- form start -->
-          @if (session('success'))
-            <div class="alert alert-success">
-              {{ session('success') }}
-            </div>
-          @endif
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
-          <form method="POST" action="{{ route('admin_periode.store') }}">
-            <div class="card-body">
-              @csrf
-              <div class="form-group">
-                <label for="periode">Periode</label>
-                <input type="number" name="periode" class="form-control" id="periode" placeholder="Masukkan Periode"
-                  required>
-              </div>
-            </div>
-            <!-- /.card-body -->
+@if(session('success'))
+<div style="background:var(--green-bg);border:1px solid #C0DD97;color:var(--green-dark);padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:0">
+    <i class="ti ti-check"></i> {{ session('success') }}
+</div>
+@endif
 
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Tambah</button>
-            </div>
-          </form>
+<div class="card" style="max-width:480px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-calendar-plus"></i>Input Periode</div>
         </div>
-        <!-- /.card -->
-      </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+    </div>
+    <div class="card-body">
+        @if($errors->any())
+        <div class="form-error">
+            @foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach
+        </div>
+        @endif
 
-    {{-- Tabel Data --}}
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-header">
-                <h3 class="card-title">Data Subjek Materi</h3>
-              </div>
-              <!-- /.card-header -->
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead class="text-center">
-                    <tr>
-                      <th>Periode</th>
-                      <th>Status Leaderboard</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach ($periods as $periode)
-                      <tr>
-                        <td>{{ $periode->periode }}</td>
-                        <td class="text-center">
-                          @if ($periode->status_leaderboard === 'aktif')
-                            <span class="badge badge-success">Aktif</span>
-                          @else
-                            <span class="badge badge-secondary">Nonaktif</span>
-                          @endif
-                        </td>
-                        <td class="text-center">
-                          <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
-                            <!-- Tombol Edit -->
-                            <a href="{{ route('admin_periode.edit', $periode->id) }}" class="btn btn-warning">
-                              <i class="fas fa-edit"></i>
-                            </a>
+        <form method="POST" action="{{ route('admin_periode.store') }}">
+            @csrf
+            <div style="margin-bottom:14px">
+                <label class="form-label">Periode</label>
+                <input type="number" name="periode" value="{{ old('periode') }}" class="form-input" placeholder="Masukkan Periode" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Tambah</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-                            <!-- Form Hapus -->
-                            <form action="{{ route('admin_periode.destroy', $periode->id) }}" method="POST"
-                              class="m-0">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit" class="btn btn-danger"
-                                onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                <i class="fas fa-trash"></i>
-                              </button>
+<div class="card" style="margin-top:14px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-trophy"></i>Data Periode <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:4px">— {{ count($periods) }} data</span></div>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Periode</th>
+                    <th>Status Leaderboard</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($periods as $periode)
+                <tr>
+                    <td class="name-cell">{{ $periode->periode }}</td>
+                    <td>
+                        @if($periode->status_leaderboard === 'aktif')
+                        <span class="badge-status badge-active"><span class="badge-dot" style="background:#3B6D11"></span>Aktif</span>
+                        @else
+                        <span class="badge-status badge-inactive">Nonaktif</span>
+                        @endif
+                    </td>
+                    <td>
+                        <div style="display:flex;gap:5px;flex-wrap:wrap">
+                            <a href="{{ route('admin_periode.edit', $periode->id) }}" class="btn-edit-sm"><i class="ti ti-edit"></i>Edit</a>
+                            <form action="{{ route('admin_periode.destroy', $periode->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')" style="margin:0">
+                                @csrf @method('DELETE')
+                                <button type="submit" class="btn-del-sm"><i class="ti ti-trash"></i>Hapus</button>
                             </form>
-
-                            <!-- Tombol Aktifkan Leaderboard -->
-                            @if ($periode->status_leaderboard === 'aktif')
-                              <!-- Jika sedang aktif, tampilkan tombol Nonaktifkan -->
-                              <form action="{{ route('admin_periode.nonaktifkanLeaderboard') }}" method="POST">
+                            @if($periode->status_leaderboard === 'aktif')
+                            <form action="{{ route('admin_periode.nonaktifkanLeaderboard') }}" method="POST" style="margin:0">
                                 @csrf
-                                <button type="submit" class="btn btn-secondary" title="Nonaktifkan Leaderboard">
-                                  <i class="fas fa-times"></i> Nonaktifkan
-                                </button>
-                              </form>
+                                <button type="submit" class="btn-ghost" style="padding:4px 9px;font-size:11px">Nonaktifkan</button>
+                            </form>
                             @else
-                              <!-- Jika tidak aktif, tampilkan tombol Aktifkan -->
-                              <form action="{{ route('admin_periode.setLeaderboard', $periode->id) }}" method="POST">
+                            <form action="{{ route('admin_periode.setLeaderboard', $periode->id) }}" method="POST" style="margin:0">
                                 @csrf
-                                <button type="submit" class="btn btn-primary" title="Aktifkan Leaderboard">
-                                  <i class="fas fa-check"></i>
-                                </button>
-                              </form>
+                                <button type="submit" class="btn-primary" style="padding:4px 9px;font-size:11px"><i class="ti ti-check"></i>Aktifkan</button>
+                            </form>
                             @endif
-
-                          </div>
-                        </td>
-                      </tr>
-                    @endforeach
-                  </tbody>
-
-                </table>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-        </div>
-      </div>
-    </section>
-    {{-- /.Tabel Data --}}
-  </div>
-  <!-- /.content-wrapper -->
+                        </div>
+                    </td>
+                </tr>
+                @endforeach
+                @if(count($periods) == 0)
+                <tr><td colspan="3" style="padding:40px;text-align:center;color:#94a3b8;font-size:13px">Belum ada periode</td></tr>
+                @endif
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <div class="footer-info">Menampilkan {{ count($periods) }} data</div>
+    </div>
+</div>
 @endsection

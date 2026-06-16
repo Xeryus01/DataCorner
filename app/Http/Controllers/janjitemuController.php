@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\janjitemu;
-use App\Models\akunuser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
@@ -24,7 +24,7 @@ class janjitemuController extends Controller
                 ->withErrors('Silakan login terlebih dahulu.');
         }
 
-        $user = akunuser::find($userId);
+        $user = User::find($userId);
 
         if (!$user) {
             return redirect()->route('loginUser')

@@ -1,87 +1,61 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Input Topik Kuis Reguler</h3>
-          </div>
-          <!-- /.card-header -->
-          <!-- form start -->
+<div class="page-header-row">
+    <div>
+        <div class="page-title">Input Topik Kuis Reguler</div>
+        <div class="page-sub">Tambah topik kuis reguler baru</div>
+    </div>
+</div>
 
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
-          <form method="POST" action="{{ route('admin_kuis-reguler.store') }}" enctype="multipart/form-data">
-            <div class="card-body">
-              @csrf
-              <div class="form-group">
-                <label for="judul_kuis">Judul Kuis Reguler</label>
-                <input type="text" name="judul" class="form-control" id="judul_kuis"
-                  placeholder="Masukkan Judul Kuis" required>
-              </div>
-              <div class="form-group">
-                <label for="soal">Deskripsi</label>
-                <textarea name="deskripsi" class="form-control" id="editor" placeholder="Masukkan Deskripsi Kuis" cols="30"
-                  rows="10"></textarea>
-              </div>
-              <div class="form-group">
-                <label for="gambar">Gambar</label>
-                <input type="file" name="gambar" class="form-control" id="gambar"
-                  placeholder="Masukkan Gambar Kuis" accept="image/jpg, image/jpeg, image/png" required>
-              </div>
-              <div class="form-group">
-                <label for="durasi_menit">Durasi Pengerjaan (menit)</label>
-                <input type="number" name="durasi_menit" id="durasi_menit" class="form-control" required
-                  placeholder="Masukkan Durasi Pengerjaan">
-              </div>
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Tambah</button>
-            </div>
-          </form>
+<div class="card" style="max-width:560px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-question-mark"></i>Form Input Kuis Reguler</div>
         </div>
-        <!-- /.card -->
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@35.3.0/build/ckeditor.js"></script>
-  <script>
-    const editors = ['editor'];
-    editors.forEach(id => {
-      ClassicEditor
-        .create(document.querySelector(`#${id}`), {
-          toolbar: [
-            'heading', '|',
-            'bold', 'italic', 'underline', 'strikethrough', '|',
-            'fontColor', 'fontSize', '|',
-            'link', 'bulletedList', 'numberedList', '|',
-            'alignment',
-            'insertTable', '|',
-            'undo', 'redo'
-          ],
-          fontSize: {
-            options: [9, 11, 13, 'default', 17, 19, 21],
-            supportAllValues: false
-          },
-          fontColor: {
-            columns: 5,
-            documentColors: 5
-          }
-        })
-        .catch(error => {
-          console.error(`Editor ${id} error:`, error);
-        });
-    });
-  </script>
+    </div>
+    <div class="card-body">
+        @if($errors->any())
+        <div class="form-error">
+            @foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('admin_kuis-reguler.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div style="margin-bottom:14px">
+                <label class="form-label">Judul Kuis Reguler</label>
+                <input type="text" name="judul" value="{{ old('judul') }}" class="form-input" placeholder="Masukkan Judul Kuis" required>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Deskripsi</label>
+                <textarea name="deskripsi" class="form-textarea" id="editor" placeholder="Masukkan Deskripsi Kuis" style="min-height:120px">{{ old('deskripsi') }}</textarea>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Gambar</label>
+                <input type="file" name="gambar" style="font-size:13px" accept="image/jpg, image/jpeg, image/png" required>
+            </div>
+            <div style="margin-bottom:16px">
+                <label class="form-label">Durasi Pengerjaan (menit)</label>
+                <input type="number" name="durasi_menit" value="{{ old('durasi_menit') }}" class="form-input" placeholder="Masukkan Durasi Pengerjaan" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Tambah</button>
+                <a href="{{ route('admin_kuis-reguler.index') }}" class="btn-ghost">Batal</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@ckeditor/ckeditor5-build-classic@35.3.0/build/ckeditor.js"></script>
+<script>
+    ClassicEditor.create(document.querySelector('#editor'), {
+        toolbar: [
+            'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
+            'fontColor', 'fontSize', '|', 'link', 'bulletedList', 'numberedList', '|',
+            'alignment', 'insertTable', '|', 'undo', 'redo'
+        ],
+        fontSize: { options: [9, 11, 13, 'default', 17, 19, 21], supportAllValues: false },
+        fontColor: { columns: 5, documentColors: 5 }
+    }).catch(error => { console.error('Editor error:', error); });
+</script>
 @endsection

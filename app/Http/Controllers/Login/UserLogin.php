@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Login;
 
 use App\Http\Controllers\Controller;
-use App\Models\akunuser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Session;
 class UserLogin extends Controller
 {
     public function dataUser(){
-        $user = akunuser::all();
+        $user = User::all();
         return view('admin.user.index', compact('user'));
     }
 
@@ -104,7 +104,7 @@ class UserLogin extends Controller
     }
 
     // Cari user berdasarkan no_hp
-    $user = akunuser::where('no_hp', $request->no_hp)->first();
+    $user = User::where('no_hp', $request->no_hp)->first();
 
     // Jika user tidak ditemukan
     if (!$user) {
@@ -193,7 +193,7 @@ class UserLogin extends Controller
         'password' => Hash::make($request->password),
     ];
 
-    akunuser::create($data);
+    User::create($data);
     return redirect()->route('loginUser')->with('success', 'Pendaftaran Berhasil');
 }
 

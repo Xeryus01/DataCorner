@@ -27,6 +27,12 @@ use App\Http\Controllers\Admin\WilayahBpsController;
 | Route ini sudah menjadi modul utama Datapedia, bukan sistem terpisah.
 | Tidak ada login Student Corner. Semua akses admin memakai login Datapedia:
 | /admin/loginAdmin
+|
+| ROLE MATRIX:
+|   admin                = akses penuh semua modul
+|   operator             = konten edukasi + kuis
+|   operator magang      = program magang + presensi
+|   operator kepegawaian = program magang + presensi + wilayah BPS
 */
 Route::prefix('admin')->name('admin_')->middleware(['auth:admin'])->group(function () {
     // Alias agar view lama Student Corner tetap berjalan, tetapi diarahkan ke dashboard Datapedia.
@@ -36,15 +42,16 @@ Route::prefix('admin')->name('admin_')->middleware(['auth:admin'])->group(functi
     Route::redirect('/operator-kepegawaian/dashboard', '/admin/program-magang/informasi-magang')->name('kepegawaian.dashboard');
     Route::redirect('/logout-edukasi', '/admin/logoutAdmin')->name('logout');
 
-    // Data admin/operator Student Corner sekarang menyatu sebagai manajemen admin Datapedia.
-    Route::resource('data-admin', AdminController::class);
+    // Data admin: hanya role 'admin' yang bisa kelola admin lain
+        Route::resource('data-admin', AdminController::class)
+            ->middleware('role:admin');
 
     /*
     |--------------------------------------------------------------------------
-    | Konten Edukasi
+    | Konten Edukasi (admin, operator)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('konten-edukasi')->group(function () {
+        Route::prefix('konten-edukasi')->middleware(['auth:admin'])->group(function () {
         Route::resource('subjek-materi', SubjekMateriController::class);
         Route::resource('artikel', ArtikelController::class);
 
@@ -66,10 +73,10 @@ Route::prefix('admin')->name('admin_')->middleware(['auth:admin'])->group(functi
 
     /*
     |--------------------------------------------------------------------------
-    | Program Magang
+    | Program Magang (admin, operator magang, operator kepegawaian)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('program-magang')->group(function () {
+        Route::prefix('program-magang')->middleware(['auth:admin'])->group(function () {
         Route::post('/informasi-magang/status-aktif/{id}', [InformasiMagangController::class, 'statusAktif'])
             ->name('informasi-magang.statusAktif');
         Route::post('/informasi-magang/status-nonaktif/{id}', [InformasiMagangController::class, 'statusNonaktif'])
@@ -114,18 +121,18 @@ Route::prefix('admin')->name('admin_')->middleware(['auth:admin'])->group(functi
 
     /*
     |--------------------------------------------------------------------------
-    | Pengaturan Presensi dan Wilayah BPS
+    | Pengaturan Presensi dan Wilayah BPS (admin, operator magang, operator kepegawaian)
     |--------------------------------------------------------------------------
     */
-    Route::resource('pengaturan-presensi', PengaturanPresensiController::class);
-    Route::resource('wilayah-bps', WilayahBpsController::class);
+        Route::resource('pengaturan-presensi', PengaturanPresensiController::class);
+        Route::resource('wilayah-bps', WilayahBpsController::class);
 
     /*
     |--------------------------------------------------------------------------
-    | Program Riset
+    | Program Riset (admin)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('program-riset')->group(function () {
+        Route::prefix('program-riset')->middleware(['auth:admin'])->group(function () {
         Route::resource('informasi-riset', InformasiRisetController::class);
 
         Route::get('/pendaftaran-riset', [PendaftaranRisetController::class, 'index_admin'])
@@ -153,10 +160,10 @@ Route::prefix('admin')->name('admin_')->middleware(['auth:admin'])->group(functi
 
     /*
     |--------------------------------------------------------------------------
-    | Kuis dan Tantangan
+    | Kuis dan Tantangan (admin, operator)
     |--------------------------------------------------------------------------
     */
-    Route::prefix('kuis-dan-tantangan')->group(function () {
+        Route::prefix('kuis-dan-tantangan')->middleware(['auth:admin'])->group(function () {
         Route::resource('kuis-reguler', KuisRegulerController::class);
 
         Route::get('/soal-kuis-reguler/{id_kuis}', [SoalKuisRegulerController::class, 'index'])

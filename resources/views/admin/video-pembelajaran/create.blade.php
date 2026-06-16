@@ -1,42 +1,53 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Input Video Pembelajaran</h3>
-          </div>
-          <!-- /.card-header -->
-          <!-- form start -->
+<div class="page-header-row">
+    <div>
+        <div class="page-title">Input Video Pembelajaran</div>
+        <div class="page-sub">Tambah konten video pembelajaran edukasi statistik</div>
+    </div>
+</div>
 
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
-          <form method="POST" action="{{ route('admin_video-pembelajaran.store') }}" class="needs-validation" novalidate>
-            <div class="card-body">
-              @csrf
-              @include('components.form.select', ['name' => 'subjek_materi', 'label' => 'Subjek Materi', 'options' => $subjek_materi->pluck('judul','id')->toArray(), 'required' => true])
-              @include('components.form.input', ['name' => 'judul', 'label' => 'Judul Video', 'type' => 'text', 'placeholder' => 'Masukkan Judul Video', 'required' => true])
-              @include('components.form.input', ['name' => 'deskripsi', 'label' => 'Deskripsi', 'type' => 'text', 'placeholder' => 'Masukkan Deskripsi Video', 'required' => true])
-              @include('components.form.input', ['name' => 'link', 'label' => 'Link Video', 'type' => 'text', 'placeholder' => 'Masukkan Link Video', 'required' => true])
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Tambah</button>
-            </div>
-          </form>
+<div class="card" style="max-width:560px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-video"></i>Form Input Video Pembelajaran</div>
         </div>
-        <!-- /.card -->
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
+    </div>
+    <div class="card-body">
+        @if($errors->any())
+        <div class="form-error">
+            @foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('admin_video-pembelajaran.store') }}">
+            @csrf
+            <div style="margin-bottom:14px">
+                <label class="form-label">Subjek Materi</label>
+                <select name="subjek_materi" class="form-select" required>
+                    <option value="">-- Pilih Subjek Materi --</option>
+                    @foreach($subjek_materi as $item)
+                    <option value="{{ $item->id }}" {{ old('subjek_materi') == $item->id ? 'selected' : '' }}>{{ $item->judul }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Judul Video</label>
+                <input type="text" name="judul" value="{{ old('judul') }}" class="form-input" placeholder="Masukkan Judul Video" required>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Deskripsi</label>
+                <input type="text" name="deskripsi" value="{{ old('deskripsi') }}" class="form-input" placeholder="Masukkan Deskripsi Video" required>
+            </div>
+            <div style="margin-bottom:16px">
+                <label class="form-label">Link Video</label>
+                <input type="text" name="link" value="{{ old('link') }}" class="form-input" placeholder="Masukkan Link Video" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Tambah</button>
+                <a href="{{ route('admin_video-pembelajaran.index') }}" class="btn-ghost">Batal</a>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

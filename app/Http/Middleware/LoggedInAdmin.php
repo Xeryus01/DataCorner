@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoggedInAdmin
@@ -16,11 +16,11 @@ class LoggedInAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // Gunakan Laravel Auth guard 'admin' bawaan, bukan session manual
+        if (!Auth::guard('admin')->check()) {
+            return redirect()->route('loginAdmin');
+        }
 
-        if (!Session::get('loginStatus')) {
-        return redirect()->route('loginAdmin');
-    }
-
-    return $next($request);
+        return $next($request);
     }
 }

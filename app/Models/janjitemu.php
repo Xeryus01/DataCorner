@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\akunuser;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class janjitemu extends Model
@@ -28,7 +28,7 @@ class janjitemu extends Model
 
     public function user()
     {
-        return $this->belongsTo(akunuser::class, 'users_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
 
     public function jadwal()

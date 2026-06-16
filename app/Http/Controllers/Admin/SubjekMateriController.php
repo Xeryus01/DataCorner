@@ -25,7 +25,7 @@ class SubjekMateriController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.subjek_materi.create');
     }
 
     /**

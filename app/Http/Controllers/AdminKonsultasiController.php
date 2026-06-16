@@ -2,7 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\KonsultasiKlik;
-use App\Models\akunuser;
+use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -29,7 +29,7 @@ class AdminKonsultasiController extends Controller
     $defaultUserId = 2;
 
     // 3. Cari pengguna default
-    $user = akunuser::find($defaultUserId);
+    $user = User::find($defaultUserId);
 
     // 4. JIKA PENGGUNA TIDAK DITEMUKAN, kembalikan dengan pesan error
     if (!$user) {

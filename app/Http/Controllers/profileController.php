@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\akunuser;
+use App\Models\User;
 use App\Models\janjitemu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +22,7 @@ class profileController extends Controller
     public function index()
     {
         $userId = session('user_id');
-        $user = akunuser::find($userId);
+        $user = User::find($userId);
 
         if (!$user) {
             return redirect()->route('loginUser')
@@ -42,7 +42,7 @@ class profileController extends Controller
      */
     public function edit(string $id)
     {
-        $user = akunuser::findOrFail($id);
+        $user = User::findOrFail($id);
         return view('user.editProfile', compact('user'));
     }
 
@@ -51,7 +51,7 @@ class profileController extends Controller
      */
    public function update(Request $request, $id)
 {
-    $user = akunuser::findOrFail($id);
+    $user = User::findOrFail($id);
 
     // Validasi
     $request->validate([

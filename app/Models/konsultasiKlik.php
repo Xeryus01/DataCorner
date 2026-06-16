@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\akunuser;
+use App\Models\User;
 
 class konsultasiKlik extends Model
 {
@@ -22,7 +22,7 @@ class konsultasiKlik extends Model
 
     public function user()
     {
-        return $this->belongsTo(akunuser::class, 'users_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
 }
 

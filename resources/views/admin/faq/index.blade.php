@@ -1,63 +1,16 @@
 @extends('admin.layout')
 @section('content')
-<div class="w-full p-6 bg-gray-100 ">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-400 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Data FAQ</h2>
-        </div>
-            <div class="p-6">
-                <a href="{{ route('faq.create') }}" class="px-4 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 rounded">Tambah Data</a>
-            </div>
-
-            <div class="p-6 link-container">
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-blue-300">
-                            <th class="p-3 text-left text-blue-800 border border-blue-400">No</th>
-                            <th class="p-3 text-left text-blue-800 border border-blue-400">Judul</th>
-                            <th class="p-3 text-left text-blue-800 border border-blue-400">Deskripsi</th>
-                            <th class="p-3 text-left text-blue-800 border border-blue-400">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="layanan-body">
-                        @foreach ($faq as $index => $item)
-
-                        <tr class="hover:bg-gray-50 layanan-item-row">
-                            <td class="p-3 border border-gray-200 text-center">
-                                {{ $index + 1 }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                {{ $item->judul }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                            <div class="ellipsis-3-lines text-sm leading-snug">
-                                {!! $item->deskripsi !!}
-                            </div>
-                        </td>
-
-                                <td class="p-3 border border-gray-200">
-                                    <div class="flex space-x-2">
-                                        <a href="{{ route('faq.edit', $item->id) }}" class="px-3 py-1 bg-blue-300 hover:bg-blue-400 text-blue-800 rounded">Edit</a>
-
-                           <form action="{{ route('faq.destroy', $item->id) }}" method="POST">
-                                            @csrf
-                                            @method('DELETE')
-                                        <button type="submit" class="px-3 py-1 bg-red-300 hover:bg-red-400 text-red-800 rounded">Hapus</button>
-                                    </form>
-                                    </div>
-                                </td>
-                        </tr>
-                        @endforeach
-
-                    </tbody>
-                </table>
-                <div id="pagination-controls" class="flex justify-center mt-6 space-x-2"></div>
-            </div>
+<x-admin.page-header title="Data FAQ" subtitle="Kelola pertanyaan yang sering diajukan" :breadcrumbs="['Datapedia','Konten','FAQ']" addRoute="{{route('faq.create')}}" addLabel="Tambah FAQ" />
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden">
+    <div style="padding:14px 18px;border-bottom:0.5px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-help" style="font-size:16px;color:#1F6FD6"></i>Daftar FAQ <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:4px">— {{count($faq)}} data</span></div>
     </div>
+    <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse">
+            <thead><tr style="background:#f8fafc"><th style="padding:10px 16px;text-align:center;width:48px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">No</th><th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Judul</th><th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Deskripsi</th><th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Aksi</th></tr></thead>
+            <tbody>@forelse($faq as $idx => $item)<tr style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''"><td style="padding:12px 16px;font-size:11px;color:#94a3b8;border-bottom:0.5px solid #e2e8f0;text-align:center">{{$idx+1}}</td><td style="padding:12px 16px;font-size:12px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{$item->judul}}</td><td style="padding:12px 16px;font-size:12px;color:#475569;border-bottom:0.5px solid #e2e8f0;max-width:300px;line-height:1.4">{!!Str::limit(strip_tags($item->deskripsi),120)!!}</td><td style="padding:12px 16px;border-bottom:0.5px solid #e2e8f0"><div style="display:flex;gap:5px"><a href="{{route('faq.edit',$item->id)}}" style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:#E6F1FB;color:#0C447C;border-radius:6px;font-size:11px;font-weight:500;text-decoration:none" onmouseover="this.style.background='#B5D4F4'" onmouseout="this.style.background='#E6F1FB'"><i class="ti ti-edit" style="font-size:12px"></i>Edit</a><form action="{{route('faq.destroy',$item->id)}}" method="POST" style="margin:0"><button type="submit" onclick="return confirm('Hapus?')" style="display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:#FCEBEB;color:#791F1F;border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer" onmouseover="this.style.background='#F7C1C1'" onmouseout="this.style.background='#FCEBEB'"><i class="ti ti-trash" style="font-size:12px"></i>Hapus</button>@csrf @method('DELETE')</form></div></td></tr>@empty<tr><td colspan="4" style="padding:40px;text-align:center;color:#94a3b8;font-size:13px">Belum ada data FAQ</td></tr>@endforelse</tbody>
+        </table>
+    </div>
+    <div style="padding:10px 16px;border-top:0.5px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between"><span style="font-size:11px;color:#64748b">Menampilkan {{count($faq)}} data</span></div>
 </div>
-
-<!-- Script untuk konfirmasi delete -->
-
 @endsection

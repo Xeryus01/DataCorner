@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
-use App\Models\akunuser;
+use App\Models\User;
 use App\Models\faq;
 use Illuminate\Http\Request;
 use App\Models\jadwal;
@@ -30,7 +30,7 @@ class dashboardController extends Controller
 {
     public function index(){
         $totalAdmin = Admin::count();
-        $totalUser = akunuser::count();
+        $totalUser = User::count();
         $totalKonsultan = konsultan::count();
         $totalJadwal = jadwal::count();
         $totalLayanan = layanan::count();

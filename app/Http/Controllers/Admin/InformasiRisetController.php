@@ -51,7 +51,7 @@ class InformasiRisetController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.informasi-riset.create');
     }
 
     /**
@@ -59,7 +59,24 @@ class InformasiRisetController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'persyaratan' => 'required',
+            'benefit' => 'nullable',
+            'info_kontak' => 'nullable',
+        ]);
+
+        InformasiRiset::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi,
+            'persyaratan' => $request->persyaratan,
+            'benefit' => $request->benefit,
+            'info_kontak' => $request->info_kontak,
+            'status' => $request->status ?? 'aktif',
+        ]);
+
+        return redirect()->route('admin_informasi-riset.index')->with('success', 'Informasi riset berhasil ditambahkan.');
     }
 
     /**
@@ -102,8 +119,9 @@ class InformasiRisetController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(InformasiRiset $informasi_riset)
     {
-        //
+        $informasi_riset->delete();
+        return redirect()->route('admin_informasi-riset.index')->with('success', 'Informasi riset berhasil dihapus.');
     }
 }

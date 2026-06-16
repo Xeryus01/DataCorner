@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoggedInUser
@@ -16,9 +16,11 @@ class LoggedInUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!Session::has('login_user') || !session()->has('user_id')) {
-        return redirect()->route('loginUser');
-    }
+        // Gunakan Laravel Auth guard 'web' bawaan (model User), bukan session manual
+        if (!Auth::guard('web')->check()) {
+            return redirect()->route('loginUser');
+        }
+
         return $next($request);
     }
 }

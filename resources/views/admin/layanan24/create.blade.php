@@ -1,59 +1,46 @@
 @extends('admin.layout')
 @section('content')
+<div class="page-header-row">
+    <div>
+        <div class="page-title">Tambah Layanan 24 Jam</div>
+        <div class="page-sub">Input informasi layanan statistik</div>
+    </div>
+</div>
 
-<div class="w-full p-6 bg-gray-100 min-h-screen">
-    <div class="w-full  bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-300 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Buat Layanan 24 Jam</h2>
+<div class="card" style="max-width:560px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-bell"></i>Form Tambah Layanan</div>
         </div>
+    </div>
+    <div class="card-body">
+        @if($errors->any())
+        <div class="form-error">
+            @foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach
+        </div>
+        @endif
 
-        <form method="POST" action="{{ route('layanan.store') }}" class="p-6" enctype="multipart/form-data">
+        <form method="POST" action="{{route('layanan.store')}}" enctype="multipart/form-data">
             @csrf
-
-            <div class="mb-4">
-                <label for="gambar" class="block text-gray-700 font-medium mb-2">file (Bentuk Gambar) JPG|PNG|JPEG</label>
-                <input type="file" name="gambar" id="gambar" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ old('gambar') }}" required>
-
-                @error('gambar')
-
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-
+            <div style="margin-bottom:14px">
+                <label class="form-label">Judul</label>
+                <input type="text" name="judul" value="{{old('judul')}}" class="form-input" required>
             </div>
-
-            <div class="mb-4">
-                <label for="judul" class="block text-gray-700 font-medium mb-2">Judul Layanan</label>
-                <input type="text" name="judul" placeholder="Masukkan judul" id="judul" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ old('judul') }}" required>
-                    @error('judul')
-
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-
+            <div style="margin-bottom:14px">
+                <label class="form-label">Deskripsi</label>
+                <input type="text" name="deskripsi" value="{{old('deskripsi')}}" class="form-input" required>
             </div>
-
-            <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 font-medium mb-2">Deskripsi Layanan</label>
-                <input type="text" name="deskripsi" placeholder="Masukkan Deskripsi" id="deskripsi" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ old('deskripsi') }}" required>
-                    @error('deskripsi')
-
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-
+            <div style="margin-bottom:14px">
+                <label class="form-label">Link</label>
+                <input type="text" name="link" value="{{old('link')}}" class="form-input" required>
             </div>
-
-            <div class="mb-4">
-                <label for="link" class="block text-gray-700 font-medium mb-2">link Layanan</label>
-                <input type="text" name="link" placeholder="Masukkan Link Layanan" id="link" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ old('link') }}" required>
-                    @error('link')
-
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-
+            <div style="margin-bottom:16px">
+                <label class="form-label">Gambar</label>
+                <input type="file" name="gambar" style="font-size:13px">
             </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="px-6 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium rounded-lg">Buat</button>
-
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Simpan</button>
+                <a href="{{route('layanan.index')}}" class="btn-ghost">Batal</a>
             </div>
         </form>
     </div>

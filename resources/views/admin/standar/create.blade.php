@@ -1,31 +1,13 @@
 @extends('admin.layout')
 @section('content')
-
-<div class="w-full p-6 bg-gray-100 min-h-screen">
-    <div class="w-full  bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-300 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Buat Standar Layanan</h2>
-        </div>
-
-        <form method="POST" action="{{ route('standar.store') }}" class="p-6 needs-validation" enctype="multipart/form-data" novalidate>
-            @csrf
-
-            @include('components.form.input', ['name' => 'judul', 'label' => 'Judul Standar Layanan', 'type' => 'text', 'placeholder' => 'Masukkan judul', 'required' => true])
-
-            <div class="mb-4">
-                <label for="gambar" class="block text-gray-700 font-medium mb-2">gambar (Bentuk File) Jpg|Png</label>
-                <input type="file" name="gambar" id="gambar" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ old('gambar') }}" required>
-                @error('gambar')
-                <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @else
-                <p class="text-red-500 text-sm mt-1 form-error" aria-live="polite"></p>
-                @enderror
-            </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="px-6 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium rounded-lg">Tambahkan</button>
-
-            </div>
+<x-admin.page-header title="Tambah Standar Pelayanan" subtitle="Input data standar pelayanan" :breadcrumbs="['Datapedia','Layanan','Standar','Tambah']" />
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden;max-width:560px">
+    <div style="padding:14px 20px;border-bottom:0.5px solid #e2e8f0"><div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-clipboard-check" style="font-size:16px;color:#1F6FD6"></i>Form Tambah Standar</div></div>
+    <div style="padding:20px">@if($errors->any())<div style="background:#FCEBEB;border:1px solid #F7C1C1;color:#791F1F;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:16px">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
+        <form method="POST" action="{{route('standar.store')}}" enctype="multipart/form-data">@csrf
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Judul</label><input type="text" name="judul" value="{{old('judul')}}" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none"></div>
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Deskripsi</label><textarea name="deskripsi" rows="4" required style="width:100%;padding:10px 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none">{{old('deskripsi')}}</textarea></div>
+            <div style="display:flex;gap:8px"><button type="submit" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#1F6FD6;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer">Simpan</button><a href="{{route('standar.index')}}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#fff;color:#64748b;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none">Batal</a></div>
         </form>
     </div>
 </div>

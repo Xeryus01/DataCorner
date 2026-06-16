@@ -52,12 +52,33 @@ class InformasiMagangController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create() {}
+    public function create()
+    {
+        return view('admin.informasi-magang.create');
+    }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        $request->validate([
+            'deskripsi' => 'required',
+            'persyaratan' => 'required',
+            'benefit' => 'nullable',
+            'info_kontak' => 'nullable',
+        ]);
+
+        InformasiMagang::create([
+            'deskripsi' => $request->deskripsi,
+            'persyaratan' => $request->persyaratan,
+            'benefit' => $request->benefit,
+            'info_kontak' => $request->info_kontak,
+            'status' => $request->status ?? 'aktif',
+        ]);
+
+        return redirect()->route('admin_informasi-magang.index')->with('success', 'Informasi magang berhasil ditambahkan.');
+    }
 
     /**
      * Display the specified resource.
@@ -96,5 +117,9 @@ class InformasiMagangController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(InformasiMagang $informasi_magang) {}
+    public function destroy(InformasiMagang $informasi_magang)
+    {
+        $informasi_magang->delete();
+        return redirect()->route('admin_informasi-magang.index')->with('success', 'Informasi magang berhasil dihapus.');
+    }
 }

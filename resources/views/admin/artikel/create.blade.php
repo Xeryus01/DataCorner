@@ -1,47 +1,54 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Input Artikel</h3>
-          </div>
-          <!-- /.card-header -->
-          <!-- form start -->
+<div class="page-header-row">
+    <div>
+        <div class="page-title">Input Artikel</div>
+        <div class="page-sub">Tambah konten artikel edukasi statistik</div>
+    </div>
+</div>
 
-          @if ($errors->any())
-            <div class="alert alert-danger">
-              <ul>
-                @foreach ($errors->all() as $error)
-                  <li>{{ $error }}</li>
-                @endforeach
-              </ul>
-            </div>
-          @endif
-          <form method="POST" action="{{ route('admin_artikel.store') }}" enctype="multipart/form-data" class="needs-validation" novalidate>
-            <div class="card-body">
-              @csrf
-              @include('components.form.select', ['name' => 'subjek_materi', 'label' => 'Subjek Materi', 'options' => $subjek_materi->pluck('judul','id')->toArray(), 'required' => true])
-              @include('components.form.input', ['name' => 'judul', 'label' => 'Judul Artikel', 'type' => 'text', 'placeholder' => 'Masukkan Judul Artikel', 'required' => true])
-              @include('components.form.input', ['name' => 'deskripsi', 'label' => 'Deskripsi Artikel', 'type' => 'text', 'placeholder' => 'Masukkan Deskripsi Artikel', 'required' => true])
-              <div class="form-group">
-                <label for="gambar">Gambar Artikel</label>
-                <input type="file" name="gambar" class="form-control" id="gambar"
-                  placeholder="Masukkan Gambar Artikel" accept="image/jpg, image/jpeg, image/png" required>
-                @error('gambar')<p class="text-red-500 text-sm mt-1">{{ $message }}</p>@else<p class="text-red-500 text-sm mt-1 form-error" aria-live="polite"></p>@enderror
-              </div>
-            </div>
-            <!-- /.card-body -->
-
-            <div class="card-footer">
-              <button type="submit" class="btn btn-primary">Tambah</button>
-            </div>
-          </form>
+<div class="card" style="max-width:560px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-article"></i>Form Input Artikel</div>
         </div>
-        <!-- /.card -->
-      </div><!-- /.container-fluid -->
-    </section>
-  </div>
+    </div>
+    <div class="card-body">
+        @if($errors->any())
+        <div class="form-error">
+            @foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach
+        </div>
+        @endif
+
+        <form method="POST" action="{{ route('admin_artikel.store') }}" enctype="multipart/form-data">
+            @csrf
+            <div style="margin-bottom:14px">
+                <label class="form-label">Subjek Materi</label>
+                <select name="subjek_materi" class="form-select" required>
+                    <option value="">-- Pilih Subjek Materi --</option>
+                    @foreach($subjek_materi as $item)
+                    <option value="{{ $item->id }}" {{ old('subjek_materi') == $item->id ? 'selected' : '' }}>{{ $item->judul }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Judul Artikel</label>
+                <input type="text" name="judul" value="{{ old('judul') }}" class="form-input" placeholder="Masukkan Judul Artikel" required>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Deskripsi Artikel</label>
+                <input type="text" name="deskripsi" value="{{ old('deskripsi') }}" class="form-input" placeholder="Masukkan Deskripsi Artikel" required>
+            </div>
+            <div style="margin-bottom:16px">
+                <label class="form-label">Gambar Artikel</label>
+                <input type="file" name="gambar" style="font-size:13px" accept="image/jpg, image/jpeg, image/png" required>
+                @error('gambar') <p style="color:#E24B4A;font-size:11px;margin-top:4px">{{ $message }}</p> @enderror
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Tambah</button>
+                <a href="{{ route('admin_artikel.index') }}" class="btn-ghost">Batal</a>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

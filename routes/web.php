@@ -85,7 +85,7 @@ Route::prefix('admin')->group(function () {
 
         Route::resource('jam-operasional', JamOperasionalController::class);
         Route::resource('bidang-keahlian', BidangKeahlianController::class)->except(['show']);
-        Route::resource('jadwal', jadwalController::class)->except(['show']);
+        Route::resource('jadwal', jadwalController::class)->except(['show', 'create', 'store', 'edit', 'update']);
 
         Route::post('/jadwal/{id}/tolak', [JadwalController::class, 'tolak'])->name('jadwal.tolak');
         Route::delete('/jadwal/{jadwal_id}/batal', [JadwalController::class, 'batalJadwal'])->name('jadwal.batal');

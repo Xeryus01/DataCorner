@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\DetectMobileWebview::class,
         ]);
         $middleware->alias([
-            'role' => RoleMiddleware::class,
+            'role' => \App\Http\Middleware\CheckAdminRole::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
             'auth' => \App\Http\Middleware\Authenticate::class,

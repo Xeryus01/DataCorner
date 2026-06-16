@@ -3,7 +3,7 @@
 namespace App\Rules;
 
 use Closure;
-use App\Models\akunuser;
+use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -23,7 +23,7 @@ class LoginUserCheck implements ValidationRule
         $loginStatus = false;
 
         // Cari berdasarkan no_hp dan nama
-        $user = akunuser::where('no_hp', $no_hp)
+        $user = User::where('no_hp', $no_hp)
             ->where('nama', $nama)
             ->first();
 

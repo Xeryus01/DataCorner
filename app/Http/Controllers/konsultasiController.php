@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\akunuser;
+use App\Models\User;
 use App\Models\konsultasiKlik;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ class konsultasiController extends Controller
 {
     public function index()
     {
-        $user = akunuser::find(Session::get('user_id'));
+        $user = User::find(Session::get('user_id'));
 
         if (!$user) {
             return redirect()->route('loginUser')->with('error', 'Silakan login terlebih dahulu.');
@@ -23,7 +23,7 @@ class konsultasiController extends Controller
 
     public function store(Request $request)
 {
-    $user = akunuser::find(Session::get('user_id'));
+    $user = User::find(Session::get('user_id'));
 
     if (!$user) {
         return response()->json(['message' => 'Unauthorized'], 401);
@@ -85,7 +85,7 @@ class konsultasiController extends Controller
     public function jumlah()
 {
     $userId = Session::get('user_id');
-    $user = akunuser::find($userId);
+    $user = User::find($userId);
 
     $today = $user->jumlahKlik()->whereDate('clicked_at', Carbon::today())->count();
     $month = $user->jumlahKlik()->whereMonth('clicked_at', Carbon::now()->month)->count();

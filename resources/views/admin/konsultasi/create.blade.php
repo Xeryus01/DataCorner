@@ -1,56 +1,36 @@
 @extends('admin.layout')
 @section('content')
-
-<div class="w-full p-6 bg-gray-100 min-h-screen">
-    <div class="w-full  bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-300 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Input Konsultasi</h2>
+<x-admin.page-header title="Tambah Konsultasi Manual" subtitle="Input data konsultasi WhatsApp oleh admin" :breadcrumbs="['Datapedia','Konsultasi','Tambah']" />
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden;max-width:500px">
+    <div style="padding:14px 20px;border-bottom:0.5px solid #e2e8f0">
+        <div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px">
+            <i class="ti ti-plus" style="font-size:16px;color:#1F6FD6"></i>Form Input Konsultasi
         </div>
-
-        {{-- Tambahkan kode ini untuk debugging --}}
-@if ($errors->any())
-    <div style="background-color: #f8d7da; color: #721c24; padding: 1rem; border: 1px solid #f5c6cb; border-radius: .25rem; margin-bottom: 1rem;">
-        <strong>Terjadi Kesalahan!</strong>
-        <ul>
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
     </div>
-@endif
-
-        <form method="POST" action="{{ route('adminKonsultasi.store') }}" class="p-6">
+    <div style="padding:20px">
+        @if(session('error'))
+        <div style="background:#FCEBEB;border:1px solid #F7C1C1;color:#791F1F;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px">{{session('error')}}</div>
+        @endif
+        @if(session('success'))
+        <div style="background:#f0fdf4;border:1px solid #bbf7d0;color:#16a34a;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:14px">{{session('success')}}</div>
+        @endif
+        <form method="POST" action="{{route('adminKonsultasi.store')}}">
             @csrf
-{{--
-            <div class="mb-4">
-                <label for="no_hp" class="block text-gray-700 font-medium mb-2">Nomor Handphone</label>
-                <input type="text" name="no_hp" placeholder="Masukkan nomor handphone" id="no_hp" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ old('no_hp') }}" required>
-                    @error('no_hp')
-
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-
-            </div> --}}
-
-            <div class="mb-4">
-                <label for="posisi" class="block text-gray-700 font-medium mb-2">Posisi Sebagai</label>
-
-                <select name="posisi" placeholder="Masukkan posisi" id="posisi" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" required>
-                    <option disabled selected value="">-- Pilih Posisi Sebagai --</option>
-                    <option value="masyarakat">Masyarakat</option>
-                    <option value="mahasiswa">Mahasiswa</option>
-                    <option value="pegawai_pemerintah">Pegawai Pemerintah</option>
-
+            <div style="margin-bottom:16px">
+                <label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Posisi</label>
+                <select name="posisi" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;background:#fff;font-size:13px;outline:none">
+                    <option value="">-- Pilih --</option>
+                    <option value="asn">ASN</option>
+                    <option value="karyawan_swasta">Karyawan Swasta</option>
+                    <option value="wiraswasta">Wiraswasta</option>
+                    <option value="peneliti">Peneliti</option>
+                    <option value="pelajar_mahasiswa">Pelajar/Mahasiswa</option>
+                    <option value="lainnya">Lainnya</option>
                 </select>
-                @error('posisi')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
             </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="px-6 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium rounded-lg">Buat</button>
-
-            </div>
+            <button type="submit" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#1F6FD6;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer" onmouseover="this.style.background='#185FA5'" onmouseout="this.style.background='#1F6FD6'">
+                <i class="ti ti-device-floppy" style="font-size:14px"></i>Simpan
+            </button>
         </form>
     </div>
 </div>

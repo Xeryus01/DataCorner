@@ -1,92 +1,60 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-12">
-            
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Tambah Data Admin</h3>
-              </div>
+<div class="page-header-row">
+    <div>
+        <div class="page-title">Tambah Admin</div>
+        <div class="page-sub">Buat akun administrator baru untuk sistem Datapedia</div>
+    </div>
+</div>
 
-              {{-- Error Validation --}}
-              @if ($errors->any())
-                <div class="alert alert-danger m-3">
-                  <ul>
-                    @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                    @endforeach
-                  </ul>
-                </div>
-              @endif
-
-              {{-- FORM --}}
-              <form method="POST" action="{{ route('admin_data-admin.store') }}">
-                @csrf
-
-                <div class="card-body">
-
-                  {{-- ROLE --}}
-                  <div class="form-group">
-                    <label for="role">Role</label>
-                    <select name="role" class="form-control" required>
-                      <option value="">-- Pilih Role --</option>
-                      @foreach ($roles as $role)
-                        <option value="{{ $role->name }}" {{ old('role') == $role->name ? 'selected' : '' }}>
-                          {{ ucfirst($role->name) }}
-                        </option>
-                      @endforeach
-                    </select>
-                  </div>
-
-                  {{-- USERNAME --}}
-                  <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" class="form-control"
-                      value="{{ old('username') }}"
-                      placeholder="Masukkan Username" required>
-                  </div>
-
-                  {{-- WILAYAH --}}
-                  <div class="form-group">
-                    <label for="wilayah_id">Unit Kerja</label>
-                    <select name="wilayah_id" class="form-control" required>
-                      <option value="">-- Pilih Unit Kerja --</option>
-                      @foreach($wilayah as $item)
-                        <option value="{{ $item->id }}" {{ old('wilayah_id') == $item->id ? 'selected' : '' }}>
-                          {{ ucfirst($item->nama_wilayah) }}
-                        </option>
-                      @endforeach
-                    </select>
-                  </div>
-
-                  {{-- PASSWORD --}}
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" class="form-control" required>
-                  </div>
-
-                  {{-- KONFIRMASI PASSWORD --}}
-                  <div class="form-group">
-                    <label for="password_confirmation">Konfirmasi Password</label>
-                    <input type="password" name="password_confirmation" class="form-control" required>
-                  </div>
-
-                </div>
-
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Simpan</button>
-                </div>
-
-              </form>
-            </div>
-
-          </div>
+<div class="card" style="max-width:560px">
+    <div class="card-header">
+        <div class="card-header-left">
+            <div class="card-title"><i class="ti ti-user-plus"></i>Form Tambah Admin</div>
         </div>
-      </div>
-    </section>
-  </div>
+    </div>
+    <div class="card-body">
+        @if($errors->any())
+        <div class="form-error">
+            @foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach
+        </div>
+        @endif
+
+        <form method="POST" action="{{route('admin.store')}}">
+            @csrf
+            <div style="margin-bottom:14px">
+                <label class="form-label">Role</label>
+                <select name="role" class="form-select" required>
+                    @foreach($roles as $role)
+                    <option value="{{$role->name}}" {{old('role')==$role->name?'selected':''}}>{{ucfirst($role->name)}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" value="{{old('username')}}" class="form-input" required>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Unit Kerja</label>
+                <select name="wilayah_id" class="form-select" required>
+                    @foreach($wilayah as $w)
+                    <option value="{{$w->id}}" {{old('wilayah_id')==$w->id?'selected':''}}>{{$w->nama_wilayah}}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div style="margin-bottom:14px">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-input" required>
+            </div>
+            <div style="margin-bottom:16px">
+                <label class="form-label">Konfirmasi Password</label>
+                <input type="password" name="password_confirmation" class="form-input" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Simpan</button>
+                <a href="{{route('admin.index')}}" class="btn-ghost">Batal</a>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection

@@ -1,110 +1,16 @@
 @extends('admin.layout')
-
 @section('content')
-<div class="w-full p-6 bg-gray-100">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-400 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Pesan Masuk Dari WA</h2>
-        </div>
-
-        <div class="p-6 link-container overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-blue-300">
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">No</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Tanggal</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Nama</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Nomor WA</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Instansi</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Data Yang Diminta</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Keperluan Penggunaan Data</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Memiliki Akun PST</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Posisi Sebagai</th>
-                        <th class="p-3 text-left text-blue-800 border border-blue-400">Aksi</th>
-                    </tr>
-                </thead>
-
-                <tbody id="layanan-body">
-                    @forelse ($faq as $index => $item)
-                        <tr class="hover:bg-gray-50 layanan-item-row">
-                            <td class="p-3 border border-gray-200 text-center">
-                                {{ $index + 1 }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                {{ \Carbon\Carbon::parse($item->clicked_at)->locale('id')->isoFormat('D MMMM Y, HH:mm') }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                {{ $item->user->nama ?? '-' }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                {{ $item->user->no_hp ?? '-' }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                {{ $item->instansi }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                <div class="w-64 line-clamp-2 overflow-hidden text-ellipsis">
-                                    {{ $item->data_diminta }}
-                                </div>
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                <div class="w-64 line-clamp-2 overflow-hidden text-ellipsis">
-                                    {{ $item->keperluan_data ?? '-' }}
-                                </div>
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                {{ ucfirst($item->memiliki_akun ?? '-') }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                @php
-                                    $labelPosisi = [
-                                        'asn' => 'ASN',
-                                        'karyawan_swasta' => 'Karyawan Swasta',
-                                        'wiraswasta' => 'Wiraswasta',
-                                        'peneliti' => 'Peneliti',
-                                        'pelajar_mahasiswa' => 'Pelajar/Mahasiswa',
-                                        'lainnya' => 'Lainnya',
-                                    ];
-                                @endphp
-
-                                {{ $labelPosisi[$item->posisi] ?? $item->posisi }}
-                            </td>
-
-                            <td class="p-3 border border-gray-200">
-                                <div class="flex space-x-2">
-                                    <form action="{{ route('faq.hapusPesan', $item->id) }}" method="POST"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesan ini?')">
-                                        @csrf
-                                        @method('DELETE')
-
-                                        <button type="submit"
-                                                class="px-3 py-1 bg-red-300 hover:bg-red-400 text-red-800 rounded">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="10" class="p-6 text-center text-gray-500 border border-gray-200">
-                                Belum ada pesan konsultasi masuk.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-            <div id="pagination-controls" class="flex justify-center mt-6 space-x-2"></div>
-        </div>
+<x-admin.page-header title="Pesan Masuk WA" subtitle="Pesan konsultasi yang masuk melalui WhatsApp" :breadcrumbs="['Datapedia','FAQ','Pesan WA']" />
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden">
+    <div style="padding:14px 18px;border-bottom:0.5px solid #e2e8f0">
+        <div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-message" style="font-size:16px;color:#1F6FD6"></i>Daftar Pesan <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:4px">— {{count($faq)}} data</span></div>
     </div>
+    <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;min-width:1100px">
+            <thead><tr style="background:#f8fafc"><th style="padding:10px 8px;text-align:center;width:32px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">No</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Tanggal</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Nama</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">No WA</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Instansi</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Data Diminta</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Posisi</th><th style="padding:10px 8px;font-size:10px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Aksi</th></tr></thead>
+            <tbody>@forelse($faq as $idx=>$i)<tr style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''"><td style="padding:10px 8px;font-size:11px;color:#94a3b8;border-bottom:0.5px solid #e2e8f0;text-align:center">{{$idx+1}}</td><td style="padding:10px 8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{\Carbon\Carbon::parse($i->clicked_at)->locale('id')->isoFormat('D MMM Y, HH:mm')}}</td><td style="padding:10px 8px;font-size:11px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{$i->user->nama??'-'}}</td><td style="padding:10px 8px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace">{{$i->user->no_hp??'-'}}</td><td style="padding:10px 8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0;max-width:130px">{{$i->instansi}}</td><td style="padding:10px 8px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0;max-width:150px">{{Str::limit($i->data_diminta,40)}}</td><td style="padding:10px 8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">@php $lp=['asn'=>'ASN','karyawan_swasta'=>'Karyawan','wiraswasta'=>'Wiraswasta','peneliti'=>'Peneliti','pelajar_mahasiswa'=>'Mahasiswa','lainnya'=>'Lainnya'];@endphp{{$lp[$i->posisi]??$i->posisi}}</td><td style="padding:10px 8px;border-bottom:0.5px solid #e2e8f0"><form action="{{route('faq.hapusPesan',$i->id)}}" method="POST" style="margin:0"><button type="submit" onclick="return confirm('Hapus?')" style="display:inline-flex;align-items:center;gap:3px;padding:3px 8px;background:#FCEBEB;color:#791F1F;border:none;border-radius:5px;font-size:10px;font-weight:500;cursor:pointer"><i class="ti ti-trash" style="font-size:11px"></i>Hapus</button>@csrf @method('DELETE')</form></td></tr>@empty<tr><td colspan="8" style="padding:40px;text-align:center;color:#94a3b8;font-size:13px">Belum ada pesan konsultasi masuk</td></tr>@endforelse</tbody>
+        </table>
+    </div>
+    <div style="padding:10px 16px;border-top:0.5px solid #e2e8f0"><span style="font-size:11px;color:#64748b">Menampilkan {{count($faq)}} data</span></div>
 </div>
 @endsection
