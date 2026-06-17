@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+@import './user-page.css';
 
 @tailwind base;
 @tailwind components;
@@ -13,8 +14,6 @@
 | user-page.css tetap di-import agar halaman user tetap memakai style yang sama.
 |--------------------------------------------------------------------------
 */
-
-@import './user-page.css';
 
 :root {
     /* Font */

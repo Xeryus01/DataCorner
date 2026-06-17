@@ -10,9 +10,11 @@ class InformasiRiset extends Model
     use HasFactory;
 
     protected $fillable = [
+        'judul',
         'deskripsi',
         'persyaratan',
         'benefit',
         'info_kontak',
+        'status',
     ];
 }

@@ -34,7 +34,7 @@ class Konsultan extends Model
 }
 
     public function petugas(){
-        return $this->hasMany(Petugas::class, 'konsultan_id');
+        return $this->hasMany(petugas::class, 'konsultan_id');
     }
 
     public function petugasBerprestasi()

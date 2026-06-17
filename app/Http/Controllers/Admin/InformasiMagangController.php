@@ -122,4 +122,18 @@ class InformasiMagangController extends Controller
         $informasi_magang->delete();
         return redirect()->route('admin_informasi-magang.index')->with('success', 'Informasi magang berhasil dihapus.');
     }
+
+    public function statusAktif($id)
+    {
+        $info = InformasiMagang::findOrFail($id);
+        $info->update(['status' => 'aktif']);
+        return redirect()->route('admin_informasi-magang.index')->with('success', 'Status berhasil diaktifkan.');
+    }
+
+    public function statusNonaktif($id)
+    {
+        $info = InformasiMagang::findOrFail($id);
+        $info->update(['status' => 'nonaktif']);
+        return redirect()->route('admin_informasi-magang.index')->with('success', 'Status berhasil dinonaktifkan.');
+    }
 }

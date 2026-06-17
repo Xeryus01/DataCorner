@@ -12,13 +12,6 @@
             <!-- ================= LEFT ================= -->
             <div class="animate-fadeInUp space-y-5 text-center lg:text-left">
 
-                <!-- Badge -->            
-                <!-- <div class="hero-badge mx-auto lg:mx-0">
-                    <span class="hero-badge-dot"></span>
-                    <span class="hero-badge-text">
-                        Platform Resmi BPS Kep. Bangka Belitung
-                    </span>
-                </div> -->
                 <!-- Title -->
                 <div>
                     <h1 class="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-7xl">
@@ -79,16 +72,6 @@
                             <span class="leading-none">Hubungi Kami</span>
                         </button>
                     @endif
-
-                    <!-- <a href="#konsultasi"
-                       class="site-btn-ghost px-5 sm:px-6 py-3 text-sm sm:text-base font-semibold group">
-                        <span>Lihat Layanan</span>
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition"
-                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                  d="M9 5l7 7-7 7"/>
-                        </svg>
-                    </a> -->
                 </div>
             </div>
 
@@ -137,8 +120,12 @@
                                     <div class="hero-schedule-row">
                                         <span class="hero-schedule-label">{{ $jam->keterangan_hari }}</span>
                                         <span class="hero-schedule-time">
-                                            {{ \Carbon\Carbon::parse($jam->jam_mulai)->format('H.i') }} -
-                                            {{ \Carbon\Carbon::parse($jam->jam_selesai)->format('H.i') }}
+                                            @if($jam->isTutup())
+                                                Tutup
+                                            @else
+                                                {{ \Carbon\Carbon::parse($jam->jam_mulai)->format('H.i') }} -
+                                                {{ \Carbon\Carbon::parse($jam->jam_selesai)->format('H.i') }}
+                                            @endif
                                         </span>
                                     </div>
                                 @empty

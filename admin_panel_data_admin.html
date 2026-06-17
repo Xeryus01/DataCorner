@@ -1,0 +1,162 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.wrap{padding:0}
+.page-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;gap:12px}
+.page-hdr-left{}
+.breadcrumb{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary);margin-bottom:6px}
+.breadcrumb i{font-size:10px}
+.page-title{font-size:17px;font-weight:500;color:var(--color-text-primary)}
+.page-sub{font-size:12px;color:var(--color-text-secondary);margin-top:3px}
+.btn-add{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:var(--color-background-info);color:var(--color-text-info);border:0.5px solid var(--color-border-info);border-radius:var(--border-radius-md);font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 150ms;white-space:nowrap}
+.btn-add:hover{filter:brightness(0.95)}
+.btn-add i{font-size:14px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);overflow:hidden}
+.card-hdr{padding:14px 18px;border-bottom:0.5px solid var(--color-border-tertiary);display:flex;align-items:center;justify-content:space-between}
+.card-hdr-left{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.card-hdr-left i{font-size:16px;color:var(--color-text-info)}
+.count-badge{font-size:11px;font-weight:400;color:var(--color-text-secondary)}
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+thead tr{background:var(--color-background-secondary)}
+th{padding:10px 18px;text-align:left;font-size:10px;font-weight:500;color:var(--color-text-secondary);border-bottom:0.5px solid var(--color-border-tertiary);text-transform:uppercase;letter-spacing:0.06em;white-space:nowrap}
+th.th-center{text-align:center}
+td{padding:13px 18px;font-size:12px;color:var(--color-text-primary);border-bottom:0.5px solid var(--color-border-tertiary)}
+tr:last-child td{border-bottom:none}
+tbody tr{transition:background 100ms}
+tbody tr:hover{background:var(--color-background-secondary)}
+.td-num{text-align:center;width:48px;font-size:11px;color:var(--color-text-secondary)}
+.td-email{font-size:11px;color:var(--color-text-secondary);font-family:var(--font-mono)}
+.td-name{font-weight:500}
+.avatar-cell{display:flex;align-items:center;gap:10px}
+.av{width:28px;height:28px;border-radius:50%;background:var(--color-background-info);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;color:var(--color-text-info);flex-shrink:0}
+.actions{display:flex;align-items:center;gap:6px}
+.btn-edit{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--color-background-info);color:var(--color-text-info);border:none;border-radius:var(--border-radius-md);font-size:11px;font-weight:500;cursor:pointer;text-decoration:none;border:0.5px solid var(--color-border-info)}
+.btn-edit:hover{filter:brightness(0.94)}
+.btn-del{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--color-background-danger);color:var(--color-text-danger);border:0.5px solid var(--color-border-danger);border-radius:var(--border-radius-md);font-size:11px;font-weight:500;cursor:pointer}
+.btn-del:hover{filter:brightness(0.94)}
+.btn-edit i,.btn-del i{font-size:12px}
+.card-ftr{padding:10px 18px;border-top:0.5px solid var(--color-border-tertiary);font-size:11px;color:var(--color-text-secondary)}
+.role-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:500}
+.role-admin{background:var(--color-background-info);color:var(--color-text-info)}
+.role-op{background:var(--color-background-success);color:var(--color-text-success)}
+</style>
+
+<h2 class="sr-only">Halaman manajemen data admin Datapedia</h2>
+<div class="wrap">
+  <div class="page-hdr">
+    <div class="page-hdr-left">
+      <div class="breadcrumb">
+        <span>Datapedia</span>
+        <i class="ti ti-chevron-right" aria-hidden="true"></i>
+        <span>Manajemen User</span>
+        <i class="ti ti-chevron-right" aria-hidden="true"></i>
+        <span style="color:var(--color-text-primary);font-weight:500">Admin</span>
+      </div>
+      <div class="page-title">Data Admin</div>
+      <div class="page-sub">Kelola akun admin dan operator sistem</div>
+    </div>
+    <a href="http://localhost:8000/admin/admin/create" class="btn-add">
+      <i class="ti ti-plus" aria-hidden="true"></i> Tambah Admin
+    </a>
+  </div>
+
+  <div class="card">
+    <div class="card-hdr">
+      <div class="card-hdr-left">
+        <i class="ti ti-shield-check" aria-hidden="true"></i>
+        Daftar Admin
+        <span class="count-badge">— 4 akun</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:0 10px;height:30px">
+        <i class="ti ti-search" style="font-size:13px;color:var(--color-text-secondary)" aria-hidden="true"></i>
+        <input placeholder="Cari admin..." style="border:none;background:transparent;font-size:12px;color:var(--color-text-primary);outline:none;width:140px" />
+      </div>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="th-center">No</th>
+            <th>Nama</th>
+            <th>Email</th>
+            <th>Peran</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="td-num">1</td>
+            <td>
+              <div class="avatar-cell">
+                <div class="av">A</div>
+                <span class="td-name">Admin</span>
+              </div>
+            </td>
+            <td class="td-email">admin@example.com</td>
+            <td><span class="role-pill role-admin"><i class="ti ti-shield-check" style="font-size:10px" aria-hidden="true"></i> Super Admin</span></td>
+            <td>
+              <div class="actions">
+                <a href="http://localhost:8000/admin/admin/1/edit" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> Edit</a>
+                <button class="btn-del" onclick="confirm('Hapus Admin?')"><i class="ti ti-trash" aria-hidden="true"></i> Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-num">2</td>
+            <td>
+              <div class="avatar-cell">
+                <div class="av" style="background:var(--color-background-success);color:var(--color-text-success)">OE</div>
+                <span class="td-name">Operator Konten Edukasi</span>
+              </div>
+            </td>
+            <td class="td-email">operator@example.com</td>
+            <td><span class="role-pill role-op"><i class="ti ti-user-check" style="font-size:10px" aria-hidden="true"></i> Operator</span></td>
+            <td>
+              <div class="actions">
+                <a href="http://localhost:8000/admin/admin/2/edit" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> Edit</a>
+                <button class="btn-del" onclick="confirm('Hapus Operator Konten Edukasi?')"><i class="ti ti-trash" aria-hidden="true"></i> Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-num">3</td>
+            <td>
+              <div class="avatar-cell">
+                <div class="av" style="background:var(--color-background-warning);color:var(--color-text-warning)">OM</div>
+                <span class="td-name">Operator Magang</span>
+              </div>
+            </td>
+            <td class="td-email">operator.magang@example.com</td>
+            <td><span class="role-pill role-op"><i class="ti ti-user-check" style="font-size:10px" aria-hidden="true"></i> Operator</span></td>
+            <td>
+              <div class="actions">
+                <a href="http://localhost:8000/admin/admin/3/edit" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> Edit</a>
+                <button class="btn-del" onclick="confirm('Hapus Operator Magang?')"><i class="ti ti-trash" aria-hidden="true"></i> Hapus</button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="td-num">4</td>
+            <td>
+              <div class="avatar-cell">
+                <div class="av" style="background:var(--color-background-warning);color:var(--color-text-warning)">OK</div>
+                <span class="td-name">Operator Kepegawaian</span>
+              </div>
+            </td>
+            <td class="td-email">operator.kepegawaian@example.com</td>
+            <td><span class="role-pill role-op"><i class="ti ti-user-check" style="font-size:10px" aria-hidden="true"></i> Operator</span></td>
+            <td>
+              <div class="actions">
+                <a href="http://localhost:8000/admin/admin/4/edit" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> Edit</a>
+                <button class="btn-del" onclick="confirm('Hapus Operator Kepegawaian?')"><i class="ti ti-trash" aria-hidden="true"></i> Hapus</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-ftr">Menampilkan 4 dari 4 akun</div>
+  </div>
+</div>

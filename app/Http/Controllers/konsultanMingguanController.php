@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Konsultan;
-use App\Models\Petugas;
+use App\Models\konsultan;
+use App\Models\petugas;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 
@@ -13,7 +13,7 @@ class konsultanMingguanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Konsultan $konsultan)
+    public function index(konsultan $konsultan)
     {
         if (!Session::has('konsultanLogin')) {
             return redirect()->route('loginKonsultan')->with('error', 'Silakan login terlebih dahulu.');
@@ -24,7 +24,7 @@ class konsultanMingguanController extends Controller
         $konsultanId = $konsultan->id;
 
         // Ambil data konsultan dari database untuk memastikan data relasinya lengkap
-        $konsultanData = Konsultan::find($konsultanId);
+        $konsultanData = konsultan::find($konsultanId);
 
         if (!$konsultanData) {
             return redirect()->back()->with('error', 'Data konsultan tidak ditemukan.');
