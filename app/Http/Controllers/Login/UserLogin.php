@@ -77,24 +77,32 @@ class UserLogin extends Controller
 
     public function prosesloginUser(Request $request)
 {
-    // Format nomor HP (ubah 08 jadi 628)
-    $request->merge([
-        'no_hp' => '62' . ltrim($request->no_hp, '0')
-    ]);
-
-    // Validasi input
+    // Validasi input (terima raw input tanpa modifikasi request)
     $request->validate([
-        'no_hp' => 'required|regex:/^62[0-9]{9,12}$/',
+        'no_hp' => 'required',
         'password' => 'required|min:5|string',
     ], [
         'no_hp.required' => 'Nomor Handphone Tidak Boleh Kosong',
-        'no_hp.regex' => 'Nomor Handphone Tidak Valid',
         'password.required' => 'Password Tidak Boleh Kosong',
         'password.min' => 'Password Minimal 5 Karakter',
     ]);
 
+    // Format no_hp untuk pencarian database (hanya di variabel lokal, 
+    // tidak mengubah request agar old('no_hp') tetap menampilkan input asli user)
+    $no_hp = $request->no_hp;
+    // Hapus spasi, strip, dan karakter non-digit
+    $no_hp = preg_replace('/[^0-9]/', '', $no_hp);
+    // Jika diawali 0, ganti 0 dengan 62
+    if (strlen($no_hp) > 0 && $no_hp[0] === '0') {
+        $no_hp = '62' . substr($no_hp, 1);
+    }
+    // Jika belum diawali 62, tambahkan 62
+    if (substr($no_hp, 0, 2) !== '62') {
+        $no_hp = '62' . $no_hp;
+    }
+
     // Key untuk rate limiter
-    $throttleKey = Str::lower($request->no_hp) . '|' . $request->ip();
+    $throttleKey = Str::lower($no_hp) . '|' . $request->ip();
 
     // Cek terlalu banyak percobaan login
     if (RateLimiter::tooManyAttempts($throttleKey, 10)) {
@@ -103,8 +111,8 @@ class UserLogin extends Controller
         ])->withInput();
     }
 
-    // Cari user berdasarkan no_hp
-    $user = User::where('no_hp', $request->no_hp)->first();
+    // Cari user berdasarkan no_hp yang sudah diformat
+    $user = User::where('no_hp', $no_hp)->first();
 
     // Jika user tidak ditemukan
     if (!$user) {
