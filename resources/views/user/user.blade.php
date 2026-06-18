@@ -252,7 +252,7 @@
         </div>
     </section>
 
-    {{-- PETUGAS - Modern List --}}
+    {{-- DIREKTORI PETUGAS --}}
     <section 
         x-data="{ 
             selectedBidang: 'all',
@@ -263,9 +263,7 @@
                 const sliderId = this.selectedBidang === 'all'
                     ? 'slider-all'
                     : 'slider-' + this.selectedBidang;
-
                 const slider = document.getElementById(sliderId);
-
                 if (slider) {
                     slider.scrollBy({
                         left: direction * slider.clientWidth,
@@ -277,26 +275,21 @@
             pilihBidang(slug, nama) {
                 this.selectedBidang = slug;
                 this.selectedBidangName = nama;
-                this.resetSlider();
-            },
-
-            resetSlider() {
                 this.filterOpen = false;
-
                 this.$nextTick(() => {
-                    const sliders = document.querySelectorAll('[data-petugas-slider]');
-                    sliders.forEach((slider) => {
-                        slider.scrollTo({
-                            left: 0,
-                            behavior: 'smooth'
-                        });
-                    });
+                    const sliderId = this.selectedBidang === 'all' ? 'slider-all' : 'slider-' + this.selectedBidang;
+                    const slider = document.getElementById(sliderId);
+                    if (slider) slider.scrollTo({ left: 0, behavior: 'smooth' });
                 });
             }
         }"
-        class="up-section up-staff-section py-8 font-sans bg-white"
+        class="up-section up-staff-section py-16 lg:py-24 font-sans bg-white relative"
+        style="overflow:visible;z-index:10;"
     >
-        <div class="max-w-6xl mx-auto px-6">
+        {{-- Background Gradient --}}
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_bottom,_rgba(59,130,246,0.04),transparent)] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative" style="overflow:visible;">
 
             {{-- HEADER --}}
             <div class="flex flex-col items-center justify-center mb-4"data-aos="fade-up">
@@ -1035,21 +1028,11 @@
         <div class="container mx-auto px-5 lg:px-6">
             <div class="max-w-6xl mx-auto">
 
-                <div class="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#bfd9f4] to-blue-2 px-6 py-7 lg:px-10 lg:py-9 flex flex-col lg:flex-row items-center justify-between gap-6">
-                    
-                    <div class="absolute top-0 right-0 w-56 h-56 bg-blue-400/10 blur-[70px] rounded-full -mr-24 -mt-24"></div>
-                    <div class="relative z-10 w-full lg:max-w-[58%] text-center lg:text-left">
-
-                        <h2 class="text-5xl lg:text-[2.9rem] font-black text-white leading-[1.1] tracking-tight mb-3">
-                            Suara Anda Adalah<br>
-                            <span class="text-blue-300 italic">
-                                Prioritas Kami
-                            </span>
-                        </h2>
-
-                        <p class="text-blue-100/80 text-sm lg:text-[18px] leading-relaxed font-medium mb-5 max-w-3xl">
-                            Mutu layanan kami berkembang melalui suara Anda. Partisipasi Anda sangat berarti bagi kami dalam melakukan perbaikan berkelanjutan demi menjamin kualitas layanan yang prima.
-                        </p>
+                <div class="relative overflow-hidden rounded-[2rem] px-6 py-8 lg:px-10 lg:py-10 flex flex-col lg:flex-row items-center justify-between gap-6" style="background:linear-gradient(135deg,#1D4ED8,#002B6A)">
+                    <div class="absolute top-0 right-0 w-56 h-56 bg-blue-400/10 blur-[70px] rounded-full -mr-16 -mt-16"></div>
+                    <div class="relative z-10 w-full lg:max-w-[60%] text-center lg:text-left">
+                        <h2 class="text-4xl lg:text-5xl font-black text-white leading-tight tracking-tight mb-3">Suara Anda Adalah<br><span class="text-blue-300 italic">Prioritas Kami</span></h2>
+                        <p class="text-blue-100/80 text-sm lg:text-base leading-relaxed mb-5">Mutu layanan kami berkembang melalui suara Anda. Partisipasi Anda sangat berarti bagi peningkatan kualitas layanan statistik yang prima.</p>
 
                         @if($surveiLayananAktif)
                             <a href="{{ $surveiLayananAktif->link }}"

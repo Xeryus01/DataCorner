@@ -5,18 +5,19 @@ use App\Models\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
     public function index(){
-        $admin = Admin::all();
+        $admin = Admin::with('roles')->get();
         $adminLogin = Session::get('adminLogin');
         return view('admin.admin.index', compact('admin', 'adminLogin'));
     }
 
     public function create(){
-        $admin = Admin::all();
-        return view('admin.admin.create', compact('admin'));
+        $roles = Role::where('guard_name', 'admin')->get();
+        return view('admin.admin.create', compact('roles'));
     }
 
     public function store(Request $request){
@@ -24,19 +25,24 @@ class AdminController extends Controller
             'email' => 'required|unique:admins|string',
             'nama' => 'required|min:2|string',
             'password' => 'required|min:5|string',
+            'role' => 'required|exists:roles,name',
         ]);
 
-        Admin::create([
+        $admin = Admin::create([
             "email" => $request->email,
             "nama" => $request->nama,
             "password" => Hash::make($request->password),
         ]);
+
+        $admin->assignRole($request->role);
+
         return redirect()->route('admin.index')->with('success', 'Admin Berhasil Ditambah');
     }
 
     public function edit($id){
         $admin = Admin::findOrFail($id);
-        return view('admin.admin.edit', compact('admin'));
+        $roles = Role::where('guard_name', 'admin')->get();
+        return view('admin.admin.edit', compact('admin', 'roles'));
     }
 
 
@@ -46,6 +52,7 @@ class AdminController extends Controller
         'email' => 'required|string|email|unique:admins,email,' . $admin->id,
         'nama' => 'required|string|min:2',
         'password' => 'nullable|string|min:5',
+        'role' => 'required|exists:roles,name',
     ]);
 
     $admin->email = $request->email;
@@ -56,6 +63,7 @@ class AdminController extends Controller
     }
 
     $admin->save();
+    $admin->syncRoles([$request->role]);
 
     return redirect()->route('admin.index')->with('success', 'Admin Berhasil Diubah');
 }

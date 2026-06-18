@@ -30,11 +30,11 @@
     </style>
 </head>
 
-<body class="antialiased">
+<body class="antialiased" style="font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:#f8fafc;color:#1e293b">
 
     @include('components.user.navbar')
     @yield('hero')
-    <main class="flex-grow pt-28 w-full pb-16">
+    <main class="flex-grow w-full">
         @yield('content')
     </main>
 

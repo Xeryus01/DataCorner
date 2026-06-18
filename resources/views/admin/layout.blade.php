@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('image/logo-bpskecil.png') }}" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     @vite(['resources/js/app.js'])
     <title>Admin Panel — Datapedia</title>
     <style>
@@ -195,7 +198,7 @@
             <a href="{{ route('dashboard.index') }}" class="sb-link {{ Route::is('dashboard.index')?'active':'' }}"><i class="ti ti-layout-dashboard"></i> Halaman dashboard</a>
 
             <div class="sb-section">Manajemen user</div>
-            <a href="{{ route('admin.index') }}" class="sb-link"><i class="ti ti-shield-check"></i> Admin</a>
+            <a href="{{ route('admin.index') }}" class="sb-link {{ Route::is('admin.index') || Route::is('admin.create') || Route::is('admin.edit') ? 'active' : '' }}"><i class="ti ti-shield-check"></i> Admin</a>
             <a href="{{ route('dataUser') }}" class="sb-link"><i class="ti ti-users"></i> User</a>
             <a href="{{ route('konsultan.index') }}" class="sb-link"><i class="ti ti-tie"></i> Konsultan</a>
             <a href="{{ route('petugas.index') }}" class="sb-link"><i class="ti ti-calendar-week"></i> Petugas mingguan</a>

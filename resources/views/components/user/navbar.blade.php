@@ -1,160 +1,54 @@
-<nav id="navbar" class="site-navbar navbar-sticky glass-nav">
-    <div class="site-navbar-container">
-        <div class="site-navbar-row">
-
-            {{-- Logo Section --}}
-            <a href="{{ url('/') }}" class="site-navbar-brand" style="text-decoration: none; color: inherit;">
-                <div class="site-navbar-logo">
-                    <img src="{{ asset('image/logo-pst.png') }}" alt="Datapedia Logo">
-                </div>
-
-                <div class="site-navbar-text">
-                    <h1 class="site-navbar-title">
-                        DATA<span>PEDIA</span>
-                    </h1>
-                    <p class="site-navbar-tagline">
-                        BPS Provinsi Kepulauan Bangka Belitung
-                    </p>
-                </div>
-            </a>
-
-            {{-- Desktop Navigation --}}
-            <div class="site-navbar-desktop">
-                <nav class="site-navbar-menu">
-                    <a href="{{ route('tentang') }}" class="site-navbar-link">
-                        Tentang
-                    </a>
-
-                    <a href="{{ url('/') }}#layanan" class="site-navbar-link">
-                        Layanan
-                    </a>
-                    
-                    <a href="{{ url('/') }}#konsultasi" class="site-navbar-link">
-                        Akses
-                    </a>
-
-                    <a href="{{ route('konten-edukasi.index') }}" class="site-navbar-link">
-                        Edukasi
-                    </a>
-
-                    <a href="{{ route('alat-statistik.index') }}" class="site-navbar-link">
-                        Alat Statistik
-                    </a>
-
-                    <a href="{{ route('kuis-tantangan.index') }}" class="site-navbar-link">
-                        Kuis
-                    </a>
-
-                    <a href="{{ route('program-magang.index') }}" class="site-navbar-link">
-                        Magang
-                    </a>
-
-                    <a href="{{ route('program-riset.index') }}" class="site-navbar-link">
-                        Riset
-                    </a>
-
-                    @if(session('login_user') && session('user_id'))
-                        <a href="{{ route('profile.index') }}" class="site-navbar-link">
-                            Profil
-                        </a>
-                    @endif
-                </nav>
-
-                <div class="site-navbar-auth">
-                    @if(session('login_user') && session('user_id'))
-                        <form action="{{ route('logoutUser') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit" class="site-navbar-logout" onmouseenter="speakOnHover(this)">
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('loginUser') }}" class="site-navbar-login">
-                            Login
-                        </a>
-                    @endif
-                </div>
-            </div>
-
-            {{-- Mobile Menu Button --}}
-            <div class="site-navbar-mobile-toggle-wrap">
-                <button id="mobile-menu-btn" class="site-navbar-mobile-btn" type="button" aria-label="Buka menu navigasi" aria-expanded="false" aria-controls="mobile-menu">
-                    <svg id="menu-icon" width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-                    </svg>
-                </button>
-            </div>
-        </div>
-
-        {{-- Mobile Menu Container --}}
-        <div id="mobile-menu" class="hidden site-navbar-mobile-panel">
-            <div class="site-navbar-mobile-card">
-                <div class="site-navbar-mobile-list">
-                    <a href="{{ route('tentang') }}" class="site-navbar-mobile-link">
-                        Tentang
-                    </a>
-                    <a href="{{ url('/') }}#layanan" class="site-navbar-mobile-link">
-                        Layanan
-                    </a>
-                    <a href="{{ url('/') }}#konsultasi" class="site-navbar-mobile-link">
-                        Akses
-                    </a>
-                    <a href="{{ route('konten-edukasi.index') }}" class="site-navbar-mobile-link">
-                        Edukasi
-                    </a>
-                    <a href="{{ route('alat-statistik.index') }}" class="site-navbar-mobile-link">
-                        Alat Statistik
-                    </a>
-                    <a href="{{ route('kuis-tantangan.index') }}" class="site-navbar-mobile-link">
-                        Kuis
-                    </a>
-                    <a href="{{ route('program-magang.index') }}" class="site-navbar-mobile-link">
-                        Magang
-                    </a>
-                    <a href="{{ route('program-riset.index') }}" class="site-navbar-mobile-link">
-                        Riset
-                    </a>
-
-                    <div class="site-navbar-mobile-divider border-t border-white/10 my-3"></div>
-
-                    @if(session('login_user') && session('user_id'))
-                        <a href="{{ route('profile.index') }}" class="site-navbar-mobile-link">
-                            Profil
-                        </a>
-                        <form action="{{ route('logoutUser') }}" method="POST" class="w-full">
-                            @csrf
-                            <button type="submit" class="site-navbar-mobile-logout">
-                                Logout
-                            </button>
-                        </form>
-                    @else
-                        <a href="{{ route('loginUser') }}" class="site-navbar-mobile-link">
-                            Login
-                        </a>
-                    @endif
-                </div>
-            </div>
-        </div>
+{{-- NAVBAR v2 --}}
+<nav id="navbar" class="nav navbar-scrolled" x-data="{ mobileOpen: false, openDropdown: null, toggleDropdown(key) { this.openDropdown = this.openDropdown === key ? null : key; } }" @click.outside="openDropdown = null; mobileOpen = false">
+  <div class="nav-inner">
+    <a href="{{ url('/') }}" class="nav-brand">
+      <div class="nav-brand-logo"><img src="{{ asset('image/logo-pst.png') }}" alt="Datapedia" style="width:100%;height:100%;object-fit:contain;padding:3px"></div>
+      <div class="nav-brand-text"><h1>DATA<span>PEDIA</span></h1><p>BPS Prov. Kepulauan Bangka Belitung</p></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="{{ route('tentang') }}" class="nav-link-item">Tentang</a></li>
+      <li><a href="{{ url('/') }}#layanan" class="nav-link-item">Layanan</a></li>
+      <li><a href="{{ url('/') }}#konsultasi" class="nav-link-item">Akses</a></li>
+      <li class="nav-dropdown" :class="{ 'open': openDropdown === 'literasi' }">
+        <button class="nav-link-item nav-dropdown-toggle" type="button" @click.prevent="toggleDropdown('literasi')">Literasi Statistik <svg class="nav-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="nav-dropdown-menu"><a href="{{ route('konten-edukasi.index') }}" class="nav-dropdown-link">Edukasi</a><a href="{{ route('alat-statistik.index') }}" class="nav-dropdown-link">Alat Statistik</a><a href="{{ route('kuis-tantangan.index') }}" class="nav-dropdown-link">Kuis</a></div>
+      </li>
+      <li class="nav-dropdown" :class="{ 'open': openDropdown === 'magang' }">
+        <button class="nav-link-item nav-dropdown-toggle" type="button" @click.prevent="toggleDropdown('magang')">Magang & Riset <svg class="nav-chevron" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+        <div class="nav-dropdown-menu"><a href="{{ route('program-magang.index') }}" class="nav-dropdown-link">Magang BPS</a><a href="{{ route('program-riset.index') }}" class="nav-dropdown-link">Riset Bersama</a></div>
+      </li>
+      @if(session('login_user') && session('user_id'))<li><a href="{{ route('profile.index') }}" class="nav-link-item">Profil</a></li>@endif
+      <li class="nav-auth-desktop">
+        @if(session('login_user') && session('user_id'))
+          <form action="{{ route('logoutUser') }}" method="POST" style="display:inline">@csrf<button type="submit" class="nav-cta" style="background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)">Logout</button></form>
+        @else
+          <a href="{{ route('loginUser') }}" class="nav-cta">Login</a>
+        @endif
+      </li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Menu" @click="mobileOpen = !mobileOpen">
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" :d="mobileOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'"/>
+      </svg>
+    </button>
+  </div>
+  <div class="nav-mobile" :class="{ 'open': mobileOpen }">
+    <a href="{{ route('tentang') }}" class="nav-mobile-link">Tentang</a>
+    <a href="{{ url('/') }}#layanan" class="nav-mobile-link">Layanan</a>
+    <a href="{{ url('/') }}#konsultasi" class="nav-mobile-link">Akses</a>
+    <div class="mobile-accordion" :class="{ 'open': openDropdown === 'm-literasi' }">
+      <button class="nav-mobile-link mobile-accordion-toggle" type="button" @click="toggleDropdown('m-literasi')"><span>Literasi Statistik</span><svg class="mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <div class="mobile-submenu"><a href="{{ route('konten-edukasi.index') }}" class="nav-mobile-link" style="font-size:.82rem">Edukasi</a><a href="{{ route('alat-statistik.index') }}" class="nav-mobile-link" style="font-size:.82rem">Alat Statistik</a><a href="{{ route('kuis-tantangan.index') }}" class="nav-mobile-link" style="font-size:.82rem">Kuis</a></div>
     </div>
+    <div class="mobile-accordion" :class="{ 'open': openDropdown === 'm-magang' }">
+      <button class="nav-mobile-link mobile-accordion-toggle" type="button" @click="toggleDropdown('m-magang')"><span>Magang & Riset</span><svg class="mobile-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg></button>
+      <div class="mobile-submenu"><a href="{{ route('program-magang.index') }}" class="nav-mobile-link" style="font-size:.82rem">Magang BPS</a><a href="{{ route('program-riset.index') }}" class="nav-mobile-link" style="font-size:.82rem">Riset Bersama</a></div>
+    </div>
+    @if(session('login_user') && session('user_id'))
+      <a href="{{ route('profile.index') }}" class="nav-mobile-link">Profil</a>
+      <form action="{{ route('logoutUser') }}" method="POST">@csrf<button type="submit" class="nav-mobile-link" style="color:#fca5a5">Logout</button></form>
+    @else
+      <a href="{{ route('loginUser') }}" class="nav-mobile-link" style="color:#60A5FA;font-weight:800">Login &#8594;</a>
+    @endif
+  </div>
 </nav>
-
-<script>
-    // Minimal fallback toggle to ensure mobile menu works even if bundled JS didn't attach yet
-    function toggleMobileMenu(e) {
-        if (e && e.stopPropagation) e.stopPropagation();
-        const menu = document.getElementById('mobile-menu');
-        const btn = document.getElementById('mobile-menu-btn');
-        const svg = document.getElementById('menu-icon');
-        if (!menu || !btn || !svg) return;
-
-        const isOpen = menu.classList.toggle('open');
-        btn.setAttribute('aria-expanded', String(isOpen));
-        console.log('[mobile-menu] toggleMobileMenu ->', isOpen);
-
-        const path = svg.querySelector('path');
-        if (path) {
-            if (isOpen) path.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-            else path.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-        }
-    }
-</script>

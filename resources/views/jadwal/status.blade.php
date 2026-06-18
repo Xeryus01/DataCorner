@@ -1,79 +1,97 @@
-@extends('jadwal.layout') {{-- disamakan layout-nya --}}
+@extends('jadwal.layout')
 @section('content')
-<div class="w-full p-6 bg-gray-100">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-400 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Status Ketersediaan Konsultan</h2>
+
+<div class="page-header-row">
+    <div>
+        <h1 class="page-title">Status Ketersediaan Konsultan</h1>
+        <p class="page-sub">Kelola status ketersediaan Anda untuk janji temu</p>
+    </div>
+</div>
+
+@if(session('success'))
+    <div class="alert-success">{{ session('success') }}</div>
+@endif
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-left">
+            <i class="ti ti-status-change"></i>
+            <span class="card-title">Ubah Status</span>
         </div>
+    </div>
+    <div class="card-body">
+        <form action="{{ route('status.store') }}" method="POST">
+            @csrf
 
-        <div class="p-6">
-            @if(session('success'))
-                <div class="bg-green-100 text-green-700 p-3 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <form action="{{ route('status.store') }}" method="POST">
-                @csrf
-
-                <div class="mb-6">
-                    <p class="font-semibold mb-2">Pilih status Anda:</p>
-                    <label class="block mb-2">
-                        <input type="radio" name="status" value="tersedia" onclick="toggleFields(false)" {{ old('status', $konsultan->status) == 'tersedia' ? 'checked' : '' }}>
-                        ✅ Tersedia
+            <div style="margin-bottom:16px">
+                <label class="form-label">Pilih status Anda</label>
+                <div style="display:flex;align-items:center;gap:24px">
+                    <label class="form-check">
+                        <input type="radio" name="status" value="tersedia" onclick="toggleFields(false)"
+                            {{ old('status', $konsultan->status) == 'tersedia' ? 'checked' : '' }}>
+                        <span>Tersedia</span>
                     </label>
-                    <label class="block">
-                    <input type="radio" name="status" value="tidak tersedia" onclick="toggleFields(true)" {{ old('status', $konsultan->status) == 'tidak tersedia' ? 'checked' : '' }}>
-                        ❌ Tidak Tersedia
+                    <label class="form-check">
+                        <input type="radio" name="status" value="tidak tersedia" onclick="toggleFields(true)"
+                            {{ old('status', $konsultan->status) == 'tidak tersedia' ? 'checked' : '' }}>
+                        <span>Tidak Tersedia</span>
                     </label>
-
                 </div>
+                @error('status')
+                    <p style="color:var(--red-dark);font-size:12px;margin-top:4px">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <div id="tanggal-box" class="mb-4" style="display: none;">
-                    <label for="tanggal_mulai" class="block font-medium mb-1">Tanggal Mulai Tidak Tersedia:</label>
-                    <input type="date" name="tanggal_mulai_tidak_tersedia"
-                    min="{{ now()->format('Y-m-d') }}"
-                    value="{{ old('tanggal_mulai_tidak_tersedia', isset($konsultan->tanggal_mulai_tidak_tersedia) ? \Carbon\Carbon::parse($konsultan->tanggal_mulai_tidak_tersedia)->format('Y-m-d') : '') }}"
-                    class="w-full border rounded p-2">
-
-                    @error('tanggal_mulai_tidak_tersedia')
-                        <p class="text-red-600 text-sm">{{ $message }}</p>
-                    @enderror
-
-                    <label for="tanggal_selesai" class="block font-medium mt-2 mb-1">Tanggal Selesai Tidak Tersedia:</label>
-                    <input type="date" name="tanggal_selesai_tidak_tersedia"
-                    min="{{ old('tanggal_mulai_tidak_tersedia', now()->format('Y-m-d')) }}"
-                    value="{{ old('tanggal_selesai_tidak_tersedia', isset($konsultan->tanggal_selesai_tidak_tersedia) ? \Carbon\Carbon::parse($konsultan->tanggal_selesai_tidak_tersedia)->format('Y-m-d') : '') }}"
-                    class="w-full border rounded p-2">
-                    @error('tanggal_selesai_tidak_tersedia')
-                        <p class="text-red-600 text-sm">{{ $message }}</p>
-                    @enderror
+            <div id="tanggal-box" style="display:none">
+                <div class="form-grid">
+                    <div>
+                        <label for="tanggal_mulai" class="form-label">Tanggal Mulai Tidak Tersedia</label>
+                        <input type="date" name="tanggal_mulai_tidak_tersedia" id="tanggal_mulai"
+                            class="form-input"
+                            min="{{ now()->format('Y-m-d') }}"
+                            value="{{ old('tanggal_mulai_tidak_tersedia', isset($konsultan->tanggal_mulai_tidak_tersedia) ? \Carbon\Carbon::parse($konsultan->tanggal_mulai_tidak_tersedia)->format('Y-m-d') : '') }}">
+                        @error('tanggal_mulai_tidak_tersedia')
+                            <p style="color:var(--red-dark);font-size:12px;margin-top:4px">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div>
+                        <label for="tanggal_selesai" class="form-label">Tanggal Selesai Tidak Tersedia</label>
+                        <input type="date" name="tanggal_selesai_tidak_tersedia" id="tanggal_selesai"
+                            class="form-input"
+                            min="{{ old('tanggal_mulai_tidak_tersedia', now()->format('Y-m-d')) }}"
+                            value="{{ old('tanggal_selesai_tidak_tersedia', isset($konsultan->tanggal_selesai_tidak_tersedia) ? \Carbon\Carbon::parse($konsultan->tanggal_selesai_tidak_tersedia)->format('Y-m-d') : '') }}">
+                        @error('tanggal_selesai_tidak_tersedia')
+                            <p style="color:var(--red-dark);font-size:12px;margin-top:4px">{{ $message }}</p>
+                        @enderror
+                    </div>
                 </div>
+            </div>
 
-                <div id="alasan-box" class="mb-4" style="display: none;">
-                    <label for="alasan" class="block font-medium mb-1">Alasan:</label>
-                    <textarea name="alasan" class="w-full border rounded p-2" rows="3">{{ old('alasan', $konsultan->alasan ?? '') }}</textarea>
-                    @error('alasan')
-                        <p class="text-red-600 text-sm">{{ $message }}</p>
-                    @enderror
-                </div>
+            <div id="alasan-box" style="display:none;margin-top:14px">
+                <label for="alasan" class="form-label">Alasan</label>
+                <textarea name="alasan" id="alasan" class="form-textarea" rows="3" placeholder="Tulis alasan tidak tersedia...">{{ old('alasan', $konsultan->alasan ?? '') }}</textarea>
+                @error('alasan')
+                    <p style="color:var(--red-dark);font-size:12px;margin-top:4px">{{ $message }}</p>
+                @enderror
+            </div>
 
-                <button type="submit" class="bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium px-4 py-2 rounded">
-                    Simpan Status
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">
+                    <i class="ti ti-device-floppy"></i> Simpan Status
                 </button>
-            </form>
+            </div>
+        </form>
+    </div>
+</div>
 
-            <div class="mt-6">
-    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-6">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-4 flex items-center">
-            <svg class="w-6 h-6 text-blue-500 mr-2" fill="none" stroke="currentColor" stroke-width="2"
-                viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M13 16h-1v-4h-1m1-4h.01M12 6a9 9 0 11-6.219 15.362L3 21l.638-2.783A9 9 0 0112 6z" />
-            </svg>
-            Status Konsultan Saat Ini
-        </h2>
-
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-left">
+            <i class="ti ti-info-circle"></i>
+            <span class="card-title">Status Saat Ini</span>
+        </div>
+    </div>
+    <div class="card-body">
         @php
             use Carbon\Carbon;
             $status = $konsultan->status ?? null;
@@ -82,39 +100,42 @@
         @endphp
 
         @if ($status === 'tersedia')
-            <div class="flex items-center bg-green-100 border border-green-300 rounded-md p-4 mb-2">
-                <svg class="w-5 h-5 text-green-600 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                    <path
-                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1.707-6.707l5-5a1 1 0 111.414 1.414L9 15l-3.707-3.707a1 1 0 111.414-1.414z" />
-                </svg>
-                <p class="text-green-700 font-medium">Konsultan tersedia untuk konsultasi.</p>
+            <div class="status-card status-tersedia">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="var(--green-dark)">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm-1.707-6.707l5-5a1 1 0 111.414 1.414L9 15l-3.707-3.707a1 1 0 111.414-1.414z" />
+                    </svg>
+                    <span class="status-text-green">Konsultan tersedia untuk konsultasi.</span>
+                </div>
             </div>
         @elseif ($status === 'tidak tersedia')
-            <div class="bg-red-50 border border-red-300 rounded-md p-4 mb-4">
-                <div class="flex items-center mb-2">
-                    <svg class="w-5 h-5 text-red-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                        <path
-                            d="M18 10A8 8 0 11.004 9.999 8 8 0 0118 10zM9 4a1 1 0 112 0v4a1 1 0 11-2 0V4zm1 6a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
+            <div class="status-card status-tidak-tersedia">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="var(--red-dark)">
+                        <path d="M18 10A8 8 0 11.004 9.999 8 8 0 0118 10zM9 4a1 1 0 112 0v4a1 1 0 11-2 0V4zm1 6a1.5 1.5 0 110 3 1.5 1.5 0 010-3z" />
                     </svg>
-                    <p class="text-red-700 font-semibold">Konsultan sedang tidak tersedia.</p>
+                    <span class="status-text-red">Konsultan sedang tidak tersedia.</span>
                 </div>
-
-                <ul class="ml-7 list-disc text-sm text-gray-700 space-y-1">
+                <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px;font-size:12px;color:var(--color-text)">
                     @if($konsultan->alasan)
-                        <li><strong>Alasan:</strong> {{ $konsultan->alasan }}</li>
+                        <li style="display:flex;gap:8px">
+                            <span style="color:var(--color-muted);min-width:60px">Alasan:</span>
+                            <span style="font-weight:500">{{ $konsultan->alasan }}</span>
+                        </li>
                     @endif
-                    <li><strong>Dari:</strong> {{ $mulai ? Carbon::parse($mulai)->translatedFormat('d F Y') : '-' }}</li>
-                    <li><strong>Sampai:</strong> {{ $selesai ? Carbon::parse($selesai)->translatedFormat('d F Y') : '-' }}</li>
+                    <li style="display:flex;gap:8px">
+                        <span style="color:var(--color-muted);min-width:60px">Dari:</span>
+                        <span style="font-weight:500">{{ $mulai ? Carbon::parse($mulai)->translatedFormat('d F Y') : '-' }}</span>
+                    </li>
+                    <li style="display:flex;gap:8px">
+                        <span style="color:var(--color-muted);min-width:60px">Sampai:</span>
+                        <span style="font-weight:500">{{ $selesai ? Carbon::parse($selesai)->translatedFormat('d F Y') : '-' }}</span>
+                    </li>
                 </ul>
             </div>
         @else
-            <div class="text-gray-500 italic">Belum ada status yang ditentukan.</div>
+            <p class="status-text-muted">Belum ada status yang ditentukan.</p>
         @endif
-    </div>
-</div>
-
-
-        </div>
     </div>
 </div>
 

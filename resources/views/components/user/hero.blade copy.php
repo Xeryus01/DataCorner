@@ -9,19 +9,18 @@
             <!-- LEFT -->
             <div class="animate-fadeInUp space-y-5 text-center lg:text-left">
                 <div>
-                    <h1 class="hero-title text-3xl sm:text-4xl md:text-6xl lg:text-8xl fade-up fade-up-2">DATA<span style="color:#60A5FA">PEDIA</span></h1>
-                    <h2 class="hero-subtitle mt-3 text-lg sm:text-l md:text-xl lg:text-2xl">
+                    <h1 class="hero-title text-3xl sm:text-4xl md:text-5xl lg:text-7xl">DATAPEDIA</h1>
+                    <h2 class="hero-subtitle mt-3 text-lg sm:text-xl md:text-2xl lg:text-3xl">
                         <span class="block">Pelayanan Statistik Terpadu</span>
                         <span class="hero-subtitle-accent">BPS Provinsi Kepulauan Bangka Belitung</span>
                     </h2>
-
-                    <p class="hero-description mt-3 text-base sm:text-lg md:text-xl max-w-xl lg:mx-0">
+                    <p class="hero-description mt-3 text-base sm:text-lg md:text-xl max-w-xl mx-auto lg:mx-0 text-slate-100 leading-relaxed">
                         Akses data resmi, layanan konsultasi, dan informasi statistik dalam satu portal yang cepat dan mudah digunakan.
                         Datapedia hadir untuk mendukung pelayanan publik dan kebutuhan riset Anda.
                     </p>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 mt-4">
+                <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                     @if(session('login_user') && session('user_id'))
                         <a href="{{ route('konsultasi.index') }}" class="btn-modern inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-xl text-white font-semibold group text-sm sm:text-base leading-none">
                             <svg class="w-6 h-6 shrink-0 text-white group-hover:text-[#25D366] group-hover:scale-110 transition-all duration-300" viewBox="0 0 24 24" fill="currentColor">
@@ -77,24 +76,15 @@
                                 @forelse ($jamOperasional as $jam)
                                     <div class="hero-schedule-row">
                                         <span class="hero-schedule-label">
-                                            @if($jam->keterangan_hari == "Sabtu - Minggu") Di luar jam kerja
+                                            @if($jam->keterangan_hari = "Sabtu - Minggu") Di luar jam kerja
                                             @else {{$jam->keterangan_hari}} - {{ \Carbon\Carbon::parse($jam->jam_selesai)->format('H.i') }}
                                             @endif
                                         </span>
-                                        <!-- <span class="hero-schedule-time">
-                                            @if($jam->isTutup()) Sesuai janji temu
+                                        <span class="hero-schedule-time">
+                                            @if($jam->isTutup()) Sesuai
                                             @else {{ \Carbon\Carbon::parse($jam->jam_mulai)->format('H.i') }} - {{ \Carbon\Carbon::parse($jam->jam_selesai)->format('H.i') }}
                                             @endif
-                                        </span> -->
-                                        @if($jam->isTutup()) 
-                                        <span class="hero-schedule-time hours-closed">
-                                            Sesuai janji temu
                                         </span>
-                                        @else 
-                                        <span class="hero-schedule-time">
-                                            {{ \Carbon\Carbon::parse($jam->jam_mulai)->format('H.i') }} - {{ \Carbon\Carbon::parse($jam->jam_selesai)->format('H.i') }}
-                                        </span>
-                                        @endif
                                     </div>
                                 @empty
                                     <div class="hero-schedule-label"><p>Informasi belum tersedia</p></div>

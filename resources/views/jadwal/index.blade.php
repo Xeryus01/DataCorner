@@ -1,192 +1,177 @@
 @extends('jadwal.layout')
 @section('content')
 
-<div class="w-full p-6 bg-gray-100">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-
-        <div class="bg-blue-400 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Data Janji Temu</h2>
-        </div>
-
-        <div class="mb-6 overflow-x-auto p-4">
-            <table class="min-w-[1300px] w-full border-collapse text-sm text-left">
-                <thead>
-                    <tr class="bg-blue-300 text-blue-900">
-                        <th class="p-3 border border-blue-400 text-center">Nama User</th>
-                        <th class="p-3 border border-blue-400 text-center">No HP</th>
-                        <th class="p-3 border border-blue-400 text-center">Instansi/Lembaga</th>
-                        <th class="p-3 border border-blue-400 text-center">Layanan</th>
-                        <th class="p-3 border border-blue-400 text-center">Keperluan Data</th>
-                        <th class="p-3 border border-blue-400 text-center">Data Diminta</th>
-                        <th class="p-3 border border-blue-400 text-center">Tanggal & Jam</th>
-                        <th class="p-3 border border-blue-400 text-center">Jenis</th>
-                        <th class="p-3 border border-blue-400 text-center">Jumlah Orang</th>
-                        <th class="p-3 border border-blue-400 text-center">Status</th>
-                        <th class="p-3 border border-blue-400 text-center">Alasan Pembatalan</th>
-                        <th class="p-3 border border-blue-400 text-center">Zoom</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @forelse ($jadwals as $item)
-                        @php
-                            $janji = $item->janjitemu;
-
-                            $layananList = $janji && $janji->layanan_dibutuhkan
-                                ? explode(', ', $janji->layanan_dibutuhkan)
-                                : [];
-
-                            $keperluanList = $janji && $janji->keperluan_data
-                                ? explode(', ', $janji->keperluan_data)
-                                : [];
-
-                            $status = $janji->status ?? 'menunggu';
-                        @endphp
-
-                        <tr class="bg-white hover:bg-gray-50 text-center">
-
-                            {{-- Nama User --}}
-                            <td class="p-3 border text-left align-top">
-                                <div class="font-semibold text-gray-800">
-                                    {{ $janji->user->nama ?? '-' }}
-                                </div>
-
-                                <div class="text-xs text-gray-500 mt-1">
-                                    {{ $janji->user->email ?? '-' }}
-                                </div>
-                            </td>
-
-                            {{-- No HP --}}
-                            <td class="p-3 border align-top">
-                                {{ $janji->user->no_hp ?? '-' }}
-                            </td>
-
-                            {{-- Instansi --}}
-                            <td class="p-3 border text-left align-top">
-                                <div class="font-semibold text-gray-800 line-clamp-2">
-                                    {{ $janji->instansi_lembaga ?? '-' }}
-                                </div>
-                            </td>
-
-                            {{-- Layanan --}}
-                            <td class="p-3 border text-left align-top">
-                                @if(count($layananList))
-                                    <div class="flex flex-wrap gap-1">
-                                        @foreach($layananList as $layanan)
-                                            <span class="px-2 py-1 bg-blue-100 text-blue-700 rounded text-[10px] font-semibold">
-                                                {{ $layanan }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-
-                            {{-- Keperluan Data --}}
-                            <td class="p-3 border text-left align-top">
-                                @if(count($keperluanList))
-                                    <div class="flex flex-wrap gap-1">
-                                        @foreach($keperluanList as $keperluan)
-                                            <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-[10px] font-semibold">
-                                                {{ $keperluan }}
-                                            </span>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-
-                            {{-- Data Diminta --}}
-                            <td class="p-3 border text-left align-top">
-                                <div class="w-56 line-clamp-3 text-gray-700">
-                                    {{ $janji->data_diminta ?? '-' }}
-                                </div>
-                            </td>
-
-                            {{-- Tanggal & Jam --}}
-                            <td class="p-3 border align-top">
-                                @if($janji && $janji->tanggal && $janji->jam)
-                                    <div class="font-semibold text-gray-800">
-                                        {{ \Carbon\Carbon::parse($janji->tanggal)->locale('id')->isoFormat('D MMMM Y') }}
-                                    </div>
-
-                                    <div class="text-xs text-gray-500 mt-1">
-                                        Pukul {{ \Carbon\Carbon::parse($janji->jam)->format('H:i') }} WIB
-                                    </div>
-                                @else
-                                    <span class="italic text-gray-500">Belum diatur</span>
-                                @endif
-                            </td>
-
-                            {{-- Jenis --}}
-                            <td class="p-3 border align-top">
-                                <span class="px-2 py-1 rounded text-xs font-semibold
-                                    {{ ($janji->jenis ?? '') === 'online' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700' }}">
-                                    {{ ucfirst($janji->jenis ?? '-') }}
-                                </span>
-                            </td>
-
-                            {{-- Jumlah Orang --}}
-                            <td class="p-3 border align-top">
-                                {{ $janji->jumlah_orang ?? 1 }} orang
-                            </td>
-
-                            {{-- Status --}}
-                            <td class="p-3 border align-top">
-                                <span class="px-2 py-1 rounded text-xs font-semibold
-                                    {{ $status === 'menunggu' ? 'bg-yellow-100 text-yellow-700' : 
-                                       ($status === 'diterima' ? 'bg-green-100 text-green-700' : 
-                                       ($status === 'batal' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700')) }}">
-                                    {{ ucfirst($status) }}
-                                </span>
-                            </td>
-
-                            {{-- Alasan Pembatalan --}}
-                            <td class="p-3 border text-left align-top">
-                                @if($status === 'batal' && $janji->alasan_batal)
-                                    <div class="bg-red-50 border border-red-100 text-red-700 rounded-lg p-2 text-xs leading-relaxed">
-                                        {{ $janji->alasan_batal }}
-                                    </div>
-                                @elseif($status === 'batal')
-                                    <span class="text-gray-400 italic text-xs">
-                                        Tidak ada alasan.
-                                    </span>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-
-                            {{-- Zoom --}}
-                            <td class="p-3 border align-top">
-                                @if(($janji->jenis ?? '') === 'online' && $janji->zoom_link)
-                                    <a href="{{ $janji->zoom_link }}"
-                                       target="_blank"
-                                       rel="noopener noreferrer"
-                                       class="inline-block px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded text-xs font-semibold">
-                                        Buka Zoom
-                                    </a>
-                                @elseif(($janji->jenis ?? '') === 'online')
-                                    <span class="text-gray-400">Belum ada link</span>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="12" class="text-center p-4 text-xl text-gray-500">
-                                Belum ada jadwal tersedia.
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-
-            <div id="pagination-controls" class="flex justify-center mt-6 space-x-2"></div>
-        </div>
+<div class="page-header-row">
+    <div>
+        <h1 class="page-title">Data Janji Temu</h1>
+        <p class="page-sub">Daftar janji temu yang dijadwalkan dengan Anda</p>
     </div>
 </div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-left">
+            <i class="ti ti-calendar"></i>
+            <span class="card-title">Semua Janji Temu</span>
+        </div>
+    </div>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Nama User</th>
+                    <th>No HP</th>
+                    <th>Instansi/Lembaga</th>
+                    <th>Layanan</th>
+                    <th>Keperluan Data</th>
+                    <th>Data Diminta</th>
+                    <th>Tanggal & Jam</th>
+                    <th>Jenis</th>
+                    <th>Jumlah Orang</th>
+                    <th>Status</th>
+                    <th>Alasan Pembatalan</th>
+                    <th>Zoom</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($jadwals as $item)
+                    @php
+                        $janji = $item->janjitemu;
+                        $layananList = $janji && $janji->layanan_dibutuhkan
+                            ? explode(', ', $janji->layanan_dibutuhkan)
+                            : [];
+                        $keperluanList = $janji && $janji->keperluan_data
+                            ? explode(', ', $janji->keperluan_data)
+                            : [];
+                        $status = $janji->status ?? 'menunggu';
+                    @endphp
+
+                    <tr>
+                        {{-- Nama User --}}
+                        <td>
+                            <div class="name-cell">{{ $janji->user->nama ?? '-' }}</div>
+                            <div style="font-size:11px;color:var(--color-muted);margin-top:2px">{{ $janji->user->email ?? '-' }}</div>
+                        </td>
+
+                        {{-- No HP --}}
+                        <td>{{ $janji->user->no_hp ?? '-' }}</td>
+
+                        {{-- Instansi --}}
+                        <td>{{ $janji->instansi_lembaga ?? '-' }}</td>
+
+                        {{-- Layanan --}}
+                        <td>
+                            @if(count($layananList))
+                                <div style="display:flex;flex-wrap:wrap;gap:4px">
+                                    @foreach($layananList as $layanan)
+                                        <span class="badge-status badge-active">{{ $layanan }}</span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span style="color:var(--color-muted)">-</span>
+                            @endif
+                        </td>
+
+                        {{-- Keperluan Data --}}
+                        <td>
+                            @if(count($keperluanList))
+                                <div style="display:flex;flex-wrap:wrap;gap:4px">
+                                    @foreach($keperluanList as $keperluan)
+                                        <span class="badge-status" style="background:var(--brand-blue-light);color:var(--brand-blue-dark);font-size:10px">{{ $keperluan }}</span>
+                                    @endforeach
+                                </div>
+                            @else
+                                <span style="color:var(--color-muted)">-</span>
+                            @endif
+                        </td>
+
+                        {{-- Data Diminta --}}
+                        <td>
+                            <div style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{ $janji->data_diminta ?? '' }}">
+                                {{ $janji->data_diminta ?? '-' }}
+                            </div>
+                        </td>
+
+                        {{-- Tanggal & Jam --}}
+                        <td>
+                            @if($janji && $janji->tanggal && $janji->jam)
+                                <div class="name-cell">{{ \Carbon\Carbon::parse($janji->tanggal)->locale('id')->isoFormat('D MMMM Y') }}</div>
+                                <div style="font-size:11px;color:var(--color-muted);margin-top:2px">
+                                    Pukul {{ \Carbon\Carbon::parse($janji->jam)->format('H:i') }} WIB
+                                </div>
+                            @else
+                                <span style="color:var(--color-muted);font-style:italic">Belum diatur</span>
+                            @endif
+                        </td>
+
+                        {{-- Jenis --}}
+                        <td>
+                            <span class="badge-status {{ ($janji->jenis ?? '') === 'online' ? 'badge-active' : 'badge-inactive' }}">
+                                {{ ucfirst($janji->jenis ?? '-') }}
+                            </span>
+                        </td>
+
+                        {{-- Jumlah Orang --}}
+                        <td style="text-align:center">{{ $janji->jumlah_orang ?? 1 }} orang</td>
+
+                        {{-- Status --}}
+                        <td>
+                            @php
+                                $statusClass = match($status) {
+                                    'menunggu' => 'background:var(--amber-bg);color:var(--amber-dark)',
+                                    'diterima' => 'background:var(--green-bg);color:var(--green-dark)',
+                                    'batal' => 'background:var(--red-bg);color:var(--red-dark)',
+                                    default => 'background:#f1f5f9;color:var(--color-muted)'
+                                };
+                            @endphp
+                            <span class="badge-status" style="{{ $statusClass }}">
+                                <span class="badge-dot" style="background:currentColor"></span>
+                                {{ ucfirst($status) }}
+                            </span>
+                        </td>
+
+                        {{-- Alasan Pembatalan --}}
+                        <td>
+                            @if($status === 'batal' && $janji->alasan_batal)
+                                <div style="background:var(--red-bg);border:1px solid #F7C1C1;color:var(--red-dark);border-radius:8px;padding:8px 10px;font-size:11px;line-height:1.4">
+                                    {{ $janji->alasan_batal }}
+                                </div>
+                            @elseif($status === 'batal')
+                                <span style="color:var(--color-muted);font-style:italic;font-size:11px">Tidak ada alasan.</span>
+                            @else
+                                <span style="color:var(--color-muted)">-</span>
+                            @endif
+                        </td>
+
+                        {{-- Zoom --}}
+                        <td>
+                            @if(($janji->jenis ?? '') === 'online' && $janji->zoom_link)
+                                <a href="{{ $janji->zoom_link }}"
+                                   target="_blank"
+                                   rel="noopener noreferrer"
+                                   class="btn-primary" style="padding:4px 10px;font-size:11px">
+                                    <i class="ti ti-video"></i> Buka Zoom
+                                </a>
+                            @elseif(($janji->jenis ?? '') === 'online')
+                                <span style="color:var(--color-muted);font-size:11px">Belum ada link</span>
+                            @else
+                                <span style="color:var(--color-muted)">-</span>
+                            @endif
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="12" style="text-align:center;padding:40px 16px;color:var(--color-muted);font-size:14px">
+                            <i class="ti ti-calendar-off" style="font-size:24px;display:block;margin-bottom:8px"></i>
+                            Belum ada jadwal tersedia.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div id="pagination-controls" style="display:flex;justify-content:center;gap:8px;margin-top:16px"></div>
 
 @endsection

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Admin Panel — Datapedia</title>
+<style>
+:root {
+  --sidebar-w: 200px;
+  --topbar-h: 48px;
+  --color-bg: #f1f5f9;
+  --color-surface: #fff;
+  --color-border: rgba(0,0,0,0.08);
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+  --brand-navy: #0C3060;
+  --brand-blue: #1F6FD6;
+  --brand-blue-light: #E6F1FB;
+  --brand-blue-mid: #B5D4F4;
+  --brand-blue-dark: #0C447C;
+  --green-bg: #EAF3DE;
+  --green-dark: #27500A;
+  --amber-bg: #FAEEDA;
+  --amber-dark: #633806;
+  --red-bg: #FCEBEB;
+  --red-dark: #791F1F;
+  --font: 'Inter', system-ui, -apple-system, sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font);background:var(--color-bg);color:var(--color-text)}
+.shell{display:flex;min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{
+  width:var(--sidebar-w);background:var(--brand-navy);flex-shrink:0;
+  display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:40;
+  overflow-y:auto;overflow-x:hidden;
+}
+.sb-brand{padding:14px 14px;border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit}
+.sb-logo{width:28px;height:28px;background:var(--brand-blue);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.sb-title{font-size:13px;font-weight:600;color:#fff;letter-spacing:0.03em}
+.sb-title span{color:#93C5FD}
+.sb-nav{padding:8px 8px;flex:1}
+.sb-section{font-size:9px;font-weight:600;color:rgba(255,255,255,0.30);letter-spacing:0.14em;padding:8px 8px 4px;margin-top:4px;text-transform:uppercase}
+.sb-link{display:flex;align-items:center;gap:7px;padding:6px 8px;border-radius:6px;color:rgba(255,255,255,0.55);font-size:11px;font-weight:500;text-decoration:none;margin-bottom:1px;transition:all 140ms}
+.sb-link:hover{background:rgba(255,255,255,0.07);color:#fff}
+.sb-link.active{background:rgba(255,255,255,0.12);color:#fff;font-weight:600}
+.sb-link i{font-size:13px;width:14px;text-align:center}
+.sb-link.logout{color:#F09595;margin-top:6px}
+.sb-link.logout:hover{background:rgba(240,149,149,0.15)}
+.sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.35);z-index:35}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;min-width:0;margin-left:var(--sidebar-w)}
+
+/* TOPBAR */
+.topbar{
+  height:var(--topbar-h);background:var(--color-surface);
+  border-bottom:0.5px solid var(--color-border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;
+  position:sticky;top:0;z-index:30;
+}
+.topbar-left{display:flex;align-items:center;gap:10px}
+.menu-btn{display:none;background:none;border:none;color:var(--color-muted);cursor:pointer;font-size:18px;padding:4px}
+.topbar-left span{font-size:12px;color:var(--color-muted)}
+.topbar-right{display:flex;align-items:center;gap:8px}
+.avatar{width:30px;height:30px;border-radius:50%;background:var(--brand-blue-light);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:#185FA5}
+.badge-role{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:600}
+.badge-admin{background:var(--brand-blue-light);color:#185FA5}
+
+/* CONTENT */
+.content{padding:16px 18px;flex:1;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--color-surface);border:0.5px solid var(--color-border);border-radius:12px;overflow:hidden}
+
+/* FORM STYLES */
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--color-text);margin-bottom:5px}
+.form-input,.form-select,.form-textarea{
+  width:100%;height:40px;padding:0 12px;
+  border:0.5px solid var(--color-border);border-radius:8px;
+  background:var(--color-surface);font-size:13px;color:var(--color-text);
+  outline:none;transition:border-color 150ms, box-shadow 150ms;
+  font-family:inherit;
+}
+.form-textarea{height:auto;padding:10px 12px;resize:vertical;min-height:80px}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--brand-blue);box-shadow:0 0 0 3px rgba(31,111,214,0.10);
+}
+.form-input::placeholder{color:#94a3b8}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2364748b' viewBox='0 0 16 16'%3E%3Cpath d='M8 10L3 5h10L8 10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px}
+.form-error{background:var(--red-bg);border:1px solid #F7C1C1;color:var(--red-dark);padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:16px}
+
+/* BUTTONS */
+.btn-primary{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:var(--brand-blue);color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:background 150ms}
+.btn-primary:hover{background:#185FA5}
+.btn-primary i{font-size:14px}
+.btn-ghost{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;background:transparent;color:var(--color-muted);border:0.5px solid var(--color-border);border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:all 150ms}
+.btn-ghost:hover{background:#f8fafc;color:var(--color-text)}
+.btn-ghost i{font-size:14px}
+.btn-edit-sm{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:var(--brand-blue-light);color:var(--brand-blue-dark);border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;text-decoration:none;transition:background 150ms}
+.btn-edit-sm:hover{background:var(--brand-blue-mid)}
+.btn-edit-sm i{font-size:12px}
+.btn-del-sm{display:inline-flex;align-items:center;gap:4px;padding:4px 9px;background:var(--red-bg);color:var(--red-dark);border:none;border-radius:6px;font-size:11px;font-weight:500;cursor:pointer;transition:background 150ms}
+.btn-del-sm:hover{background:#F7C1C1}
+.btn-del-sm i{font-size:12px}
+
+/* TABLE */
+.table-wrap{overflow-x:auto}
+table.data-table{width:100%;border-collapse:collapse}
+table.data-table thead tr{background:#f8fafc}
+table.data-table th{padding:10px 16px;text-align:left;font-size:11px;font-weight:600;color:var(--color-muted);border-bottom:0.5px solid var(--color-border);white-space:nowrap;text-transform:uppercase;letter-spacing:0.06em}
+table.data-table td{padding:12px 16px;font-size:12px;color:var(--color-text);border-bottom:0.5px solid var(--color-border)}
+table.data-table tr:last-child td{border-bottom:none}
+table.data-table tbody tr{transition:background 100ms}
+table.data-table tbody tr:hover{background:#f8fafc}
+.num-cell{text-align:center;width:48px;color:var(--color-muted);font-size:11px}
+.name-cell{font-weight:500}
+.email-cell{color:var(--color-muted);font-size:12px}
+
+/* BADGES */
+.badge-status{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:999px;font-size:10px;font-weight:500}
+.badge-active{background:var(--green-bg);color:var(--green-dark)}
+.badge-inactive{background:var(--red-bg);color:var(--red-dark)}
+.badge-admin-sm{background:var(--brand-blue-light);color:var(--brand-blue-dark)}
+.badge-operator-sm{background:var(--green-bg);color:var(--green-dark)}
+.badge-super{background:#EEEDFE;color:#3C3489}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+
+/* CARD COMPONENTS */
+.card-header{padding:14px 18px;border-bottom:0.5px solid var(--color-border);display:flex;align-items:center;justify-content:space-between}
+.card-header-left{display:flex;align-items:center;gap:8px}
+.card-title{font-size:13px;font-weight:600;color:var(--color-text)}
+.card-title i{font-size:16px;color:var(--brand-blue)}
+.card-body{padding:20px}
+.card-footer{padding:10px 16px;border-top:0.5px solid var(--color-border);display:flex;align-items:center;justify-content:space-between}
+.footer-info{font-size:11px;color:var(--color-muted)}
+
+/* PAGE HEADER */
+.page-header-row{display:flex;align-items:center;justify-content:space-between}
+.page-title{font-size:16px;font-weight:500;color:var(--color-text)}
+.page-sub{font-size:12px;color:var(--color-muted);margin-top:2px}
+
+/* FORM SECTION */
+.form-section-title{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13px;font-weight:600;color:var(--color-text)}
+.form-section-title i{font-size:16px;color:var(--brand-blue)}
+.form-divider{height:0.5px;background:var(--color-border);margin:20px 0}
+.form-input.readonly{background:#f8fafc;border-color:#cbd5e1;color:var(--brand-blue-dark);font-weight:600;cursor:not-allowed}
+
+/* SEARCH BOX */
+.search-box{display:flex;align-items:center;gap:8px;background:#f8fafc;border:0.5px solid var(--color-border);border-radius:8px;padding:0 10px;height:32px}
+.search-box i{font-size:14px;color:var(--color-muted)}
+.search-box input{border:none;background:transparent;font-size:12px;color:var(--color-text);outline:none;width:160px;font-family:inherit}
+.search-box input::placeholder{color:#94a3b8}
+
+/* RADIO / CHECKBOX */
+.form-check{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-text);cursor:pointer}
+.form-check input[type=checkbox],.form-check input[type=radio]{accent-color:var(--brand-blue);width:15px;height:15px;cursor:pointer}
+
+/* GRID */
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 20px}
+@media(max-width:640px){.form-grid{grid-template-columns:1fr}}
+
+/* FORM ACTIONS */
+.form-actions{display:flex;align-items:center;gap:8px;margin-top:20px;padding-top:16px;border-top:0.5px solid var(--color-border)}
+
+@media(max-width:1024px){
+  .sidebar{transform:translateX(-100%);transition:transform 240ms ease}
+  .sidebar.open{transform:translateX(0)}
+  .sb-overlay.show{display:block}
+  .main{margin-left:0}
+  .menu-btn{display:block}
+}
+</style>
+</head>
+<body>
+
+<div id="sbOverlay" class="sb-overlay" onclick="toggleSidebar()"></div>
+
+<aside id="sidebar" class="sidebar">
+  <a href="http://localhost:8000" class="sb-brand">
+    <div class="sb-logo">DP</div>
+    <div class="sb-title">DATA<span>PEDIA</span></div>
+  </a>
+  <nav class="sb-nav">
+    <div class="sb-section">Dashboard</div>
+    <a href="http://localhost:8000/admin/dashboard" class="sb-link"><i class="ti ti-layout-dashboard"></i> Halaman dashboard</a>
+
+    <div class="sb-section">Manajemen user</div>
+    <a href="http://localhost:8000/admin/admin" class="sb-link active"><i class="ti ti-shield-check"></i> Admin</a>
+    <a href="http://localhost:8000/admin/user" class="sb-link"><i class="ti ti-users"></i> User</a>
+    <a href="http://localhost:8000/admin/konsultan" class="sb-link"><i class="ti ti-tie"></i> Konsultan</a>
+    <a href="http://localhost:8000/admin/petugas" class="sb-link"><i class="ti ti-calendar-week"></i> Petugas mingguan</a>
+    <a href="http://localhost:8000/admin/petugas-berprestasi" class="sb-link"><i class="ti ti-star"></i> Petugas berprestasi</a>
+    <a href="http://localhost:8000/admin/bidang-keahlian" class="sb-link"><i class="ti ti-tags"></i> Bidang keahlian</a>
+
+    <div class="sb-section">Layanan</div>
+    <a href="http://localhost:8000/admin/jadwal" class="sb-link"><i class="ti ti-calendar"></i> Jadwal janji temu</a>
+    <a href="http://localhost:8000/admin/layanan" class="sb-link"><i class="ti ti-bell"></i> Layanan 24 jam</a>
+    <a href="http://localhost:8000/admin/standar" class="sb-link"><i class="ti ti-clipboard"></i> Standar pelayanan</a>
+    <a href="http://localhost:8000/admin/maklumat" class="sb-link"><i class="ti ti-file-text"></i> Maklumat layanan</a>
+    <a href="http://localhost:8000/admin/jam-operasional" class="sb-link"><i class="ti ti-clock"></i> Jam operasional</a>
+    <a href="http://localhost:8000/admin/adminKonsultasi/create" class="sb-link"><i class="ti ti-plus"></i> + Konsultasi</a>
+
+    <div class="sb-section">Statistik layanan</div>
+    <a href="http://localhost:8000/admin/statistik/perpustakaan" class="sb-link"><i class="ti ti-book"></i> Perpustakaan</a>
+    <a href="http://localhost:8000/admin/statistik/konsultasi-statistik" class="sb-link"><i class="ti ti-handshake"></i> Konsultasi</a>
+    <a href="http://localhost:8000/admin/statistik/produk-statistik" class="sb-link"><i class="ti ti-box"></i> Produk statistik</a>
+    <a href="http://localhost:8000/admin/statistik/rekomendasi" class="sb-link"><i class="ti ti-bulb"></i> Rekomendasi</a>
+    <a href="http://localhost:8000/admin/statistik/pojok-statistik" class="sb-link"><i class="ti ti-map-pin"></i> Pojok statistik</a>
+    <a href="http://localhost:8000/admin/statistik/website" class="sb-link"><i class="ti ti-world"></i> Website BPS</a>
+    <a href="http://localhost:8000/admin/survei-layanan" class="sb-link"><i class="ti ti-poll"></i> Survei layanan</a>
+
+    <div class="sb-section">Edukasi statistik</div>
+    <a href="http://localhost:8000/admin/konten-edukasi/subjek-materi" class="sb-link"><i class="ti ti-stack"></i> Subjek materi</a>
+    <a href="http://localhost:8000/admin/konten-edukasi/artikel" class="sb-link"><i class="ti ti-article"></i> Artikel</a>
+    <a href="http://localhost:8000/admin/konten-edukasi/video-pembelajaran" class="sb-link"><i class="ti ti-video"></i> Video</a>
+    <a href="http://localhost:8000/admin/konten-edukasi/infografis" class="sb-link"><i class="ti ti-photo"></i> Infografis</a>
+
+    <div class="sb-section">Program magang</div>
+    <a href="http://localhost:8000/admin/program-magang/informasi-magang" class="sb-link"><i class="ti ti-megaphone"></i> Informasi magang</a>
+    <a href="http://localhost:8000/admin/program-magang/pendaftaran-magang" class="sb-link"><i class="ti ti-users"></i> Pendaftar</a>
+    <a href="http://localhost:8000/admin/pengaturan-presensi" class="sb-link"><i class="ti ti-fingerprint"></i> Presensi</a>
+
+    <div class="sb-section">Program riset</div>
+    <a href="http://localhost:8000/admin/program-riset/informasi-riset" class="sb-link"><i class="ti ti-flask"></i> Informasi riset</a>
+    <a href="http://localhost:8000/admin/program-riset/pendaftaran-riset" class="sb-link"><i class="ti ti-file-signature"></i> Pendaftar</a>
+
+    <div class="sb-section">Kuis &amp; alat</div>
+    <a href="http://localhost:8000/admin/kuis-dan-tantangan/kuis-reguler" class="sb-link"><i class="ti ti-question-mark"></i> Kuis reguler</a>
+    <a href="http://localhost:8000/admin/kuis-dan-tantangan/periode" class="sb-link"><i class="ti ti-trophy"></i> Tantangan</a>
+    <a href="http://localhost:8000/alat-statistik" target="_blank" class="sb-link"><i class="ti ti-calculator"></i> Alat statistik</a>
+    <a href="http://localhost:8000/visualisasi-data" target="_blank" class="sb-link"><i class="ti ti-chart-bar"></i> Visualisasi data</a>
+    <a href="http://localhost:8000/simulasi-statistik" target="_blank" class="sb-link"><i class="ti ti-math"></i> Simulasi</a>
+
+    <div class="sb-section">Master data</div>
+    <a href="http://localhost:8000/admin/wilayah-bps" class="sb-link"><i class="ti ti-map-pin"></i> Wilayah BPS</a>
+
+    <div class="sb-section">Lainnya</div>
+    <a href="http://localhost:8000/admin/faq/pesan" class="sb-link"><i class="ti ti-message"></i> Pesan WA</a>
+    <a href="http://localhost:8000/admin/faq" class="sb-link"><i class="ti ti-help"></i> FAQ</a>
+    <a href="http://localhost:8000/admin/footer-item" class="sb-link"><i class="ti ti-link"></i> Footer item</a>
+
+    <a href="http://localhost:8000/admin/logoutAdmin" class="sb-link logout"><i class="ti ti-logout"></i> Logout</a>
+  </nav>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="menu-btn" onclick="toggleSidebar()" aria-label="Toggle menu"><i class="ti ti-menu-2"></i></button>
+      <span>Datapedia Admin Panel</span>
+    </div>
+    <div class="topbar-right">
+      <div class="badge-role badge-admin">
+        <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block"></span>
+        Admin
+      </div>
+      <div class="avatar">A</div>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- Page Header -->
+    <div class="page-header" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+      <div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:12px;color:#64748b;margin-bottom:4px">
+          <span>Datapedia</span>
+          <i class="ti ti-chevron-right" style="font-size:10px"></i>
+          <span>Manajemen User</span>
+          <i class="ti ti-chevron-right" style="font-size:10px"></i>
+          <span style="color:#0f172a;font-weight:600">Admin</span>
+        </div>
+        <div style="font-size:16px;font-weight:600;color:#0f172a">Data Admin</div>
+        <div style="font-size:12px;color:#64748b;margin-top:2px">Kelola akun admin dan operator yang dapat mengakses panel ini</div>
+      </div>
+      <div>
+        <a href="http://localhost:8000/admin/admin/create" class="btn-primary">
+          <i class="ti ti-plus"></i> Tambah Admin
+        </a>
+      </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden">
+
+      <!-- Card Header -->
+      <div style="padding:14px 18px;border-bottom:0.5px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
+        <div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px">
+          <i class="ti ti-shield-check" style="font-size:16px;color:#1F6FD6"></i>
+          Daftar Admin
+          <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:4px">&mdash; 4 data</span>
+        </div>
+        <div class="search-box">
+          <i class="ti ti-search"></i>
+          <input type="text" id="searchInput" placeholder="Cari nama atau email..." oninput="filterTable()">
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse">
+          <thead>
+            <tr style="background:#f8fafc">
+              <th style="padding:10px 16px;text-align:center;width:48px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.04em">No</th>
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.04em">Nama</th>
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.04em">Email</th>
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.04em">Role</th>
+              <th style="padding:10px 16px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase;letter-spacing:0.04em">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <tr class="trow" style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding:12px 16px;font-size:11px;color:#94a3b8;border-bottom:0.5px solid #e2e8f0;text-align:center">1</td>
+              <td style="padding:12px 16px;font-size:12px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0">Admin</td>
+              <td style="padding:12px 16px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace">admin@example.com</td>
+              <td style="padding:12px 16px;border-bottom:0.5px solid #e2e8f0">
+                <span class="badge-status badge-super"><span class="badge-dot"></span> Superadmin</span>
+              </td>
+              <td style="padding:10px 16px;border-bottom:0.5px solid #e2e8f0">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <a href="http://localhost:8000/admin/admin/1/edit" class="btn-edit-sm"><i class="ti ti-pencil"></i> Edit</a>
+                  <button class="btn-del-sm" onclick="confirmDelete(this,'Admin')"><i class="ti ti-trash"></i> Hapus</button>
+                  <form action="http://localhost:8000/admin/admin/1" method="POST" style="display:none" class="delete-form">
+                    <input type="hidden" name="_token" value="TOKEN">
+                    <input type="hidden" name="_method" value="DELETE">
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr class="trow" style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding:12px 16px;font-size:11px;color:#94a3b8;border-bottom:0.5px solid #e2e8f0;text-align:center">2</td>
+              <td style="padding:12px 16px;font-size:12px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0">Operator Konten Edukasi</td>
+              <td style="padding:12px 16px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace">operator@example.com</td>
+              <td style="padding:12px 16px;border-bottom:0.5px solid #e2e8f0">
+                <span class="badge-status badge-operator-sm"><span class="badge-dot"></span> Operator</span>
+              </td>
+              <td style="padding:10px 16px;border-bottom:0.5px solid #e2e8f0">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <a href="http://localhost:8000/admin/admin/2/edit" class="btn-edit-sm"><i class="ti ti-pencil"></i> Edit</a>
+                  <button class="btn-del-sm" onclick="confirmDelete(this,'Operator Konten Edukasi')"><i class="ti ti-trash"></i> Hapus</button>
+                  <form action="http://localhost:8000/admin/admin/2" method="POST" style="display:none" class="delete-form">
+                    <input type="hidden" name="_token" value="TOKEN">
+                    <input type="hidden" name="_method" value="DELETE">
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr class="trow" style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding:12px 16px;font-size:11px;color:#94a3b8;border-bottom:0.5px solid #e2e8f0;text-align:center">3</td>
+              <td style="padding:12px 16px;font-size:12px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0">Operator Magang</td>
+              <td style="padding:12px 16px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace">operator.magang@example.com</td>
+              <td style="padding:12px 16px;border-bottom:0.5px solid #e2e8f0">
+                <span class="badge-status badge-operator-sm"><span class="badge-dot"></span> Operator</span>
+              </td>
+              <td style="padding:10px 16px;border-bottom:0.5px solid #e2e8f0">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <a href="http://localhost:8000/admin/admin/3/edit" class="btn-edit-sm"><i class="ti ti-pencil"></i> Edit</a>
+                  <button class="btn-del-sm" onclick="confirmDelete(this,'Operator Magang')"><i class="ti ti-trash"></i> Hapus</button>
+                  <form action="http://localhost:8000/admin/admin/3" method="POST" style="display:none" class="delete-form">
+                    <input type="hidden" name="_token" value="TOKEN">
+                    <input type="hidden" name="_method" value="DELETE">
+                  </form>
+                </div>
+              </td>
+            </tr>
+            <tr class="trow" style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''">
+              <td style="padding:12px 16px;font-size:11px;color:#94a3b8;border-bottom:0.5px solid #e2e8f0;text-align:center">4</td>
+              <td style="padding:12px 16px;font-size:12px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0">Operator Kepegawaian</td>
+              <td style="padding:12px 16px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace">operator.kepegawaian@example.com</td>
+              <td style="padding:12px 16px;border-bottom:0.5px solid #e2e8f0">
+                <span class="badge-status badge-operator-sm"><span class="badge-dot"></span> Operator</span>
+              </td>
+              <td style="padding:10px 16px;border-bottom:0.5px solid #e2e8f0">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <a href="http://localhost:8000/admin/admin/4/edit" class="btn-edit-sm"><i class="ti ti-pencil"></i> Edit</a>
+                  <button class="btn-del-sm" onclick="confirmDelete(this,'Operator Kepegawaian')"><i class="ti ti-trash"></i> Hapus</button>
+                  <form action="http://localhost:8000/admin/admin/4" method="POST" style="display:none" class="delete-form">
+                    <input type="hidden" name="_token" value="TOKEN">
+                    <input type="hidden" name="_method" value="DELETE">
+                  </form>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Card Footer -->
+      <div style="padding:10px 16px;border-top:0.5px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-size:11px;color:#64748b" id="tableInfo">Menampilkan 4 data</span>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.4);align-items:center;justify-content:center" onclick="closeModal(event)">
+  <div style="background:#fff;border-radius:14px;padding:28px 28px 20px;max-width:380px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.18)" onclick="event.stopPropagation()">
+    <div style="width:44px;height:44px;background:var(--red-bg);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:14px">
+      <i class="ti ti-trash" style="font-size:20px;color:var(--red-dark)"></i>
+    </div>
+    <div style="font-size:15px;font-weight:700;color:var(--color-text);margin-bottom:6px">Hapus Data Admin?</div>
+    <div style="font-size:13px;color:var(--color-muted);margin-bottom:20px" id="deleteModalName"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button onclick="cancelDelete()" class="btn-ghost" style="padding:7px 16px;font-size:12px">Batal</button>
+      <button onclick="doDelete()" class="btn-del-sm" style="padding:8px 16px;font-size:12px;border-radius:8px">
+        <i class="ti ti-trash"></i> Ya, Hapus
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show')}
+document.querySelectorAll('.sb-link').forEach(l=>{l.addEventListener('click',()=>{if(window.innerWidth<=1024){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show')}})});
+
+function filterTable(){
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  var rows = document.querySelectorAll('#tableBody .trow');
+  var visible = 0;
+  rows.forEach(function(r){
+    var match = r.innerText.toLowerCase().includes(q);
+    r.style.display = match ? '' : 'none';
+    if(match) visible++;
+  });
+  document.getElementById('tableInfo').textContent = 'Menampilkan ' + visible + ' data';
+}
+
+var pendingDeleteBtn = null;
+function confirmDelete(btn, name){
+  pendingDeleteBtn = btn;
+  document.getElementById('deleteModalName').textContent = 'Hapus akun "' + name + '"? Tindakan ini tidak dapat dibatalkan.';
+  document.getElementById('deleteModal').style.display = 'flex';
+}
+function cancelDelete(){
+  pendingDeleteBtn = null;
+  document.getElementById('deleteModal').style.display = 'none';
+}
+function doDelete(){
+  if(pendingDeleteBtn) pendingDeleteBtn.closest('div').querySelector('.delete-form').submit();
+  document.getElementById('deleteModal').style.display = 'none';
+}
+function closeModal(e){
+  if(e.target === document.getElementById('deleteModal')) cancelDelete();
+}
+</script>
+</body>
+</html>
