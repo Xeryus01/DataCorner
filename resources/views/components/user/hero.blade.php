@@ -33,7 +33,7 @@
 
                 <!-- Buttons -->
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                    <a href="#layanan"
+                    <!-- <a href="#layanan"
                        class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-white text-blue-900 font-semibold group text-sm sm:text-base leading-none shadow-lg shadow-slate-900/10 hover:bg-slate-100 transition">
                         <span>Jelajahi Layanan</span>
                         <svg class="w-4 h-4 text-blue-900 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
@@ -43,7 +43,7 @@
                        class="inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-xl bg-blue-500 text-white font-semibold group text-sm sm:text-base leading-none shadow-lg shadow-blue-500/20 hover:bg-blue-600 transition">
                         <span>Konten Edukasi</span>
                         <svg class="w-4 h-4 text-white transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                    </a>
+                    </a> -->
 
                     @if(session('login_user') && session('user_id'))
                         <a href="{{ route('konsultasi.index') }}"

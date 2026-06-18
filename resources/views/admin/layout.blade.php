@@ -186,10 +186,10 @@
     <div id="sbOverlay" class="sb-overlay" onclick="toggleSidebar()"></div>
 
     <aside id="sidebar" class="sidebar">
-        <div class="sb-brand">
+        <a href="{{ url('/') }}" class="sb-brand" style="text-decoration: none; color: inherit;">
             <div class="sb-logo"><img src="{{ asset('image/logo-pst.png') }}" alt="Logo"></div>
             <div class="sb-title">DATA<span>PEDIA</span></div>
-        </div>
+        </a>
         <nav class="sb-nav">
             <div class="sb-section">Dashboard</div>
             <a href="{{ route('dashboard.index') }}" class="sb-link {{ Route::is('dashboard.index')?'active':'' }}"><i class="ti ti-layout-dashboard"></i> Halaman dashboard</a>

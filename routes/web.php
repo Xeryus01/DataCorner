@@ -46,18 +46,19 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Models\janjitemu;
 
 Route::middleware(LoggedInKonsultan::class)->group(function () {
-Route::get('/logoutKonsultan', [KonsultanLogin::class, 'logoutKonsultan'])->name('logoutKonsultan');
-Route::resource('status', konsultanStatusController::class)->except(['show']);
-Route::resource('mingguan', konsultanMingguanController::class)->except(['show']);
-Route::get('/konsultan/jadwal', [konsultanJadwalController::class, 'index'])->name('konsultan.jadwal.index');
+    Route::get('/logoutKonsultan', [KonsultanLogin::class, 'logoutKonsultan'])->name('logoutKonsultan');
+    Route::resource('status', konsultanStatusController::class)->except(['show']);
+    Route::resource('mingguan', konsultanMingguanController::class)->except(['show']);
+    Route::get('/konsultan/jadwal', [konsultanJadwalController::class, 'index'])->name('konsultan.jadwal.index');
 });
+
+Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
 
 Route::middleware(LoggedInUser::class)->group(function () {
     Route::post('/klik-konsultasi', [konsultasiController::class, 'store'])->name('konsultasi.klik');
     Route::get('/user/jumlah', [konsultasiController::class, 'jumlah'])->name('konsultasi.jumlah');
     Route::get('/user/konsultasi', [konsultasiController::class, 'index'])->name('konsultasi.index');
     Route::resource('profile', profileController::class)->except(['show']);    
-    Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');
     // Route::get('/janjitemu/online', [janjitemuController::class, 'indexOnline'])->name('janjitemu.online');
     Route::get('/janjitemu/jadwal', [janjitemuController::class, 'indexJadwal'])->name('janjitemu.jadwal');
     Route::put('/janjitemu/{id}/batal', [janjitemuController::class, 'batal'])->name('janjitemu.batal');

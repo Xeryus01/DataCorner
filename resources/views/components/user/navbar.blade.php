@@ -3,7 +3,7 @@
         <div class="site-navbar-row">
 
             {{-- Logo Section --}}
-            <div class="site-navbar-brand">
+            <a href="{{ url('/') }}" class="site-navbar-brand" style="text-decoration: none; color: inherit;">
                 <div class="site-navbar-logo">
                     <img src="{{ asset('image/logo-pst.png') }}" alt="Datapedia Logo">
                 </div>
@@ -16,7 +16,7 @@
                         BPS Provinsi Kepulauan Bangka Belitung
                     </p>
                 </div>
-            </div>
+            </a>
 
             {{-- Desktop Navigation --}}
             <div class="site-navbar-desktop">
