@@ -1,62 +1,19 @@
 @extends('admin.layout')
 @section('content')
-
-<div class="w-full p-6 bg-gray-100">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-400 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Edit Data Petugas</h2>
-        </div>
-
-         @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <strong>Terjadi kesalahan:</strong>
-        <ul class="list-disc pl-5 mt-2">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-        <div class="p-6">
-            <form action="{{ route('petugas.update', $petugas->id) }}" method="POST">
-                @csrf
-                @method('PUT')
-
-                @if($konsultan->isEmpty())
-                <div class="text-red-600 font-medium mb-4">
-                    Tidak ada konsultan yang tersedia saat ini.
-                </div>
-                @else
-
-                <div class="mb-4">
-                    <label for="konsultan_id" class="block text-sm font-medium text-gray-700">Nama Petugas</label>
-                    <select name="konsultan_id" id="konsultan_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-400 focus:border-blue-400 sm:text-sm" required>
-                        @foreach ($konsultan as $konsul)
-                            <option value="{{ $konsul->id }}" {{ $petugas->konsultan_id == $konsul->id ? 'selected' : '' }}>{{ $konsul->nama }}</option>
-                        @endforeach
-                    </select>
-                    @error('konsultan_id')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="mb-4">
-                    <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                    <input type="date" name="tanggal" id="tanggal" value="{{ $petugas->tanggal }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-400 focus:border-blue-400 sm:text-sm" required>
-                    @error('tanggal')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
-                </div>
-
-                <div class="flex justify-end space-x-2">
-                    <a href="{{ route('petugas.index') }}" class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded">Kembali</a>
-                    <button type="submit" class="px-4 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 rounded">Simpan</button>
-                </div>
-                @endif
-            </form>
-        </div>
+<x-admin.page-header title="Edit Petugas" subtitle="Perbarui data petugas harian" :breadcrumbs="['Datapedia','Layanan','Petugas','Edit']" />
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden;max-width:520px">
+    <div style="padding:14px 20px;border-bottom:0.5px solid #e2e8f0"><div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-calendar-week" style="font-size:16px;color:#1F6FD6"></i>Form Edit Petugas</div></div>
+    <div style="padding:20px">
+        @if($errors->any())<div style="background:#FCEBEB;border:1px solid #F7C1C1;color:#791F1F;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:16px">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
+        @if($konsultan->isEmpty())<div style="background:#FCEBEB;border:1px solid #F7C1C1;color:#791F1F;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:16px">Tidak ada konsultan yang tersedia saat ini.</div>@else
+        <form method="POST" action="{{ route('petugas.update', $petugas->id) }}">
+            @csrf
+            @method('PUT')
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Nama Petugas</label><select name="konsultan_id" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;background:#fff">@foreach($konsultan as $k)<option value="{{$k->id}}" {{$petugas->konsultan_id==$k->id?'selected':''}}>{{$k->nama}}</option>@endforeach</select></div>
+            <div style="margin-bottom:20px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Tanggal</label><input type="date" name="tanggal" value="{{$petugas->tanggal}}" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none"></div>
+            <div style="display:flex;gap:8px"><button type="submit" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#1F6FD6;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer" onmouseover="this.style.background='#185FA5'" onmouseout="this.style.background='#1F6FD6'"><i class="ti ti-device-floppy" style="font-size:14px"></i>Simpan</button><a href="{{route('petugas.index')}}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#fff;color:#64748b;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none">Batal</a></div>
+        </form>
+        @endif
     </div>
 </div>
-
 @endsection

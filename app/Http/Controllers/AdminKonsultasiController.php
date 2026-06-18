@@ -20,9 +20,16 @@ class AdminKonsultasiController extends Controller
 {
 
     // 1. Validasi input
-    $request->validate([
-        'posisi' => 'required|string|max:255', // Pastikan validasi hanya untuk posisi
-    ]);
+        $request->validate([
+            'nama' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'jenis_kelamin' => 'nullable|in:laki-laki,perempuan',
+            'memiliki_akun' => 'nullable|in:ya,tidak',
+            'posisi' => 'required|string|max:255',
+            'instansi' => 'nullable|string|max:255',
+            'keperluan_data' => 'nullable|string|max:255',
+            'data_diminta' => 'nullable|string|max:255',
+        ]);
 
     // 2. Tentukan ID pengguna default
     // GANTI angka '1' ini dengan ID pengguna "Input Manual Admin" di database Anda.
@@ -40,13 +47,18 @@ class AdminKonsultasiController extends Controller
     }
 
     // 5. Buat data konsultasi jika pengguna ditemukan
-    KonsultasiKlik::create([
-        'users_id'   => $user->id,
-        'posisi'     => $request->posisi,
-        'instansi'   => 'Konsultasi via WhatsApp',
-        'data_diminta' => 'Input manual oleh admin',
-        'clicked_at' => now(),
-    ]);
+        KonsultasiKlik::create([
+            'users_id'   => $user->id,
+            'nama'       => $request->nama ?: $user->nama,
+            'no_hp'      => $request->no_hp,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'memiliki_akun' => $request->memiliki_akun,
+            'posisi'     => $request->posisi,
+            'instansi'   => $request->instansi ?: 'Konsultasi via WhatsApp',
+            'keperluan_data' => $request->keperluan_data,
+            'data_diminta' => $request->data_diminta ?: 'Input manual oleh admin',
+            'clicked_at' => now(),
+        ]);
 
     // 6. Redirect ke halaman sukses
     return redirect()->route('faq.pesan')->with('success', 'Data konsultasi manual berhasil ditambahkan.');

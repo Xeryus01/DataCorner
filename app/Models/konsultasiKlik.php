@@ -11,11 +11,13 @@ class konsultasiKlik extends Model
 
     protected $fillable = [
         'users_id',
+        'nama',
         'clicked_at',
         'data_diminta',
         'posisi',
         'instansi',
         'jenis_kelamin',
+        'no_hp',
         'keperluan_data',
         'memiliki_akun',
     ];

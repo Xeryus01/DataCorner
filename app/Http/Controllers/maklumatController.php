@@ -20,10 +20,13 @@ class maklumatController extends Controller
     public function store(Request $request){
         $request->validate([
             'judul' => 'required|string|min:3',
-            'file' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'file' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $filePath = $request->file('file')->store('files','public');
+        $filePath = null;
+        if ($request->hasFile('file')) {
+            $filePath = $request->file('file')->store('files', 'public');
+        }
 
         maklumat::create([
             "judul" => $request->judul,
@@ -41,6 +44,11 @@ class maklumatController extends Controller
     public function update(Request $request, $id)
 {
     $maklumat = maklumat::findOrFail($id);
+
+    $request->validate([
+        'judul' => 'min:3|string',
+        'file' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
     $data = [
         'judul' => $request->judul,

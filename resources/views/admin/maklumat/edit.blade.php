@@ -1,58 +1,18 @@
 @extends('admin.layout')
 @section('content')
-
-<div class="w-full p-6 bg-gray-100 min-h-screen">
-    <div class="w-full  bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-300 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Ubah Maklumat Layanan</h2>
-        </div>
-
-         @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <strong>Terjadi kesalahan:</strong>
-        <ul class="list-disc pl-5 mt-2">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-        <form method="POST" action="{{ route('maklumat.update',$maklumat->id) }}" enctype="multipart/form-data" class="p-6">
-            @method('PUT')
-            @csrf
-
-            <div class="mb-4">
-                <label for="judul" class="block text-gray-700 font-medium mb-2">Judul Maklumat Layanan</label>
-                <input type="text" name="judul" id="judul" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ $maklumat->judul }}">
-
-                    <p class="text-red-500 text-sm mt-1"></p>
-
+<x-admin.page-header title="Edit Maklumat" subtitle="Perbarui data maklumat layanan" :breadcrumbs="['Datapedia','Layanan','Maklumat','Edit']" />
+<div class="card" style="max-width:560px">
+    <div class="card-header"><div class="card-header-left"><div class="card-title"><i class="ti ti-file-text"></i>Form Edit Maklumat</div></div></div>
+    <div class="card-body">
+        @if($errors->any())<div class="form-error">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
+        <form method="POST" action="{{ route('maklumat.update', $maklumat->id) }}" enctype="multipart/form-data">@method('PUT')@csrf
+            <div style="margin-bottom:14px"><label class="form-label">File (Gambar)</label>
+                @if($maklumat->file)<img id="preview" src="{{ asset('storage/'.$maklumat->file) }}" style="width:128px;height:128px;object-fit:cover;border-radius:8px;margin-bottom:8px;display:block" alt="preview">
+                @else<img id="preview" style="width:128px;height:128px;object-fit:cover;border-radius:8px;margin-bottom:8px;display:none" alt="preview">@endif
+                <input type="file" name="file" id="file" style="font-size:13px;width:100%" accept="image/*" onchange="document.getElementById('preview').src=window.URL.createObjectURL(this.files[0]);document.getElementById('preview').style.display='block'">
             </div>
-
-            <div class="mb-4">
-                <label for="file" class="block text-gray-700 font-medium mb-2">file</label>
-
-                <div class="mb-4">
-                    @if($maklumat->file)
-                    <img id="preview" src="{{ asset('storage/'.$maklumat->file) }}" class="w-32 h-32 object-cover mb-2" alt="file">
-                    @else
-                    <img id="preview" class="w-32 h-32 object-cover mb-2 hidden" alt="preview">
-                    @endif
-            </div>
-
-                <input type="file" name="file" id="file" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ $maklumat->file }}">
-
-                   @error('file')
-                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-
-            </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="px-6 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium rounded-lg">Ubah</button>
-
-            </div>
+            <div style="margin-bottom:16px"><label class="form-label">Judul</label><input type="text" name="judul" value="{{ old('judul', $maklumat->judul) }}" class="form-input" required></div>
+            <div class="form-actions"><button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Simpan</button><a href="{{route('maklumat.index')}}" class="btn-ghost">Batal</a></div>
         </form>
     </div>
 </div>

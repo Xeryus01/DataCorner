@@ -288,6 +288,26 @@
     <script>
         function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('sbOverlay').classList.toggle('show')}
         document.querySelectorAll('.sb-link').forEach(l=>{l.addEventListener('click',()=>{if(window.innerWidth<=1024){document.getElementById('sidebar').classList.remove('open');document.getElementById('sbOverlay').classList.remove('show')}})});
+
+        function sortTable(colIndex){
+            document.querySelectorAll('table.sortable-table').forEach(function(table){
+                var tbody=table.querySelector('tbody');
+                var rows=Array.from(tbody.querySelectorAll('tr'));
+                if(rows.length===0 || rows[0].querySelectorAll('td').length===1) return;
+                var asc=table.dataset.sortCol!=colIndex || table.dataset.sortDir!=='asc';
+                rows.sort(function(a,b){
+                    var aVal=(a.querySelectorAll('td')[colIndex]?.textContent||'').trim().toLowerCase();
+                    var bVal=(b.querySelectorAll('td')[colIndex]?.textContent||'').trim().toLowerCase();
+                    var aNum=parseFloat(aVal.replace(/[^0-9.-]/g,''));
+                    var bNum=parseFloat(bVal.replace(/[^0-9.-]/g,''));
+                    if(!isNaN(aNum)&&!isNaN(bNum)) return asc?aNum-bNum:bNum-aNum;
+                    return asc?aVal.localeCompare(bVal):bVal.localeCompare(aVal);
+                });
+                rows.forEach(function(r){tbody.appendChild(r)});
+                table.dataset.sortCol=colIndex;
+                table.dataset.sortDir=asc?'asc':'desc';
+            });
+        }
     </script>
 </body>
 </html>

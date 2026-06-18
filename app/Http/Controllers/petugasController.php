@@ -42,31 +42,17 @@ public function index(Request $request)
      */
 public function store(Request $request)
 {
-    $validatedData = $request->validate([
-        'jadwal' => 'required|array',
-        'jadwal.*' => 'required|array|size:2',
-        'jadwal.*.0' => 'required|exists:konsultans,id',
-        'jadwal.*.1' => 'required|exists:konsultans,id|different:jadwal.*.0', // Memastikan konsultan kedua berbeda dari yang pertama
+    $request->validate([
+        'konsultan_id' => 'required|exists:konsultans,id',
+        'tanggal' => 'required|date',
     ]);
 
-    foreach ($validatedData['jadwal'] as $tanggal => $konsultans) {
-        // Hapus petugas harian yang mungkin sudah ada di tanggal tersebut sebelum membuat yang baru
-        Petugas::where('tanggal', $tanggal)->delete();
+    Petugas::create([
+        'konsultan_id' => $request->konsultan_id,
+        'tanggal' => $request->tanggal,
+    ]);
 
-        // Buat entri untuk konsultan pertama
-        Petugas::create([
-            'tanggal' => $tanggal,
-            'konsultan_id' => $konsultans[0],
-        ]);
-
-        // Buat entri untuk konsultan kedua
-        Petugas::create([
-            'tanggal' => $tanggal,
-            'konsultan_id' => $konsultans[1],
-        ]);
-    }
-
-    return redirect()->route('petugas.index')->with('success', 'Jadwal mingguan berhasil dibuat.');
+    return redirect()->route('petugas.index')->with('success', 'Petugas berhasil ditambahkan.');
 }
 
 public function exportPdf(Request $request)

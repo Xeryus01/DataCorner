@@ -21,9 +21,7 @@ class PetugasBerprestasiController extends Controller
 
     public function create()
     {
-        $konsultan = konsultan::where('status', 'tersedia')
-            ->orderBy('nama', 'asc')
-            ->get();
+        $konsultan = konsultan::orderBy('nama', 'asc')->get();
 
         return view('admin.petugas-berprestasi.create', compact('konsultan'));
     }
@@ -61,9 +59,7 @@ class PetugasBerprestasiController extends Controller
     {
         $prestasi = PetugasBerprestasi::findOrFail($id);
 
-        $konsultan = konsultan::where('status', 'tersedia')
-            ->orderBy('nama', 'asc')
-            ->get();
+        $konsultan = konsultan::orderBy('nama', 'asc')->get();
 
         return view('admin.petugas-berprestasi.edit', compact('prestasi', 'konsultan'));
     }

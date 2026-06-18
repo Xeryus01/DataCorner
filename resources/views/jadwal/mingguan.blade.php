@@ -1,38 +1,73 @@
 @extends('jadwal.layout')
 @section('content')
 
-<div class="w-full p-6 bg-gray-100">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-400 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Daftar Jadwal Petugas Mingguan</h2>
-        </div>
+<div class="page-header-row">
+    <div>
+        <h1 class="page-title">Jadwal Petugas Mingguan</h1>
+        <p class="page-sub">Kelola jadwal tugas Anda sebagai petugas mingguan</p>
+    </div>
+    <a href="{{ route('mingguan.create') }}" class="btn-primary">
+        <i class="ti ti-plus"></i> Tambah Jadwal
+    </a>
+</div>
 
-        <div class="mb-6 overflow-x-auto">
-            <table class="min-w-full border-collapse text-sm text-left">
-                <thead>
-                    <tr class="bg-blue-300 text-blue-900">
-                        <th class="p-3 border border-blue-400 text-center">No</th>
-                        <th class="p-3 border border-blue-400 text-center">Nama Petugas</th>
-                        <th class="p-3 border border-blue-400 text-center">Tanggal Tugas</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($petugasMingguan as $index => $petugas)
-                        <tr class="bg-white hover:bg-gray-50 text-center">
-                            <td class="p-3 border">{{ $index + 1 }}</td>
-                            <td class="p-3 border">{{ $petugas->konsultan->nama }}</td>
-                            <td class="p-3 border">
-                                {{ \Carbon\Carbon::parse($petugas->tanggal)->locale('id')->isoFormat('dddd, D MMMM Y') }}
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="3" class="text-center p-4 text-xl text-gray-500">Belum ada jadwal tersedia untuk minggu ini.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+@if(session('success'))
+    <div class="alert-success">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div class="alert-error">{{ session('error') }}</div>
+@endif
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-header-left">
+            <i class="ti ti-calendar-week"></i>
+            <span class="card-title">Daftar Jadwal Saya</span>
         </div>
+    </div>
+    <div class="table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th style="text-align:center;width:48px">No</th>
+                    <th>Nama Petugas</th>
+                    <th>Tanggal Tugas</th>
+                    <th style="text-align:center">Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($petugasMingguan as $index => $petugas)
+                    <tr>
+                        <td class="num-cell">{{ $petugasMingguan->count() - $index }}</td>
+                        <td class="name-cell">{{ $petugas->konsultan->nama ?? '-' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($petugas->tanggal)->locale('id')->isoFormat('dddd, D MMMM Y') }}</td>
+                        <td>
+                            <div style="display:flex;gap:5px;justify-content:center">
+                                <a href="{{ route('mingguan.edit', $petugas->id) }}" class="btn-edit-sm">
+                                    <i class="ti ti-edit"></i> Edit
+                                </a>
+                                <form action="{{ route('mingguan.destroy', $petugas->id) }}" method="POST" style="margin:0">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" onclick="return confirm('Hapus jadwal ini?')" class="btn-del-sm">
+                                        <i class="ti ti-trash"></i> Hapus
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align:center;padding:40px;color:var(--color-muted);font-size:14px">
+                            <i class="ti ti-calendar-off" style="font-size:24px;display:block;margin-bottom:8px"></i>
+                            Belum ada jadwal tugas.
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer">
+        <span class="footer-info">Menampilkan {{ $petugasMingguan->count() }} jadwal</span>
     </div>
 </div>
 

@@ -22,10 +22,13 @@ class layananController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'judul'  => 'required|min:3|string',
             'deskripsi' => 'required|min:3|string',
-            'link' => 'required|url',
+            'link' => 'required|string',
         ]);
 
-       $filePath = $request->file('gambar')->store('files','public');
+        $filePath = null;
+        if ($request->hasFile('gambar')) {
+            $filePath = $request->file('gambar')->store('files', 'public');
+        }
 
         layanan::create([
             "gambar" => $filePath,
@@ -50,7 +53,7 @@ class layananController extends Controller
         'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'judul' => 'min:3|string',
         'deskripsi' => 'min:3|string',
-        'link' => 'url',
+        'link' => 'nullable|string',
     ]);
 
     $data = [

@@ -168,6 +168,8 @@
             <div class="sb-section">Konsultan</div>
             <a href="{{ route('konsultan.jadwal.index') }}" class="sb-link {{ Route::is('konsultan.jadwal.index') ? 'active' : '' }}"><i class="ti ti-calendar"></i> Jadwal Janji Temu</a>
             <a href="{{ route('status.index') }}" class="sb-link {{ Route::is('status.index') || Route::is('status.store') ? 'active' : '' }}"><i class="ti ti-status-change"></i> Status Konsultan</a>
+            <a href="{{ route('mingguan.index') }}" class="sb-link {{ Route::is('mingguan.index') || Route::is('mingguan.create') || Route::is('mingguan.edit') ? 'active' : '' }}"><i class="ti ti-calendar-week"></i> Petugas Mingguan</a>
+            <a href="{{ route('konsultan.berprestasi') }}" class="sb-link {{ Route::is('konsultan.berprestasi') ? 'active' : '' }}"><i class="ti ti-star"></i> Petugas Berprestasi</a>
 
             <div class="sb-section" style="margin-top:auto"></div>
             <a href="{{ route('logoutKonsultan') }}" class="sb-link logout"><i class="ti ti-logout"></i> Logout</a>

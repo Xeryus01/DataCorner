@@ -50,6 +50,7 @@ Route::middleware(LoggedInKonsultan::class)->group(function () {
     Route::resource('status', konsultanStatusController::class)->except(['show']);
     Route::resource('mingguan', konsultanMingguanController::class)->except(['show']);
     Route::get('/konsultan/jadwal', [konsultanJadwalController::class, 'index'])->name('konsultan.jadwal.index');
+    Route::get('/konsultan/berprestasi', [konsultanMingguanController::class, 'berprestasi'])->name('konsultan.berprestasi');
 });
 
 Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');

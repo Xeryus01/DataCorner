@@ -1,161 +1,20 @@
 @extends('admin.layout')
-
 @section('content')
-
-<div class="w-full p-6 bg-gray-100 min-h-screen">
-    <div class="w-full bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-300 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Edit Petugas Berprestasi</h2>
-        </div>
-
-        <form method="POST"
-              action="{{ route('petugas-berprestasi.update', $prestasi->id) }}"
-              class="p-6"
-              enctype="multipart/form-data">
+<x-admin.page-header title="Edit Petugas Berprestasi" subtitle="Perbarui data petugas berprestasi" :breadcrumbs="['Datapedia','Layanan','Petugas Berprestasi','Edit']" />
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden;max-width:560px">
+    <div style="padding:14px 20px;border-bottom:0.5px solid #e2e8f0"><div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-star" style="font-size:16px;color:#1F6FD6"></i>Form Edit Petugas Berprestasi</div></div>
+    <div style="padding:20px">
+        @if($errors->any())<div style="background:#FCEBEB;border:1px solid #F7C1C1;color:#791F1F;padding:10px 14px;border-radius:8px;font-size:12px;margin-bottom:16px">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
+        <form method="POST" action="{{ route('petugas-berprestasi.update', $prestasi->id) }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-
-            {{-- Petugas / Konsultan --}}
-            <div class="mb-4">
-                <label for="konsultan_id" class="block text-gray-700 font-medium mb-2">
-                    Petugas / Konsultan
-                </label>
-
-                <select name="konsultan_id"
-                        id="konsultan_id"
-                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-                        required>
-                    <option value="">Pilih Petugas / Konsultan</option>
-
-                    @foreach($konsultan as $item)
-                        <option value="{{ $item->id }}"
-                            {{ old('konsultan_id', $prestasi->konsultan_id) == $item->id ? 'selected' : '' }}>
-                            {{ $item->nama }}
-                        </option>
-                    @endforeach
-                </select>
-
-                @error('konsultan_id')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Triwulan --}}
-            <div class="mb-4">
-                <label for="triwulan" class="block text-gray-700 font-medium mb-2">
-                    Triwulan
-                </label>
-
-                <select name="triwulan"
-                        id="triwulan"
-                        class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-                        required>
-                    <option value="">Pilih Triwulan</option>
-
-                    <option value="1" {{ old('triwulan', $prestasi->triwulan) == '1' ? 'selected' : '' }}>
-                        Triwulan 1 - Januari s.d. Maret
-                    </option>
-
-                    <option value="2" {{ old('triwulan', $prestasi->triwulan) == '2' ? 'selected' : '' }}>
-                        Triwulan 2 - April s.d. Juni
-                    </option>
-
-                    <option value="3" {{ old('triwulan', $prestasi->triwulan) == '3' ? 'selected' : '' }}>
-                        Triwulan 3 - Juli s.d. September
-                    </option>
-
-                    <option value="4" {{ old('triwulan', $prestasi->triwulan) == '4' ? 'selected' : '' }}>
-                        Triwulan 4 - Oktober s.d. Desember
-                    </option>
-                </select>
-
-                @error('triwulan')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Tahun --}}
-            <div class="mb-4">
-                <label for="tahun" class="block text-gray-700 font-medium mb-2">
-                    Tahun
-                </label>
-
-                <input type="number"
-                       name="tahun"
-                       id="tahun"
-                       placeholder="Masukkan tahun"
-                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       value="{{ old('tahun', $prestasi->tahun) }}"
-                       required>
-
-                @error('tahun')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Nilai --}}
-            <div class="mb-4">
-                <label for="nilai" class="block text-gray-700 font-medium mb-2">
-                    Nilai
-                </label>
-
-                <input type="number"
-                       name="nilai"
-                       id="nilai"
-                       placeholder="Masukkan nilai"
-                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       value="{{ old('nilai', $prestasi->nilai) }}">
-
-                @error('nilai')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Sertifikat --}}
-            <div class="mb-4">
-                <label for="sertifikat" class="block text-gray-700 font-medium mb-2">
-                    Sertifikat PDF | JPG | PNG | JPEG
-                </label>
-
-                <input type="file"
-                       name="sertifikat"
-                       id="sertifikat"
-                       class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300"
-                       accept=".pdf,.jpg,.jpeg,.png">
-
-                @if($prestasi->sertifikat)
-                    <div class="mt-2">
-                        <a href="{{ asset('storage/' . $prestasi->sertifikat) }}"
-                           target="_blank"
-                           class="text-blue-600 hover:underline text-sm">
-                            Lihat sertifikat saat ini
-                        </a>
-                    </div>
-                @endif
-
-                <p class="text-gray-500 text-sm mt-1">
-                    Kosongkan jika tidak ingin mengganti sertifikat.
-                </p>
-
-                @error('sertifikat')
-                    <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
-                @enderror
-            </div>
-
-            {{-- Tombol --}}
-            <div class="flex items-center justify-between">
-                <button type="submit"
-                        class="px-6 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium rounded-lg">
-                    Simpan Perubahan
-                </button>
-
-                <a href="{{ route('petugas-berprestasi.index') }}"
-                   class="px-6 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-medium rounded-lg">
-                    Kembali
-                </a>
-            </div>
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Petugas/Konsultan</label><select name="konsultan_id" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;background:#fff">@foreach($konsultan as $item)<option value="{{ $item->id }}" {{ old('konsultan_id', $prestasi->konsultan_id) == $item->id ? 'selected' : '' }}>{{ $item->nama }}</option>@endforeach</select></div>
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Triwulan</label><select name="triwulan" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none;background:#fff">@for($t=1;$t<=4;$t++)<option value="{{$t}}" {{ old('triwulan', $prestasi->triwulan) == $t ? 'selected' : '' }}>Triwulan {{$t}}</option>@endfor</select></div>
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Tahun</label><input type="number" name="tahun" value="{{ old('tahun', $prestasi->tahun) }}" required style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none"></div>
+            <div style="margin-bottom:14px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Nilai</label><input type="number" name="nilai" value="{{ old('nilai', $prestasi->nilai) }}" style="width:100%;height:40px;padding:0 12px;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;outline:none"></div>
+            <div style="margin-bottom:20px"><label style="display:block;font-size:12px;font-weight:600;color:#0f172a;margin-bottom:5px">Sertifikat (PDF/JPG/PNG)</label><input type="file" name="sertifikat" style="width:100%;font-size:13px">@if($prestasi->sertifikat)<div style="margin-top:6px"><a href="{{ asset('storage/' . $prestasi->sertifikat) }}" target="_blank" style="color:#1F6FD6;font-size:12px;text-decoration:none">Lihat sertifikat saat ini</a></div>@endif<p style="font-size:11px;color:#94a3b8;margin-top:4px">Kosongkan jika tidak ingin mengganti.</p></div>
+            <div style="display:flex;gap:8px"><button type="submit" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#1F6FD6;color:#fff;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer" onmouseover="this.style.background='#185FA5'" onmouseout="this.style.background='#1F6FD6'"><i class="ti ti-device-floppy" style="font-size:14px"></i>Simpan</button><a href="{{ route('petugas-berprestasi.index') }}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 20px;background:#fff;color:#64748b;border:0.5px solid #e2e8f0;border-radius:8px;font-size:13px;font-weight:500;text-decoration:none">Batal</a></div>
         </form>
     </div>
 </div>
-
 @endsection

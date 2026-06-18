@@ -20,10 +20,13 @@ class standarController extends Controller
     public function store(Request $request){
         $request->validate([
             'judul' => 'required|string|min:3',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $filePath = $request->file('gambar')->store('files','public');
+        $filePath = null;
+        if ($request->hasFile('gambar')) {
+            $filePath = $request->file('gambar')->store('files', 'public');
+        }
 
         standar::create([
             "judul" => $request->judul,
@@ -48,9 +51,9 @@ class standarController extends Controller
         'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    $data = [
-        'judul' => $request->judul,
-    ];
+        $data = [
+            'judul' => $request->judul,
+        ];
 
     if ($request->hasFile('gambar')) {
 
