@@ -1,47 +1,15 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <!-- left column -->
-          <div class="col-md-12">
-            <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Edit Periode Tantangan Bulanan</h3>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              @if ($errors->any())
-                <div class="alert alert-danger">
-                  <ul>
-                    @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                    @endforeach
-                  </ul>
-                </div>
-              @endif
-              <form action="{{ route('admin_periode.update', $periode->id) }}" method="POST">
-                <div class="card-body">
-                  @csrf
-                  @method('PUT')
-                  <div class="form-group">
-                    <label for="periode">Periode</label>
-                    <input type="number" name="periode" class="form-control" id="periode"
-                      value="{{ $periode->periode }}" placeholder="Masukkan Periode" required>
-                  </div>
-                </div>
-                <!-- /.card-body -->
-
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Ubah</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-  </div>
+<x-admin.page-header title="Edit Periode Tantangan" subtitle="Perbarui periode tantangan bulanan" :breadcrumbs="['Datapedia','Kuis','Periode','Edit']" />
+<div class="card" style="max-width:500px">
+    <div class="card-header"><div class="card-header-left"><div class="card-title"><i class="ti ti-trophy"></i>Form Edit Periode</div></div></div>
+    <div class="card-body">
+        @if($errors->any())<div class="form-error">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
+        <form action="{{ route('admin_periode.update', $periode) }}" method="POST">
+            @csrf @method('PUT')
+            <div style="margin-bottom:16px"><label class="form-label">Periode</label><input type="number" name="periode" value="{{old('periode',$periode->periode)}}" class="form-input" required placeholder="Contoh: 202601"></div>
+            <div class="form-actions"><button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Update</button><a href="{{route('admin_periode.index')}}" class="btn-ghost">Batal</a></div>
+        </form>
+    </div>
+</div>
 @endsection

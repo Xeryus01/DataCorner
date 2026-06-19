@@ -1,102 +1,15 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    @if (session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
-      </div>
-    @endif
-    {{-- Tabel Data Artikel --}}
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card" style="margin-top: 1rem;">
-              <div class="card-header">
-                <h3 class="card-title">Data Soal {{ $kuis_tantangan_bulanan->judul }}</h3>
-              </div>
-              <!-- /.card-header -->
-
-              <div class="card-body">
-                <div class="mb-3 d-flex justify-content-between">
-                  <form action="{{ route('admin_soal-kuis-tantangan-bulanan.index', $kuis_tantangan_bulanan->id) }}"
-                    method="GET" class="form-inline">
-                    <input type="text" name="search" value="{{ request('search') }}" class="form-control mr-2"
-                      placeholder="Cari soal...">
-                    <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
-                  </form>
-                  <a href="{{ route('admin_soal-kuis-tantangan-bulanan.create', $kuis_tantangan_bulanan->id) }}"
-                    class="btn btn-primary">
-                    <span><i class="fas fa-plus mr-2"></i></span>Tambah Data
-                  </a>
-                </div>
-                <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped">
-                    <thead class="text-center">
-                      <tr>
-                        <th>Gambar</th>
-                        <th>Soal</th>
-                        <th>Tipe Soal</th>
-                        <th>Jawaban</th>
-                        <th>Opsi A</th>
-                        <th>Opsi B</th>
-                        <th>Opsi C</th>
-                        <th>Opsi D</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody class="text-center">
-                      @foreach ($soal as $item)
-                        <tr>
-                          <td>
-                            @if ($item->gambar)
-                              <img src="{{ asset('storage/' . $item->gambar) }}" alt="Gambar Subjek"
-                                style="max-width: 100px; max-height: 100px;">
-                            @else
-                              <p>Gambar Tidak Tersedia</p>
-                            @endif
-                          </td>
-                          <td>{!! $item->soal !!}</td>
-                          <td>{{ $item->tipe_soal }}</td>
-                          <td>{{ $item->jawaban }}</td>
-                          {{-- Opsi A --}}
-                          <td>{{ optional($item->opsi->firstWhere('label', 'A'))->teks_opsi ?? '-' }}</td>
-                          {{-- Opsi B --}}
-                          <td>{{ optional($item->opsi->firstWhere('label', 'B'))->teks_opsi ?? '-' }}</td>
-                          {{-- Opsi C --}}
-                          <td>{{ optional($item->opsi->firstWhere('label', 'C'))->teks_opsi ?? '-' }}</td>
-                          {{-- Opsi D --}}
-                          <td>{{ optional($item->opsi->firstWhere('label', 'D'))->teks_opsi ?? '-' }}</td>
-                          <td>
-                            <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
-                              <a href="{{ route('admin_soal-kuis-tantangan-bulanan.edit', $item->id) }}"
-                                class="btn btn-warning"><span><i class="fas fa-edit"></i></span></a>
-                              <form action="{{ route('admin_soal-kuis-tantangan-bulanan.destroy', $item->id) }}"
-                                method="POST" class="m-0">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                  onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                  <span><i class="fas fa-trash"></i></span>
-                                </button>
-                              </form>
-                            </div>
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                </div>
-                {{ $soal->links() }}
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-        </div>
-      </div>
-    </section>
-    {{-- /.Tabel Data Artikel --}}
-  </div>
+<x-admin.page-header title="Soal: {{ $kuis_tantangan_bulanan->judul }}" subtitle="Kelola soal kuis tantangan bulanan" :breadcrumbs="['Datapedia','Kuis','Tantangan','Soal']" addRoute="{{ route('admin_soal-kuis-tantangan-bulanan.create', $kuis_tantangan_bulanan->id) }}" addLabel="Tambah Soal" />
+@if(session('success'))<div class="alert-success">{{session('success')}}</div>@endif
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden">
+    <div style="padding:14px 18px;border-bottom:0.5px solid #e2e8f0"><div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-question-mark" style="font-size:16px;color:#1F6FD6"></i>Daftar Soal <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:4px">— {{$soal instanceof \Illuminate\Pagination\LengthAwarePaginator ? $soal->total() : count($soal)}} soal</span></div></div>
+    <div style="overflow-x:auto">
+        <table class="sortable-table" style="width:100%;border-collapse:collapse;min-width:1000px">
+            <thead><tr style="background:#f8fafc"><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Gambar</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Soal</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Tipe</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Jawaban</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">A</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">B</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">C</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">D</th><th style="padding:10px 8px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Aksi</th></tr></thead>
+            <tbody>@foreach($soal as $item)<tr style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''"><td style="padding:8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">@if($item->gambar)<img src="{{asset('storage/'.$item->gambar)}}" style="max-width:50px;max-height:50px;border-radius:6px">@else-@endif</td><td style="padding:8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{!! Str::limit(strip_tags($item->soal),60) !!}</td><td style="padding:8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{$item->tipe_soal}}</td><td style="padding:8px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{$item->jawaban}}</td><td style="padding:8px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0">{{optional($item->opsi->firstWhere('label','A'))->teks_opsi??'-'}}</td><td style="padding:8px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0">{{optional($item->opsi->firstWhere('label','B'))->teks_opsi??'-'}}</td><td style="padding:8px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0">{{optional($item->opsi->firstWhere('label','C'))->teks_opsi??'-'}}</td><td style="padding:8px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0">{{optional($item->opsi->firstWhere('label','D'))->teks_opsi??'-'}}</td><td style="padding:8px;border-bottom:0.5px solid #e2e8f0"><div style="display:flex;gap:5px"><a href="{{route('admin_soal-kuis-tantangan-bulanan.edit',$item->id)}}" class="btn-edit-sm"><i class="ti ti-edit"></i></a><form action="{{route('admin_soal-kuis-tantangan-bulanan.destroy',$item->id)}}" method="POST" style="margin:0"><button onclick="return confirm('Hapus?')" class="btn-del-sm"><i class="ti ti-trash"></i></button>@csrf @method('DELETE')</form></div></td></tr>@endforeach</tbody>
+        </table>
+    </div>
+    <div style="padding:10px 16px;border-top:0.5px solid #e2e8f0">@if($soal instanceof \Illuminate\Pagination\LengthAwarePaginator)<div style="float:right">{{$soal->links()}}</div>@endif<span style="font-size:11px;color:#64748b">{{$soal instanceof \Illuminate\Pagination\LengthAwarePaginator ? $soal->total() : count($soal)}} soal</span></div>
+</div>
 @endsection

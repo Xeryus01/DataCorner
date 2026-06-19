@@ -33,7 +33,7 @@
                     <td style="padding:8px 6px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0;white-space:nowrap">{{$i->clicked_at ? \Carbon\Carbon::parse($i->clicked_at)->locale('id')->isoFormat('D MMM Y, HH:mm') : '-'}}</td>
                     <td style="padding:8px 6px;font-size:11px;font-weight:600;color:#0f172a;border-bottom:0.5px solid #e2e8f0;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{$nama}}</td>
                     <td style="padding:8px 6px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace;white-space:nowrap">{{$nohp}}</td>
-                    <td style="padding:8px 6px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{$i->jenis_kelamin=='laki-laki'?'L':'Perempuan'}}</td>
+                    <td style="padding:8px 6px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">{{$i->jenis_kelamin=='laki-laki'?'Laki-laki':($i->jenis_kelamin=='perempuan'?'Perempuan':'-')}}</td>
                     <td style="padding:8px 6px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{$i->instansi}}</td>
                     <td style="padding:8px 6px;font-size:11px;color:#0f172a;border-bottom:0.5px solid #e2e8f0">
                         @php $lp=['asn'=>'ASN','karyawan_swasta'=>'Karyawan','wiraswasta'=>'Wiraswasta','peneliti'=>'Peneliti','pelajar_mahasiswa'=>'Mahasiswa','lainnya'=>'Lainnya']; @endphp
@@ -42,7 +42,7 @@
                     <td style="padding:8px 6px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{$i->keperluan_data}}">{{$i->keperluan_data ?: '-'}}</td>
                     <td style="padding:8px 6px;font-size:11px;color:#475569;border-bottom:0.5px solid #e2e8f0;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{{$i->data_diminta}}">{{Str::limit($i->data_diminta,35)}}</td>
                     <td style="padding:8px 6px;border-bottom:0.5px solid #e2e8f0">
-                        <form action="{{route('faq.hapusPesan',$i->id)}}" method="POST" style="margin:0"><button type="submit" onclick="return confirm('Hapus?')" class="btn-del-sm"><i class="ti ti-trash"></i>Hapus</button>@csrf @method('DELETE')</form>
+                        <div style="display:flex;gap:5px"><a href="{{route('faq.editPesan',$i->id)}}" class="btn-edit-sm"><i class="ti ti-edit"></i>Edit</a><form action="{{route('faq.hapusPesan',$i->id)}}" method="POST" style="margin:0"><button type="submit" onclick="return confirm('Hapus?')" class="btn-del-sm"><i class="ti ti-trash"></i>Hapus</button>@csrf @method('DELETE')</form></div>
                     </td>
                 </tr>
                 @empty

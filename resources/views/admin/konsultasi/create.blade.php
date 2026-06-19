@@ -1,4 +1,4 @@
-vei @extends('admin.layout')
+@extends('admin.layout')
 @section('content')
 <x-admin.page-header title="Tambah Konsultasi Manual" subtitle="Input data konsultasi WhatsApp oleh admin" :breadcrumbs="['Datapedia','Konsultasi','Tambah']" />
 <div class="card" style="max-width:600px">
@@ -35,9 +35,9 @@ vei @extends('admin.layout')
                     <option value="lainnya" {{old('posisi')=='lainnya'?'selected':''}}>Lainnya</option>
                 </select>
             </div>
-            <div style="margin-bottom:14px"><label class="form-label">Instansi / Lembaga*</label><input type="text" name="instansi" value="{{old('instansi', 'Konsultasi via WhatsApp')}}" class="form-input" required></div>
+<div style="margin-bottom:14px"><label class="form-label">Instansi / Lembaga*</label><input type="text" name="instansi" value="{{old('instansi')}}" class="form-input" required placeholder="Nama instansi / lembaga"></div>
             <div style="margin-bottom:14px"><label class="form-label">Keperluan Data</label><input type="text" name="keperluan_data" value="{{old('keperluan_data')}}" class="form-input" placeholder="Contoh: Data kemiskinan, inflasi, dll"></div>
-            <div style="margin-bottom:14px"><label class="form-label">Data Diminta*</label><input type="text" name="data_diminta" value="{{old('data_diminta', 'Input manual oleh admin')}}" class="form-input" required></div>
+<div style="margin-bottom:14px"><label class="form-label">Data Diminta*</label><input type="text" name="data_diminta" value="{{old('data_diminta')}}" class="form-input" required placeholder="Data yang diminta"></div>
             <div class="form-actions">
                 <button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Simpan & Lihat WhatsApp</button>
                 <a href="{{route('faq.pesan')}}" class="btn-ghost">Lihat Pesan WA</a>

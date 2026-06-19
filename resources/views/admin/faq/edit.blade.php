@@ -1,77 +1,21 @@
 @extends('admin.layout')
 @section('content')
-
-<div class="w-full p-6 bg-gray-100 min-h-screen">
-    <div class="w-full  bg-white rounded-lg shadow-md overflow-hidden">
-        <div class="bg-blue-300 p-4">
-            <h2 class="text-xl font-bold text-blue-800">Ubah FAQ</h2>
-        </div>
-
-         @if ($errors->any())
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-        <strong>Terjadi kesalahan:</strong>
-        <ul class="list-disc pl-5 mt-2">
-            @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
-@endif
-
-        <form method="POST" action="{{ route('faq.update',$faq->id) }}" class="p-6">
-            @method('PUT')
-            @csrf
-
-            <div class="mb-4">
-                <label for="judul" class="block text-gray-700 font-medium mb-2">Judul FAQ</label>
-                <input type="text" name="judul" id="judul" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-300" value="{{ $faq->judul }}">
-
-                    <p class="text-red-500 text-sm mt-1"></p>
-
-            </div>
-
-            <div class="mb-4">
-                <label for="deskripsi" class="block text-gray-700 font-medium mb-2">Deskripsi FAQ</label>
-                <div id="editor" class="w-full px-4 py-2 border rounded-lg bg-white" contenteditable="true">
-                    {!! old('deskripsi') !!}
-                </div>
-                <input type="hidden" name="deskripsi" id="hiddenDeskripsi">
-
-                    <p class="text-red-500 text-sm mt-1"></p>
-
-            </div>
-
-            <div class="flex items-center justify-between">
-                <button type="submit" class="px-6 py-2 bg-blue-300 hover:bg-blue-400 text-blue-800 font-medium rounded-lg">Ubah</button>
-
-            </div>
+<x-admin.page-header title="Edit FAQ" subtitle="Perbarui data pertanyaan yang sering diajukan" :breadcrumbs="['Datapedia','FAQ','Edit']" />
+<div class="card" style="max-width:600px">
+    <div class="card-header"><div class="card-header-left"><div class="card-title"><i class="ti ti-help"></i>Form Edit FAQ</div></div></div>
+    <div class="card-body">
+        @if($errors->any())<div class="form-error">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
+        <form method="POST" action="{{ route('faq.update', $faq) }}">
+            @csrf @method('PUT')
+            <div style="margin-bottom:14px"><label class="form-label">Judul FAQ*</label><input type="text" name="judul" value="{{ old('judul', $faq->judul) }}" class="form-input" required></div>
+            <div style="margin-bottom:16px"><label class="form-label">Deskripsi FAQ*</label><textarea id="deskripsi" name="deskripsi" class="form-textarea" rows="8">{{ old('deskripsi', $faq->deskripsi) }}</textarea></div>
+            <div class="form-actions"><button type="submit" class="btn-primary"><i class="ti ti-device-floppy"></i>Update</button><a href="{{route('faq.index')}}" class="btn-ghost">Batal</a></div>
         </form>
     </div>
 </div>
-
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/inline/ckeditor.js"></script>
+<script src="{{ asset('tinymce/tinymce.min.js') }}"></script>
 <script>
-    let editor;
-    InlineEditor
-        .create(document.querySelector('#editor'), {
-            toolbar: [
-                'bold', 'italic', '|',
-                'bulletedList', 'numberedList', '|',
-                'link', '|',
-                'undo', 'redo'
-            ]
-        })
-        .then(newEditor => {
-            editor = newEditor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-    // Saat submit form, isi hidden input dengan HTML editor
-    document.querySelector('form').addEventListener('submit', function (e) {
-        document.querySelector('#hiddenDeskripsi').value = editor.getData();
-    });
+tinymce.init({selector:'#deskripsi',license_key:'gpl',height:300,plugins:['lists','link','table','code'],toolbar:'undo redo | bold italic underline | bullist numlist | alignleft aligncenter alignright | link table | code',menubar:false,branding:false,content_style:'body{font-family:sans-serif;font-size:16px}ul{list-style-type:disc;margin-left:1.5rem}ol{list-style-type:decimal;margin-left:1.5rem}'});
+document.querySelector('form').addEventListener('submit',function(){tinymce.triggerSave();});
 </script>
-
 @endsection

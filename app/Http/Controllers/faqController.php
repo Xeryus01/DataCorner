@@ -24,7 +24,42 @@ class faqController extends Controller
     public function hapusPesan($id){
         $faq = konsultasiKlik::findOrFail($id);
         $faq->delete();
-        return redirect()->route('faq.pesan')->with('success', 'FAQ Berhasil Dihapus');
+        return redirect()->route('faq.pesan')->with('success', 'Pesan berhasil dihapus.');
+    }
+
+    public function editPesan($id)
+    {
+        $pesan = konsultasiKlik::findOrFail($id);
+        return view('admin.faq.editPesan', compact('pesan'));
+    }
+
+    public function updatePesan(Request $request, $id)
+    {
+        $pesan = konsultasiKlik::findOrFail($id);
+
+        $request->validate([
+            'nama' => 'nullable|string|max:255',
+            'no_hp' => 'nullable|string|max:20',
+            'jenis_kelamin' => 'nullable|in:laki-laki,perempuan',
+            'memiliki_akun' => 'nullable|in:ya,tidak',
+            'posisi' => 'required|string|max:255',
+            'instansi' => 'nullable|string|max:255',
+            'keperluan_data' => 'nullable|string|max:255',
+            'data_diminta' => 'nullable|string|max:255',
+        ]);
+
+        $pesan->update([
+            'nama' => $request->nama,
+            'no_hp' => $request->no_hp,
+            'jenis_kelamin' => $request->jenis_kelamin,
+            'memiliki_akun' => $request->memiliki_akun,
+            'posisi' => $request->posisi,
+            'instansi' => $request->instansi,
+            'keperluan_data' => $request->keperluan_data,
+            'data_diminta' => $request->data_diminta,
+        ]);
+
+        return redirect()->route('faq.pesan')->with('success', 'Pesan berhasil diperbarui.');
     }
 
     public function create(){

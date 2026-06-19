@@ -1,90 +1,15 @@
 @extends('admin.layout')
-
 @section('content')
-  <div class="content-wrapper">
-    @if (session('success'))
-      <div class="alert alert-success">
-        {{ session('success') }}
-      </div>
-    @endif
-
-    {{-- Tabel Data Detail Sub Judul Artikel --}}
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">
-            <div class="card" style="margin-top: 1rem;">
-              <div class="card-header">
-                <h3 class="card-title">Data Detail Sub Judul {{ $subjudul->sub_judul }}</h3>
-              </div>
-              <!-- /.card-header -->
-
-              <div class="card-body">
-                <div class="mb-3 d-flex justify-content-between">
-                  <form action="{{ route('admin_detail-subjudul-artikel.index', $subjudul->id) }}" method="GET"
-                    class="form-inline">
-                    <input type="text" name="search" value="{{ request('search') }}" class="form-control mr-2"
-                      placeholder="Cari ...">
-                    <button type="submit" class="btn btn-secondary"><i class="fas fa-search"></i></button>
-                  </form>
-                  <a href="{{ route('admin_detail-subjudul-artikel.create', $subjudul->id) }}" class="btn btn-primary">
-                    <span><i class="fas fa-plus mr-2"></i></span>Tambah Data
-                  </a>
-                </div>
-                <div class="table-responsive">
-                  <table id="example1" class="table table-bordered table-striped" style="min-width: 1000px;">
-                    <thead class="text-center">
-                      <tr>
-                        <th>Konten Text</th>
-                        <th>Link Embed</th>
-                        <th>Gambar</th>
-                        <th>Urutan</th>
-                        <th>Aksi</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($detail_subjuduls as $detail_subjudul)
-                        <tr>
-                          <td>{!! Str::limit($detail_subjudul->konten_text, 100, '...') !!}</td>
-                          <td>{{ Str::limit($detail_subjudul->link_embed, 10, '...') }}</td>
-                          <td>
-                            @if ($detail_subjudul->gambar)
-                              <img src="{{ asset('storage/' . $detail_subjudul->gambar) }}"
-                                style="max-width: 100px; max-height: 100px;">
-                            @else
-                              -
-                            @endif
-                          </td>
-                          <td>{{ $detail_subjudul->urutan }}</td>
-                          <td>
-                            <div class="d-flex align-items-center justify-content-center" style="gap: 10px;">
-                              <a href="{{ route('admin_detail-subjudul-artikel.edit', $detail_subjudul->id) }}"
-                                class="btn btn-warning"><span><i class="fas fa-edit"></i></span></a>
-                              <form action="{{ route('admin_detail-subjudul-artikel.destroy', $detail_subjudul->id) }}"
-                                method="POST" class="m-0">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger"
-                                  onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                  <span><i class="fas fa-trash"></i></span>
-                                </button>
-                              </form>
-                            </div>
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
-                  </table>
-                  {{ $detail_subjuduls->links() }}
-                </div>
-              </div>
-              <!-- /.card-body -->
-            </div>
-            <!-- /.card -->
-          </div>
-        </div>
-      </div>
-    </section>
-    {{-- /.Tabel Data Detail Sub Judul Artikel --}}
-  </div>
+<x-admin.page-header title="Detail Sub Judul: {{ $subjudul->sub_judul }}" subtitle="Kelola konten detail sub judul artikel" :breadcrumbs="['Datapedia','Edukasi','Artikel','Sub Judul','Detail']" addRoute="{{ route('admin_detail-subjudul-artikel.create', $subjudul->id) }}" addLabel="Tambah Data" />
+@if(session('success'))<div class="alert-success">{{session('success')}}</div>@endif
+<div class="card" style="background:#fff;border:0.5px solid #e2e8f0;border-radius:12px;overflow:hidden">
+    <div style="padding:14px 18px;border-bottom:0.5px solid #e2e8f0"><div style="font-size:13px;font-weight:600;color:#0f172a;display:flex;align-items:center;gap:8px"><i class="ti ti-article" style="font-size:16px;color:#1F6FD6"></i>Daftar Konten <span style="font-size:11px;font-weight:400;color:#94a3b8;margin-left:4px">— {{count($detail_subjuduls)}} data</span></div></div>
+    <div style="overflow-x:auto">
+        <table class="sortable-table" style="width:100%;border-collapse:collapse;min-width:800px">
+            <thead><tr style="background:#f8fafc"><th style="padding:10px 12px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Konten</th><th style="padding:10px 12px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Link</th><th style="padding:10px 12px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Gambar</th><th style="padding:10px 12px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Urutan</th><th style="padding:10px 12px;font-size:11px;font-weight:600;color:#64748b;border-bottom:0.5px solid #e2e8f0;text-transform:uppercase">Aksi</th></tr></thead>
+            <tbody>@foreach($detail_subjuduls as $d)<tr style="transition:background 100ms" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background=''"><td style="padding:10px 12px;font-size:12px;color:#0f172a;border-bottom:0.5px solid #e2e8f0;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{!! Str::limit(strip_tags($d->konten_text),80) !!}</td><td style="padding:10px 12px;font-size:11px;color:#64748b;border-bottom:0.5px solid #e2e8f0;font-family:monospace;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{$d->link_embed?:'-'}}</td><td style="padding:10px 12px;border-bottom:0.5px solid #e2e8f0">@if($d->gambar)<img src="{{asset('storage/'.$d->gambar)}}" style="max-width:60px;max-height:60px;border-radius:6px">@else-@endif</td><td style="padding:10px 12px;font-size:12px;color:#0f172a;border-bottom:0.5px solid #e2e8f0;text-align:center">{{$d->urutan}}</td><td style="padding:10px 12px;border-bottom:0.5px solid #e2e8f0"><div style="display:flex;gap:5px"><a href="{{route('admin_detail-subjudul-artikel.edit',$d->id)}}" class="btn-edit-sm"><i class="ti ti-edit"></i>Edit</a><form action="{{route('admin_detail-subjudul-artikel.destroy',$d->id)}}" method="POST" style="margin:0"><button onclick="return confirm('Hapus?')" class="btn-del-sm"><i class="ti ti-trash"></i>Hapus</button>@csrf @method('DELETE')</form></div></td></tr>@endforeach</tbody>
+        </table>
+    </div>
+    <div style="padding:10px 16px;border-top:0.5px solid #e2e8f0"><span style="font-size:11px;color:#64748b">{{$detail_subjuduls instanceof \Illuminate\Pagination\LengthAwarePaginator ? $detail_subjuduls->total() : count($detail_subjuduls)}} data</span>@if($detail_subjuduls instanceof \Illuminate\Pagination\LengthAwarePaginator)<div style="float:right">{{$detail_subjuduls->links()}}</div>@endif</div>
+</div>
 @endsection

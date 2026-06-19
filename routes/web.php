@@ -98,6 +98,8 @@ Route::prefix('admin')->group(function () {
         Route::resource('faq', faqController::class)->except(['show']);
         Route::get('/faq/pesan', [faqController::class, 'pesan'])->name('faq.pesan');
         Route::delete('/faq/hapusPesan/{id}', [faqController::class, 'hapusPesan'])->name('faq.hapusPesan');
+        Route::get('/faq/editPesan/{id}', [faqController::class, 'editPesan'])->name('faq.editPesan');
+        Route::put('/faq/updatePesan/{id}', [faqController::class, 'updatePesan'])->name('faq.updatePesan');
 
         Route::resource('konsultan', konsultanController::class)->except(['show']);
         Route::resource('admin', AdminController::class)->except(['show']);
