@@ -124,7 +124,8 @@ class PendaftaranMagangController extends Controller
         
         if (in_array($user->getRoleNames()->first(), ['operator magang', 'operator kepegawaian'])) {
             if ($pendaftaran->wilayah_bps_id != $user->wilayah_id) {
-                abort(403, 'Tidak punya akses');
+                return redirect()->route('dashboard.index')
+                    ->with('error', 'Anda tidak memiliki akses ke data wilayah BPS lain.');
             }
         }
 
@@ -158,7 +159,8 @@ class PendaftaranMagangController extends Controller
         
         if (in_array($user->getRoleNames()->first(), ['operator magang', 'operator kepegawaian'])) {
             if ($pendaftaran->wilayah_bps_id != $user->wilayah_id) {
-                abort(403);
+                return redirect()->route('dashboard.index')
+                    ->with('error', 'Anda tidak memiliki akses ke data wilayah BPS lain.');
             }
         }
 
@@ -187,7 +189,8 @@ class PendaftaranMagangController extends Controller
         
         if (in_array($user->getRoleNames()->first(), ['operator magang', 'operator kepegawaian'])) {
             if ($pendaftaran->wilayah_bps_id != $user->wilayah_id) {
-                abort(403, 'Tidak punya akses');
+                return redirect()->route('dashboard.index')
+                    ->with('error', 'Anda tidak memiliki akses ke data wilayah BPS lain.');
             }
         }
         
@@ -211,7 +214,8 @@ class PendaftaranMagangController extends Controller
         $pendaftaran = PendaftaranMagang::findOrFail($log->id_pendaftaran_magang);        
         if (in_array($user->getRoleNames()->first(), ['operator magang', 'operator kepegawaian'])) {
             if ($pendaftaran->wilayah_bps_id != $user->wilayah_id) {
-                abort(403, 'Tidak punya akses');
+                return redirect()->route('dashboard.index')
+                    ->with('error', 'Anda tidak memiliki akses ke data wilayah BPS lain.');
             }
         }
 

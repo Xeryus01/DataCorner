@@ -54,7 +54,7 @@ class ProfilController extends Controller
         }
 
         if (Auth::id() !== $user->id) {
-            abort(403);
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke profil pengguna lain.');
         }
 
         // Ambil total skor dari user ini saja
@@ -75,7 +75,7 @@ class ProfilController extends Controller
         }
 
         if (Auth::id() !== $user->id) {
-            abort(403);
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke profil pengguna lain.');
         }
 
         // Ambil daftar artikel yang sudah dibaca oleh user
@@ -95,7 +95,7 @@ class ProfilController extends Controller
         }
 
         if (Auth::id() !== $user->id) {
-            abort(403);
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke profil pengguna lain.');
         }
 
         // Ambil daftar artikel yang sudah dibaca oleh user
@@ -114,7 +114,7 @@ class ProfilController extends Controller
         }
 
         if (Auth::id() !== $user->id) {
-            abort(403);
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke profil pengguna lain.');
         }
 
         $hasilReguler = HasilKuisReguler::with('kuis_reguler')->where('id_user', $user->id)->latest()->paginate(6);
@@ -132,7 +132,7 @@ class ProfilController extends Controller
         }
 
         if (Auth::id() !== $user->id) {
-            abort(403);
+            return redirect()->route('home')->with('error', 'Anda tidak memiliki akses ke profil pengguna lain.');
         }
 
         $hasilTantangan = HasilKuisTantanganBulanan::with('kuis_tantangan_bulanan')->where('id_user', $user->id)->latest()->paginate(6);
@@ -157,7 +157,7 @@ class ProfilController extends Controller
 
         // Validasi bahwa hanya pemilik akun yang bisa edit
         if (Auth::id() !== $user->id) {
-            abort(403);
+            return redirect()->route('home')->with('error', 'Anda tidak dapat mengedit profil pengguna lain.');
         }
 
         return view('profil.edit', compact('user'));
