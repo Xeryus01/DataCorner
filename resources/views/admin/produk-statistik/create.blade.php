@@ -56,7 +56,7 @@
                 @php
                     $fields = [
                         ['name' => 'pemohon_nol_rupiah', 'label' => 'Pemohon Nol Rupiah', 'class' => 'hitung-kunjungan'],
-                        ['name' => 'penjualan_data_mikro', 'label' => 'Penjualan Data Mikro', 'class' => 'hitung-kunjungan'],
+                        ['name' => 'penjualan_produk_statistik_berbayar', 'label' => 'Penjualan Produk Statistik Berbayar', 'class' => 'hitung-kunjungan'],
                         ['name' => 'penjualan_peta', 'label' => 'Penjualan Peta', 'class' => 'hitung-kunjungan'],
                         ['name' => 'publikasi_elektronik', 'label' => 'Publikasi Elektronik', 'class' => 'hitung-kunjungan'],
                     ];

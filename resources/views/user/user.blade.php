@@ -98,9 +98,9 @@
                         <div class="icon-box bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white">
                             <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
                         </div>
-                        <h3 class="font-header text-xl font-bold text-slate-900 mb-2">Data Mikro</h3>
+                        <h3 class="font-header text-xl font-bold text-slate-900 mb-2">Produk Statistik Berbayar</h3>
                         <p class="text-blue-600 text-[10px] font-bold uppercase tracking-widest mb-4">Layanan Umum</p>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-8">Penjualan data mikro, publikasi elektronik, dan peta wilayah statistik terlengkap.</p>
+                        <p class="text-slate-500 text-sm leading-relaxed mb-8">Penjualan produk statistik berbayar, publikasi elektronik, dan peta wilayah statistik terlengkap.</p>
                         <a href="https://webapi.bps.go.id/consumen/88582261b976073c4aee562850e51881?redirect_uri=https%3A%2F%2Fpst.bps.go.id%2Flogin" target="_blank" rel="noopener noreferrer" class="action-btn">
                             <span>Beli Data</span>
                             <svg class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>

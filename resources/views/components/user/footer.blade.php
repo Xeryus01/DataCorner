@@ -34,9 +34,11 @@
                 <div class="footer-v2-brand">
                     <div class="footer-v2-brand-header">
                         <div class="footer-v2-brand-logo">
-                            <svg viewBox="0 0 24 24" fill="white" width="24" height="24">
+                            <img src="{{ asset('image/logo-pst.png') }}" alt="Datapedia" style="width:100%;height:100%;object-fit:contain;padding:3px">
+
+                            <!-- <svg viewBox="0 0 24 24" fill="white" width="24" height="24">
                                 <path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/>
-                            </svg>
+                            </svg> -->
                         </div>
                         <div class="footer-v2-brand-text">
                             <h2>DATA<span class="footer-v2-brand-accent">PEDIA</span></h2>
