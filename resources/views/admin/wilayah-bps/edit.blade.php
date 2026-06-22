@@ -5,7 +5,7 @@
     <div class="card-header"><div class="card-header-left"><div class="card-title"><i class="ti ti-map-pin"></i>Form Edit Wilayah</div></div></div>
     <div class="card-body">
         @if($errors->any())<div class="form-error">@foreach($errors->all() as $e)<div>• {{$e}}</div>@endforeach</div>@endif
-        <form action="{{ route('admin_wilayah-bps.update', $wilayahBps->id) }}" method="POST">
+        <form action="{{ route('admin_wilayah-bps.update', ['wilayah_bp' => $wilayahBps->id]) }}" method="POST">
             @csrf @method('PUT')
             <div style="margin-bottom:14px"><label class="form-label">Nama Wilayah*</label><input type="text" name="nama_wilayah" value="{{ old('nama_wilayah', $wilayahBps->nama_wilayah) }}" class="form-input" required></div>
             <div style="margin-bottom:14px"><label class="form-label">Kode Wilayah*</label><input type="text" name="kode_wilayah" value="{{ old('kode_wilayah', $wilayahBps->kode_wilayah) }}" class="form-input" required></div>
