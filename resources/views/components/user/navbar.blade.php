@@ -20,9 +20,18 @@
       @if(session('login_user') && session('user_id'))<li><a href="{{ route('profile.index') }}" class="nav-link-item">Profil</a></li>@endif
       <li class="nav-auth-desktop">
         @if(session('login_user') && session('user_id'))
-          <form action="{{ route('logoutUser') }}" method="POST" style="display:inline">@csrf<button type="submit" class="nav-cta" style="background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)">Logout</button></form>
+          <form action="{{ route('logoutUser') }}" method="POST" style="display:inline">
+            @csrf
+            <button type="submit" class="nav-cta-logout">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Logout
+            </button>
+          </form>
         @else
-          <a href="{{ route('loginUser') }}" class="nav-cta">Login</a>
+          <a href="{{ route('loginUser') }}" class="nav-cta">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+            Login
+          </a>
         @endif
       </li>
     </ul>
@@ -46,9 +55,18 @@
     </div>
     @if(session('login_user') && session('user_id'))
       <a href="{{ route('profile.index') }}" class="nav-mobile-link">Profil</a>
-      <form action="{{ route('logoutUser') }}" method="POST">@csrf<button type="submit" class="nav-mobile-link" style="color:#fca5a5">Logout</button></form>
+      <form action="{{ route('logoutUser') }}" method="POST" style="margin-top:4px">
+        @csrf
+        <button type="submit" class="nav-mobile-cta-logout">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Logout
+        </button>
+      </form>
     @else
-      <a href="{{ route('loginUser') }}" class="nav-mobile-link" style="color:#60A5FA;font-weight:800">Login &#8594;</a>
+      <a href="{{ route('loginUser') }}" class="nav-mobile-cta" style="margin-top:4px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Login
+      </a>
     @endif
   </div>
 </nav>

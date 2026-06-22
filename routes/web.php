@@ -51,6 +51,11 @@ Route::middleware(LoggedInKonsultan::class)->group(function () {
     Route::resource('mingguan', konsultanMingguanController::class)->except(['show']);
     Route::get('/konsultan/jadwal', [konsultanJadwalController::class, 'index'])->name('konsultan.jadwal.index');
     Route::get('/konsultan/berprestasi', [konsultanMingguanController::class, 'berprestasi'])->name('konsultan.berprestasi');
+
+    // Konsultan actions untuk janji temu
+    Route::get('/konsultan/janjitemu/{id}/detail', [konsultanJadwalController::class, 'detail'])->name('konsultan.janjitemu.detail');
+    Route::post('/konsultan/janjitemu/{id}/zoom', [konsultanJadwalController::class, 'kirimZoom'])->name('konsultan.kirimZoom');
+    Route::post('/konsultan/janjitemu/{id}/selesai', [konsultanJadwalController::class, 'selesai'])->name('konsultan.selesai');
 });
 
 Route::get('/tentang', [TentangController::class, 'index'])->name('tentang');

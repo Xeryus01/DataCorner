@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>Footer Dynamic Preview — Datapedia BPS</title>
+<style>
+/* =====================================================
+   RESET & BASE
+===================================================== */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', system-ui, sans-serif; background: #e2e8f0; }
+
+/* Demo label */
+.demo-label {
+  text-align: center;
+  padding: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+/* =====================================================
+   WAVE DIVIDER
+===================================================== */
+.site-footer-wave {
+  display: block;
+  width: 100%;
+  line-height: 0;
+  background: #e2e8f0;
+}
+.site-footer-wave svg { display: block; width: 100%; }
+
+/* =====================================================
+   FOOTER SHELL
+===================================================== */
+.site-footer {
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.site-footer-main {
+  background: linear-gradient(155deg, #0C2554 0%, #0C3060 55%, #0a2347 100%);
+  padding: 56px 0 32px;
+  position: relative;
+  overflow: hidden;
+}
+.site-footer-main::before {
+  content: '';
+  position: absolute;
+  top: -140px; right: -140px;
+  width: 560px; height: 560px;
+  background: radial-gradient(circle, rgba(59,130,246,.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.site-footer-main::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(96,165,250,.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.site-footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+  z-index: 1;
+}
+
+/* =====================================================
+   MAIN GRID  —  Brand (fixed) + Cols (fluid)
+===================================================== */
+.site-footer-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 48px 64px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .site-footer-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+/* =====================================================
+   BRAND / INFO COLUMN
+===================================================== */
+.site-footer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+.site-footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.site-footer-logo-box {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #1F6FD6 0%, #0C447C 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(31,111,214,.35);
+}
+.site-footer-logo-box img {
+  width: 28px; height: 28px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+.site-footer-logo-text h2 {
+  font-size: 18px;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: .04em;
+  line-height: 1;
+}
+.site-footer-logo-text h2 span { color: #93C5FD; }
+.site-footer-logo-text p {
+  font-size: 9px;
+  color: rgba(255,255,255,.4);
+  font-weight: 500;
+  margin-top: 3px;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.site-footer-desc {
+  font-size: 12px;
+  line-height: 1.8;
+  color: rgba(255,255,255,.48);
+  max-width: 270px;
+  border-left: 2px solid rgba(59,130,246,.35);
+  padding-left: 12px;
+}
+
+/* Contact */
+.site-footer-contact-list { display: flex; flex-direction: column; gap: 11px; }
+.site-footer-contact-item { display: flex; align-items: flex-start; gap: 10px; }
+.site-footer-icon-box {
+  width: 30px; height: 30px;
+  border-radius: 7px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.09);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  color: #93C5FD;
+}
+.site-footer-icon-box svg { width: 13px; height: 13px; stroke: currentColor; fill: none; }
+.site-footer-text {
+  font-size: 11px;
+  color: rgba(255,255,255,.5);
+  line-height: 1.65;
+  padding-top: 5px;
+}
+.site-footer-contact-text {
+  font-size: 12px;
+  color: rgba(255,255,255,.68);
+  font-weight: 500;
+  padding-top: 7px;
+}
+
+/* Social */
+.site-footer-social-row {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+}
+.site-footer-social-label {
+  font-size: 9px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .18em;
+  color: rgba(255,255,255,.28);
+  white-space: nowrap;
+}
+.site-footer-social-list { display: flex; gap: 6px; }
+.site-footer-social {
+  width: 32px; height: 32px;
+  border-radius: 7px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.09);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,.5);
+  text-decoration: none;
+  transition: all 150ms;
+}
+.site-footer-social:hover {
+  background: #1F6FD6;
+  border-color: #1F6FD6;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(31,111,214,.4);
+}
+.site-footer-social svg { width: 15px; height: 15px; fill: currentColor; }
+
+/* =====================================================
+   DYNAMIC LINK COLUMNS
+   - Uses auto-fill so 1..N columns reflow naturally
+   - Each column can optionally be a <details> accordion
+     on mobile (no JS needed)
+===================================================== */
+.site-footer-cols-wrap {
+  /*
+   * KEY: auto-fill + minmax means:
+   *  - With 4 cols  → ~4 equal columns
+   *  - With 3 cols  → ~3 equal columns  
+   *  - With 2 cols  → 2 wide columns
+   *  - With 1 col   → 1 full-width column
+   * No media queries needed for the column count itself!
+   */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 28px 20px;
+  padding-top: 4px;
+}
+
+/* On very small screens collapse to 2 cols minimum */
+@media (max-width: 500px) {
+  .site-footer-cols-wrap {
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+}
+
+/* -------------------------------------------------------
+   Each column is a <details> element so it becomes
+   an accordion on mobile and static on desktop.
+------------------------------------------------------- */
+.site-footer-col {
+  /* no special styles needed — it's a plain block */
+}
+
+/* The <summary> acts as the column header */
+.site-footer-col summary,
+.site-footer-col-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: rgba(255,255,255,.85);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: default;
+  list-style: none;       /* hide native triangle */
+  user-select: none;
+}
+.site-footer-col summary::-webkit-details-marker { display: none; }
+
+.site-footer-title-line {
+  display: inline-block;
+  width: 18px; height: 2px;
+  background: #1F6FD6;
+  border-radius: 2px;
+  flex-shrink: 0;
+  transition: width 200ms;
+}
+
+/* Chevron icon shown only on mobile */
+.site-footer-col-chevron {
+  display: none;          /* hidden on desktop */
+  margin-left: auto;
+  width: 16px; height: 16px;
+  color: rgba(255,255,255,.35);
+  transition: transform 200ms;
+  flex-shrink: 0;
+}
+.site-footer-col-chevron svg { width: 100%; height: 100%; stroke: currentColor; fill: none; }
+
+/* Nav links */
+.site-footer-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.site-footer-link {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: rgba(255,255,255,.46);
+  text-decoration: none;
+  font-weight: 400;
+  padding: 5px 0;
+  border-radius: 4px;
+  transition: color 130ms, gap 130ms, padding-left 130ms;
+  line-height: 1.45;
+}
+.site-footer-link:hover {
+  color: #93C5FD;
+  gap: 8px;
+  padding-left: 2px;
+}
+.site-footer-link svg {
+  width: 11px; height: 11px;
+  fill: currentColor;
+  flex-shrink: 0;
+  opacity: .4;
+  transition: opacity 130ms;
+}
+.site-footer-link:hover svg { opacity: 1; }
+
+/* =====================================================
+   MOBILE ACCORDION BEHAVIOR
+   Below 500px: <details> becomes collapsible
+===================================================== */
+@media (max-width: 500px) {
+  .site-footer-col {
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    padding: 0;
+    /* span both cols if only 1 item — handled by :only-child */
+  }
+  .site-footer-col:last-child { border-bottom: none; }
+
+  .site-footer-col summary,
+  .site-footer-col-title {
+    cursor: pointer;
+    margin-bottom: 0;
+    padding: 14px 0;
+  }
+
+  .site-footer-col-chevron {
+    display: flex; /* show on mobile */
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Animate open state */
+  .site-footer-col[open] .site-footer-col-chevron svg {
+    transform: rotate(180deg);
+  }
+  .site-footer-col[open] .site-footer-title-line {
+    width: 24px;
+  }
+
+  /* Nav hidden by default on mobile inside details */
+  .site-footer-nav {
+    padding-bottom: 14px;
+    padding-left: 4px;
+  }
+}
+
+/* =====================================================
+   DIVIDER
+===================================================== */
+.site-footer-divider {
+  border: none;
+  border-top: 1px solid rgba(255,255,255,.07);
+  margin: 28px 0 0;
+}
+
+/* =====================================================
+   BOTTOM BAR
+===================================================== */
+.site-footer-bottom {
+  background: rgba(0,0,0,.22);
+  border-top: 1px solid rgba(255,255,255,.05);
+  padding: 14px 0;
+}
+.site-footer-bottom .site-footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.site-footer-copy {
+  font-size: 11px;
+  color: rgba(255,255,255,.28);
+}
+.site-footer-copy strong {
+  color: rgba(255,255,255,.48);
+  font-weight: 600;
+}
+.site-footer-bottom-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.site-footer-bottom-link {
+  font-size: 11px;
+  color: rgba(255,255,255,.26);
+  text-decoration: none;
+  transition: color 130ms;
+}
+.site-footer-bottom-link:hover { color: rgba(255,255,255,.6); }
+.site-footer-bottom-sep {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.18);
+}
+
+@media (max-width: 500px) {
+  .site-footer-bottom .site-footer-container { justify-content: center; text-align: center; }
+  .site-footer-bottom-links { justify-content: center; }
+  .site-footer-copy { font-size: 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===================================================
+  DEMO: 4 columns visible
+==================================================== -->
+<div class="demo-label">▶ Demo: 4 columns (Akademi Statistik, Kontak Kami, Magang, Tentang)</div>
+
+<div class="site-footer-wave">
+  <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,48 L0,24 C240,0 480,48 720,24 C960,0 1200,48 1440,24 L1440,48 Z" fill="#0C3060"/>
+  </svg>
+</div>
+
+<footer class="site-footer" id="footer-4col">
+  <div class="site-footer-main">
+    <div class="site-footer-container">
+      <div class="site-footer-grid">
+
+        <!-- Brand -->
+        <div class="site-footer-info">
+          <div class="site-footer-brand">
+            <div class="site-footer-logo-box">
+              <svg viewBox="0 0 24 24" fill="white" width="22" height="22">
+                <path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/>
+              </svg>
+            </div>
+            <div class="site-footer-logo-text">
+              <h2>DATA<span>PEDIA</span></h2>
+              <p>BPS Prov. Kepulauan Bangka Belitung</p>
+            </div>
+          </div>
+
+          <p class="site-footer-desc">
+            Portal layanan statistik terpadu BPS Provinsi Kepulauan Bangka Belitung.
+          </p>
+
+          <div class="site-footer-contact-list">
+            <div class="site-footer-contact-item">
+              <div class="site-footer-icon-box">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+              </div>
+              <p class="site-footer-text">Komplek Perkantoran Terpadu, Air Itam, Pangkalpinang.</p>
+            </div>
+            <div class="site-footer-contact-item">
+              <div class="site-footer-icon-box">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+              </div>
+              <span class="site-footer-contact-text">(0717) 439422</span>
+            </div>
+            <div class="site-footer-contact-item">
+              <div class="site-footer-icon-box">
+                <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+              </div>
+              <span class="site-footer-contact-text">bps1900@bps.go.id</span>
+            </div>
+          </div>
+
+          <div class="site-footer-social-row">
+            <span class="site-footer-social-label">Ikuti Kami</span>
+            <div class="site-footer-social-list">
+              <a href="#" class="site-footer-social" aria-label="Facebook">
+                <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+              </a>
+              <a href="#" class="site-footer-social" aria-label="Instagram">
+                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+              </a>
+              <a href="#" class="site-footer-social" aria-label="YouTube">
+                <svg viewBox="0 0 24 24"><path d="M23.498 6.186a2.974 2.974 0 00-2.094-2.104C19.556 3.586 12 3.586 12 3.586s-7.556 0-9.404.496A2.974 2.974 0 00.502 6.186C0 8.044 0 11.917 0 11.917s0 3.873.502 5.731a2.974 2.974 0 002.094 2.104c1.848.496 9.404.496 9.404.496s7.556 0 9.404-.496a2.974 2.974 0 002.094-2.104C24 15.79 24 11.917 24 11.917s0-3.873-.502-5.731zM9.545 15.568V8.266l6.273 3.651-6.273 3.651z"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═ DYNAMIC COLUMNS AREA ═
+             Each column is a <details> element:
+             - Desktop: behaves like a normal block (open attribute always set via CSS trick)
+             - Mobile  : taps the summary to expand / collapse
+        -->
+        <div class="site-footer-cols-wrap">
+
+          <!-- Column: Akademi Statistik -->
+          <details class="site-footer-col" open>
+            <summary>
+              <span class="site-footer-title-line"></span>
+              Akademi Statistik
+              <span class="site-footer-col-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
+            </summary>
+            <nav class="site-footer-nav">
+              <a href="https://s.bps.go.id" class="site-footer-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                dcionba
+              </a>
+              <a href="#" class="site-footer-link">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Modul Pelatihan
+              </a>
+            </nav>
+          </details>
+
+          <!-- Column: Kontak Kami -->
+          <details class="site-footer-col" open>
+            <summary>
+              <span class="site-footer-title-line"></span>
+              Kontak Kami
+              <span class="site-footer-col-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
+            </summary>
+            <nav class="site-footer-nav">
+              <a href="mailto:bps1900@bps.go.id" class="site-footer-link">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Email
+              </a>
+              <a href="https://wa.me/62717439422" class="site-footer-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                WhatsApp
+              </a>
+              <a href="#" class="site-footer-link">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Formulir Kontak
+              </a>
+            </nav>
+          </details>
+
+          <!-- Column: Magang -->
+          <details class="site-footer-col" open>
+            <summary>
+              <span class="site-footer-title-line"></span>
+              Magang
+              <span class="site-footer-col-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
+            </summary>
+            <nav class="site-footer-nav">
+              <a href="/storage/footer-files/kontak.pdf" class="site-footer-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Panduan Magang
+              </a>
+              <a href="/program-magang/informasi-magang" class="site-footer-link">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Pendaftaran
+              </a>
+            </nav>
+          </details>
+
+          <!-- Column: Tentang -->
+          <details class="site-footer-col" open>
+            <summary>
+              <span class="site-footer-title-line"></span>
+              Tentang
+              <span class="site-footer-col-chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="6 9 12 15 18 9"/>
+                </svg>
+              </span>
+            </summary>
+            <nav class="site-footer-nav">
+              <a href="https://bps.go.id" class="site-footer-link" target="_blank" rel="noopener">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Tentang BPS
+              </a>
+              <a href="#privacy" class="site-footer-link">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Kebijakan Privasi
+              </a>
+              <a href="#terms" class="site-footer-link">
+                <svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+                Syarat &amp; Ketentuan
+              </a>
+            </nav>
+          </details>
+
+        </div>
+        <!-- end cols-wrap -->
+
+      </div><!-- end grid -->
+      <hr class="site-footer-divider">
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <div class="site-footer-container">
+      <p class="site-footer-copy">&copy; 2026 <strong>BPS Provinsi Kepulauan Bangka Belitung</strong>. All Rights Reserved.</p>
+      <div class="site-footer-bottom-links">
+        <a href="#" class="site-footer-bottom-link">Privasi</a>
+        <span class="site-footer-bottom-sep"></span>
+        <a href="#" class="site-footer-bottom-link">Ketentuan</a>
+        <span class="site-footer-bottom-sep"></span>
+        <a href="https://bps.go.id" target="_blank" rel="noopener" class="site-footer-bottom-link">bps.go.id</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ===================================================
+  DEMO: Only 2 columns visible (Kontak Kami + Tentang)
+==================================================== -->
+<div class="demo-label" style="margin-top:32px">▶ Demo: 2 columns only (Kontak Kami + Tentang)</div>
+
+<div class="site-footer-wave">
+  <svg viewBox="0 0 1440 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,48 L0,24 C240,0 480,48 720,24 C960,0 1200,48 1440,24 L1440,48 Z" fill="#0C3060"/>
+  </svg>
+</div>
+
+<footer class="site-footer" id="footer-2col">
+  <div class="site-footer-main">
+    <div class="site-footer-container">
+      <div class="site-footer-grid">
+        <!-- Brand (same) -->
+        <div class="site-footer-info">
+          <div class="site-footer-brand">
+            <div class="site-footer-logo-box">
+              <svg viewBox="0 0 24 24" fill="white" width="22" height="22">
+                <path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2zm0 4h18v2H3v-2z"/>
+              </svg>
+            </div>
+            <div class="site-footer-logo-text">
+              <h2>DATA<span>PEDIA</span></h2>
+              <p>BPS Prov. Kepulauan Bangka Belitung</p>
+            </div>
+          </div>
+          <p class="site-footer-desc">Portal layanan statistik terpadu BPS Provinsi Kepulauan Bangka Belitung.</p>
+          <div class="site-footer-contact-list">
+            <div class="site-footer-contact-item">
+              <div class="site-footer-icon-box"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+              <span class="site-footer-contact-text">bps1900@bps.go.id</span>
+            </div>
+            <div class="site-footer-contact-item">
+              <div class="site-footer-icon-box"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
+              <span class="site-footer-contact-text">(0717) 439422</span>
+            </div>
+          </div>
+          <div class="site-footer-social-row">
+            <span class="site-footer-social-label">Ikuti Kami</span>
+            <div class="site-footer-social-list">
+              <a href="#" class="site-footer-social" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+              <a href="#" class="site-footer-social" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Only 2 dynamic columns -->
+        <div class="site-footer-cols-wrap">
+
+          <details class="site-footer-col" open>
+            <summary>
+              <span class="site-footer-title-line"></span>
+              Kontak Kami
+              <span class="site-footer-col-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            </summary>
+            <nav class="site-footer-nav">
+              <a href="mailto:bps1900@bps.go.id" class="site-footer-link"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg> Email</a>
+              <a href="#" class="site-footer-link"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg> WhatsApp</a>
+            </nav>
+          </details>
+
+          <details class="site-footer-col" open>
+            <summary>
+              <span class="site-footer-title-line"></span>
+              Tentang
+              <span class="site-footer-col-chevron" aria-hidden="true"><svg viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+            </summary>
+            <nav class="site-footer-nav">
+              <a href="https://bps.go.id" class="site-footer-link" target="_blank" rel="noopener"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg> Tentang BPS</a>
+              <a href="#" class="site-footer-link"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg> Kebijakan Privasi</a>
+              <a href="#" class="site-footer-link"><svg viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg> Syarat &amp; Ketentuan</a>
+            </nav>
+          </details>
+
+        </div>
+      </div>
+      <hr class="site-footer-divider">
+    </div>
+  </div>
+  <div class="site-footer-bottom">
+    <div class="site-footer-container">
+      <p class="site-footer-copy">&copy; 2026 <strong>BPS Provinsi Kepulauan Bangka Belitung</strong>. All Rights Reserved.</p>
+      <div class="site-footer-bottom-links">
+        <a href="#" class="site-footer-bottom-link">Privasi</a>
+        <span class="site-footer-bottom-sep"></span>
+        <a href="https://bps.go.id" target="_blank" rel="noopener" class="site-footer-bottom-link">bps.go.id</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Keep <details open> on desktop, allow close on mobile -->
+<script>
+(function() {
+  function syncDetails() {
+    var isMobile = window.innerWidth <= 500;
+    document.querySelectorAll('.site-footer-col').forEach(function(el) {
+      if (!isMobile) {
+        el.setAttribute('open', '');
+        // Disable toggle on desktop
+        var sum = el.querySelector('summary');
+        if (sum) sum.style.pointerEvents = 'none';
+      } else {
+        // On mobile: remove open so they start collapsed
+        // Only do this on first load, not on resize
+        var sum = el.querySelector('summary');
+        if (sum) sum.style.pointerEvents = '';
+      }
+    });
+  }
+  syncDetails();
+  window.addEventListener('resize', syncDetails);
+})();
+</script>
+
+</body>
+</html>

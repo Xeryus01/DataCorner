@@ -169,5 +169,16 @@ class jadwalController extends Controller
         return redirect()->route('jadwal.index')->with('success', 'Janji temu berhasil dihapus.');
     }
 
+    /**
+     * Menghapus data janji temu secara permanen (alias route hapus).
+     */
+    public function hapus($id)
+    {
+        $janjiTemu = janjitemu::findOrFail($id);
+        $janjiTemu->delete();
+
+        return redirect()->route('jadwal.index')->with('success', 'Janji temu berhasil dihapus.');
+    }
+
 
 }
