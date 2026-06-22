@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use App\Models\FooterItem;
 use App\Models\SubjekMateri;
 
@@ -20,6 +21,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale('id');
 
+        // Paksa skema HTTPS saat di belakang proxy/SSL cPanel.
+        // Tanpa ini, Laravel meng-generate URL form/aset dengan skema http://
+        // sehingga diblokir oleh CSP "form-action 'self' https://...".
+        if (filter_var(env('FORCE_HTTPS', false), FILTER_VALIDATE_BOOLEAN) || $this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+        
         View::composer('*', function ($view) {
             $footerSections = collect();
             $semuaSubjekMateri = collect();

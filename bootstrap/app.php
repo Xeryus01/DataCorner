@@ -14,6 +14,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Percayai proxy cPanel/loadbalancer agar Laravel mengenali HTTPS
+        // dari header X-Forwarded-* (mencegah URL/redirect ber-skema http).
+        $middleware->trustProxies(at: '*');
+        
         $middleware->web(append: [
             \App\Http\Middleware\DetectMobileWebview::class,
         ]);

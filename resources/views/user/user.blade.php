@@ -1,4 +1,9 @@
-@extends('user.layout')
+@extends('layout.app')
+
+@section('hero')
+    @include('components.user.hero')
+@endsection
+
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/user-page.css') }}">
 @endpush

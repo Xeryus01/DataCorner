@@ -358,7 +358,7 @@
 /* Dynamic Sections - auto-fill grid adapts to 1..4 sections */
 .footer-v2-sections {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
 }
 
